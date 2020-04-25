@@ -1,12 +1,36 @@
 const path = require('path')
 
+function makeDir (end) {
+  return path.join(__dirname, end)
+}
+
 module.exports = {
 
   development: {
     client: 'sqlite3',
     useNullAsDefault: true,
     connection: {
-      filename: path.join(__dirname, './dev.sqlite3')
+      filename: makeDir('dev.sqlite3')
+    },
+    migrations: {
+      directory: makeDir('migrations')
+    },
+    seeds: {
+      directory: makeDir('seeds')
+    }
+  },
+
+  test: {
+    client: 'sqlite3',
+    useNullAsDefault: true,
+    connection: {
+      filename: ':memory:'
+    },
+    migrations: {
+      directory: makeDir('migrations')
+    },
+    seeds: {
+      directory: makeDir('seeds')
     }
   },
 

@@ -1,7 +1,6 @@
-const knex = require('knex')
-const env = process.env.NODE_ENV || 'development'
-const config = require('./knexfile')[env]
-const connection = knex(config)
+const Connection = require('./connection')
+
+const connection = Connection()
 
 module.exports = {
   getPosts
