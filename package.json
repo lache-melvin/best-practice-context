@@ -1,0 +1,35 @@
+{
+  "name": "best-practice",
+  "version": "0.1.0",
+  "description": "All of the best programming practice exercises",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server",
+    "test": "jest --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enspiral-dev-academy/best-practice.git"
+  },
+  "keywords": [
+    "fullstack",
+    "web",
+    "development",
+    "practice",
+    "exercises"
+  ],
+  "author": "Enspiral Dev Academy (EDA)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enspiral-dev-academy/best-practice/issues"
+  },
+  "homepage": "https://github.com/enspiral-dev-academy/best-practice#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-errors": "^1.7.3"
+  },
+  "devDependencies": {
+    "jest": "^25.4.0",
+    "nodemon": "^2.0.3"
+  }
+}
