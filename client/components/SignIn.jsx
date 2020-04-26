@@ -1,5 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { signIn, isAuthenticated } from 'authenticare/client'
+
+import { signedIn } from '../actions/auth'
 
 import config from '../config'
 
@@ -22,8 +25,9 @@ class SignIn extends React.Component {
     signIn({ username, password }, {
       baseUrl: config.baseApiUrl
     })
-      .then((token) => {
+      .then(token => {
         if (isAuthenticated()) {
+          this.props.signedIn(token)
           this.props.history.push('/')
         }
       })
@@ -52,4 +56,6 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn
+const mapDispatchToProps = { signedIn }
+
+export default connect(null, mapDispatchToProps)(SignIn)

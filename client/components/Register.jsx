@@ -1,5 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { register, isAuthenticated } from 'authenticare/client'
+
+import { signedIn } from '../actions/auth'
 
 import config from '../config'
 
@@ -22,8 +25,9 @@ class Register extends React.Component {
     register({ username, password }, {
       baseUrl: config.baseApiUrl
     })
-      .then((token) => {
+      .then(token => {
         if (isAuthenticated()) {
+          this.props.signedIn(token)
           props.history.push('/')
         }
       })
@@ -52,4 +56,6 @@ class Register extends React.Component {
   }
 }
 
-export default Register
+const mapDispatchToProps = { signedIn }
+
+export default connect(null, mapDispatchToProps)(Register)

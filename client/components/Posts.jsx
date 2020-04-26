@@ -1,8 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Post from './Post'
+import PostItem from './PostItem'
 import { fetchPosts } from '../actions/posts'
+import { IfAuthenticated } from './Authenticated'
 
 class Posts extends React.Component {
   componentDidMount () {
@@ -14,9 +16,12 @@ class Posts extends React.Component {
     return (
       <>
         <h2>Posts</h2>
+        <IfAuthenticated>
+          <Link to="/add">Add a post</Link>
+        </IfAuthenticated>
         <ul>
         {
-          posts.map(post => <Post key={post.id} {...post} />)
+          posts.map(post => <PostItem key={post.id} post={post} />)
         }
         </ul>
       </>

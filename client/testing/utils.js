@@ -11,10 +11,16 @@ const enhancer = compose(applyMiddleware(thunkMiddleware))
 
 export const renderWithRedux = (
   ui,
-  { initialState, store = createStore(reducer, initialState, enhancer) } = {}
+  { initialState, initialEntries = ['/'], store = createStore(reducer, initialState, enhancer) } = {}
 ) => {
   return {
-    ...render(<Provider store={store}><Router>{ui}</Router></Provider>),
+    ...render(
+      <Provider store={store}>
+        <Router initialEntries={initialEntries} initialIndex={0}>
+          {ui}
+        </Router>
+      </Provider>
+    ),
     store
   }
 }
