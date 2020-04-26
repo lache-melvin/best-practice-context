@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Post> includes name in <li> 1`] = `
+<li
+  data-testid="post"
+>
+  test name
+</li>
+`;

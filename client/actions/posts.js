@@ -11,12 +11,13 @@ export function receivePosts (posts) {
 
 export function fetchPosts () {
   return dispatch => {
-    getPosts()
+    return getPosts()
       .then(posts => {
         dispatch(receivePosts(posts))
       })
       .catch(err => {
         console.error('fetchPosts action error:', err)
+        throw err
       })
   }
 }
