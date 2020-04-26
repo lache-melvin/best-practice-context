@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
+import { MemoryRouter as Router } from 'react-router-dom'
 import thunkMiddleware from 'redux-thunk'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
@@ -13,7 +14,7 @@ export const renderWithRedux = (
   { initialState, store = createStore(reducer, initialState, enhancer) } = {}
 ) => {
   return {
-    ...render(<Provider store={store}>{ui}</Provider>),
+    ...render(<Provider store={store}><Router>{ui}</Router></Provider>),
     store
   }
 }

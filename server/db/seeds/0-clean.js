@@ -3,7 +3,5 @@ exports.seed = (knex) => {
     () => knex(table).del()
 
   return empty('posts')()
-  // Chain calls to empty in
-  // order as required, e.g.:
-  // .then(empty('profiles'))
+    .then(empty('users'))
 }

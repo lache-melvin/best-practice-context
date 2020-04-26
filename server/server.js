@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const createError = require('http-errors');
 
+const authRoutes = require('./routes/auth')
 const postRoutes = require('./routes/posts')
 
 const server = express()
@@ -10,6 +11,7 @@ module.exports = server
 
 server.use(express.static(path.join(__dirname, 'public')))
 
+server.use('/api/v1', authRoutes)
 server.use('/api/v1/posts', postRoutes)
 
 // catch 404 and forward to error handler
