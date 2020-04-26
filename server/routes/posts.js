@@ -1,4 +1,5 @@
 const express = require('express')
+const { getTokenDecoder } = require('authenticare/server')
 
 const db = require('../db/posts')
 
@@ -33,7 +34,7 @@ router.get('/:id', (req, res) => {
 })
 
 // POST /api/v1/posts
-router.post('/', (req, res) => {
+router.post('/', getTokenDecoder(), (req, res) => {
   db.addPost(req.body)
     .then(post => {
       res.json(post)
