@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AddPost> includes name in <li> 1`] = `
+<div
+  data-testid="addpost"
+>
+  <h2>
+    Add New Post
+  </h2>
+  <div>
+    You must 
+    <a
+      href="/signin"
+    >
+      sign in
+    </a>
+     to add new posts.
+  </div>
+</div>
+`;

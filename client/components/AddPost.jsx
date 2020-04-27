@@ -31,7 +31,7 @@ class AddPost extends React.Component {
   render () {
     const { name, link, description } = this.state
     return (
-      <>
+      <div data-testid="addpost">
         <h2>Add New Post</h2>
         <IfAuthenticated>
           <div>
@@ -55,7 +55,7 @@ class AddPost extends React.Component {
         <IfNotAuthenticated>
           <div>You must <Link to="/signin">sign in</Link> to add new posts.</div>
         </IfNotAuthenticated>
-      </>
+      </div>
     )
   }
 }
