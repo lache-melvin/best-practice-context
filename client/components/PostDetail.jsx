@@ -14,7 +14,11 @@ class PostDetail extends React.Component {
   render () {
     const { post = {} } = this.props
     return (
-      <li data-testid="post">{post.name}</li>
+      <div data-testid="post">
+        <h2>{post.name}</h2>
+        <a href={post.link}>{post.link}</a>
+        <p>{post.description}</p>
+      </div>
     )
   }
 }

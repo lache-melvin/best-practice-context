@@ -8,7 +8,8 @@ import { IfAuthenticated, IfNotAuthenticated } from './Authenticated'
 class AddPost extends React.Component {
   state = {
     name: '',
-    link: ''
+    link: '',
+    description: ''
   }
 
   handleChange = e => {
@@ -28,7 +29,7 @@ class AddPost extends React.Component {
   }
 
   render () {
-    const { name, link } = this.state
+    const { name, link, description } = this.state
     return (
       <>
         <h2>Add New Post</h2>
@@ -42,7 +43,13 @@ class AddPost extends React.Component {
             <input name='link' value={link}
               onChange={this.handleChange} />
 
-            <button type='button' onClick={this.handleAdd}>Add this post</button>
+            <div>Description:</div>
+            <textarea name='description' value={description}
+              onChange={this.handleChange} cols='26' />
+
+            <div>
+              <button type='button' onClick={this.handleAdd}>Add this post</button>
+            </div>
           </div>
         </IfAuthenticated>
         <IfNotAuthenticated>

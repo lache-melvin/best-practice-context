@@ -1,4 +1,5 @@
 import request from 'superagent'
+import { getAuthorizationHeader } from 'authenticare/client'
 
 export function getPosts () {
   return request
@@ -15,6 +16,7 @@ export function getPostById (id) {
 export function addPost (post) {
   return request
     .post('/api/v1/posts')
+    .set(getAuthorizationHeader())
     .send(post)
     .then(res => res.body)
 }

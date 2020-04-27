@@ -17,10 +17,18 @@ function getPostById (id, db = connection) {
 }
 
 function addPost (post, db = connection) {
+  const newPost = {
+    name: post.name,
+    link: post.link,
+    author_id: post.authorId,
+    description: post.description
+  }
   return db('posts')
-    .insert(post)
+    .insert(newPost)
     .then(ids => {
-      post.id = ids[0]
-      return {...post}
+      newPost.id = ids[0]
+      newPost.authorId = newPost.author_id
+      delete newPost.author_id
+      return {...newPost}
     })
 }

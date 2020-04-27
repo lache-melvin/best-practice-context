@@ -4,8 +4,8 @@ exports.up = (knex) => {
     table.string('name')
     table.string('link')
     table.string('description')
-    table.integer('created')
-    table.integer('updated')
+    table.datetime('created').defaultTo(knex.fn.now())
+    table.datetime('updated').defaultTo(knex.fn.now())
   })
 }
 
