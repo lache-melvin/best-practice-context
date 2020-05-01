@@ -16,7 +16,8 @@ const linkStyle = {
 
 class Nav extends React.Component {
   componentDidMount () {
-    this.props.signedIn(getDecodedToken())
+    const token = getDecodedToken()
+    if (token) this.props.signedIn(token)
   }
 
   render () {
