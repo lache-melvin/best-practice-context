@@ -28,7 +28,7 @@ test('createUser() creates a user', () => {
     })
 })
 
-test('userExists() can returns true for an existing user', () => {
+test('userExists() returns true for an existing user', () => {
   const username = 'jess'
   return userExists(username, testDb)
     .then(exists => {
@@ -44,7 +44,7 @@ test('userExists() returns false when user does not exist', () => {
     })
 })
 
-test('getUserByName() returns with username', () => {
+test('getUserByName() returns the user with the username', () => {
   const username = 'jules'
   return getUserByName(username, testDb)
     .then(user => {
