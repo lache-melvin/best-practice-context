@@ -1,17 +1,20 @@
 import React from 'react'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { renderWithRedux } from '../testing/utils'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import '@babel/polyfill'
 
 import Posts from './Posts'
+import { getPosts } from '../api'
 import mockPosts from '../testing/mockPosts'
 
-jest.mock('../api')
+jest.mock('../api', () => ({
+  getPosts: jest.fn()
+}))
 
 test('<Posts> shows posts from API', async () => {
+  getPosts.mockImplementation(() => Promise.resolve(mockPosts))
+
   renderWithRedux(<Posts />, { initialState: { posts: mockPosts } })
   const posts = await screen.findAllByTestId('post')
   expect(posts).toHaveLength(3)

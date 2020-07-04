@@ -8,7 +8,19 @@ import {
   fetchPostById
 } from './posts'
 
-jest.mock('../api')
+import {
+  getPosts,
+  getPostById,
+  addPost
+} from '../api'
+
+import mockPosts from '../testing/mockPosts'
+
+jest.mock('../api', () => ({
+  getPosts: jest.fn(),
+  getPostById: jest.fn(),
+  addPost: jest.fn()
+}))
 
 test('receivePosts() returns the correct action', () => {
   const posts = [{ name: 'test1' }, { name: 'test2' }]
@@ -31,6 +43,7 @@ test('receivePost() returns the correct action', () => {
 
 test('fetchPosts() dispatches RECEIVE_POSTS action', () => {
   const mockDispatch = jest.fn()
+  getPosts.mockImplementation(() => Promise.resolve(mockPosts))
 
   const action = fetchPosts()
 
@@ -43,6 +56,7 @@ test('fetchPosts() dispatches RECEIVE_POSTS action', () => {
 
 test('fetchPostById() dispatches RECEIVE_POST action', () => {
   const mockDispatch = jest.fn()
+  getPostById.mockImplementation(() => Promise.resolve(mockPosts[0]))
 
   const action = fetchPostById(1)
 
@@ -55,7 +69,8 @@ test('fetchPostById() dispatches RECEIVE_POST action', () => {
 
 test('savePost() dispatches RECEIVE_POST action', () => {
   const mockDispatch = jest.fn()
-  const post = {name: 'test1'}
+  addPost.mockImplementation(post => Promise.resolve({ id: 3, ...post }))
+  const post = { name: 'test1' }
 
   const action = savePost(post)
 
