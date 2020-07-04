@@ -3,7 +3,7 @@ import { RECEIVE_POST } from '../actions/posts'
 import mockPosts from '../testing/mockPosts'
 
 test('postReducer responds correctly to RECEIVE_POST', () => {
-  const currentState = {name: 'current post'}
+  const currentState = { name: 'current post' }
   const action = {
     type: RECEIVE_POST,
     post: mockPosts[0]

@@ -1,9 +1,9 @@
 import {
-  savePost,
   RECEIVE_POSTS,
   receivePosts,
   RECEIVE_POST,
   receivePost,
+  savePost,
   fetchPosts,
   fetchPostById
 } from './posts'
@@ -11,7 +11,7 @@ import {
 jest.mock('../api')
 
 test('receivePosts() returns the correct action', () => {
-  const posts = [{name: 'test1'}, {name: 'test2'}]
+  const posts = [{ name: 'test1' }, { name: 'test2' }]
 
   const action = receivePosts(posts)
 
@@ -21,7 +21,7 @@ test('receivePosts() returns the correct action', () => {
 })
 
 test('receivePost() returns the correct action', () => {
-  const post = {name: 'test1'}
+  const post = { name: 'test1' }
 
   const action = receivePost(post)
 
@@ -65,4 +65,3 @@ test('savePost() dispatches RECEIVE_POST action', () => {
     expect(mockDispatch.mock.calls[0][0].post.name).toBe(post.name)
   })
 })
-

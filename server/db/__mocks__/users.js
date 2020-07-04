@@ -24,11 +24,11 @@ Promise.all([
   generateHash('jess'),
   generateHash('jules')
 ])
-.then(([jaeHash, jessHash, julesHash]) => {
-  users[0].hash = jaeHash
-  users[1].hash = jessHash
-  users[2].hash = julesHash
-})
+  .then(([jaeHash, jessHash, julesHash]) => {
+    users[0].hash = jaeHash
+    users[1].hash = jessHash
+    users[2].hash = julesHash
+  })
 
 function createUser (user) {
   const newId = users.length + 1 // yea, yeah, i know

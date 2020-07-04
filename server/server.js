@@ -1,6 +1,6 @@
 const path = require('path')
 const express = require('express')
-const createError = require('http-errors');
+const createError = require('http-errors')
 
 const authRoutes = require('./routes/auth')
 const postRoutes = require('./routes/posts')

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { renderWithRedux } from '../testing/utils'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/polyfill'

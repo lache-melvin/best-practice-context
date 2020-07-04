@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { renderWithRedux } from '../testing/utils'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/polyfill'
@@ -13,8 +13,8 @@ test('<PostDetail> includes name in <li>', async () => {
   }
   const initialEntries = ['/post/2']
   renderWithRedux(
-    <PostDetail match={{params: { id: 2 }}}/>,
-    {initialState, initialEntries}
+    <PostDetail match={{ params: { id: 2 } }}/>,
+    { initialState, initialEntries }
   )
   const post = await screen.findByText('mocked post 2')
   expect(post).toBeInTheDocument()

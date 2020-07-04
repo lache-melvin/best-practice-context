@@ -1,7 +1,4 @@
-const now = new Date()
-
 exports.seed = (knex) => {
-  // Inserts seed entries
   return knex('posts').insert([
     {
       id: 1,

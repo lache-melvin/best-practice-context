@@ -12,7 +12,7 @@ class Posts extends React.Component {
   }
 
   render () {
-    const {posts} = this.props
+    const { posts } = this.props
     return (
       <>
         <h2>Posts</h2>
@@ -20,9 +20,7 @@ class Posts extends React.Component {
           <Link to="/add">Add a post</Link>
         </IfAuthenticated>
         <ul>
-        {
-          posts.map(post => <PostItem key={post.id} post={post} />)
-        }
+          { posts.map(post => <PostItem key={post.id} post={post} />) }
         </ul>
       </>
     )

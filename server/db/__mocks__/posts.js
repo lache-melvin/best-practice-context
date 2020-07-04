@@ -13,16 +13,16 @@ const posts = [
     name: 'mocked post 1',
     link: 'https://mocked.link.com/1',
     description: 'mocked description 1',
-    created: new Date(now.setDate(now.getDate()-2)),
-    updated: new Date(now.setDate(now.getDate()-2))
+    created: new Date(now.setDate(now.getDate() - 2)),
+    updated: new Date(now.setDate(now.getDate() - 2))
   }, {
     id: 2,
     authorId: 2,
     name: 'mocked post 2',
     link: 'https://mocked.link.com/2',
     description: 'mocked description 2',
-    created: new Date(now.setDate(now.getDate()-1)),
-    updated: new Date(now.setDate(now.getDate()-1))
+    created: new Date(now.setDate(now.getDate() - 1)),
+    updated: new Date(now.setDate(now.getDate() - 1))
   }, {
     id: 3,
     authorId: 2,
@@ -50,7 +50,7 @@ function addPost (post) {
       created: new Date(),
       updated: new Date()
     }
-    posts.push({...newPost})
+    posts.push({ ...newPost })
     resolve(newPost)
   })
 }

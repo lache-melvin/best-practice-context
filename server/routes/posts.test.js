@@ -1,4 +1,5 @@
-require('dotenv').config()
+const path = require('path')
+require('dotenv').config({ path: path.join(__dirname, '../.env') })
 const request = require('supertest')
 
 const server = require('../server')
@@ -21,7 +22,7 @@ test('GET /api/v1/posts/2 returns a post', () => {
   return request(server)
     .get('/api/v1/posts/2')
     .then(res => {
-      const {name, link, description} = res.body
+      const { name, link, description } = res.body
       expect(name).toMatch('mocked')
       expect(link).toMatch('mocked')
       expect(description).toMatch('mocked')
@@ -33,7 +34,7 @@ test('POST /api/v1/posts adds and returns a post', () => {
     authorId: 2,
     name: 'new post',
     link: 'http://should.work.com',
-    description: 'new description',
+    description: 'new description'
   }
 
   return getTestToken(server).then(token => {
@@ -42,7 +43,7 @@ test('POST /api/v1/posts adds and returns a post', () => {
       .send(newPost)
       .set('Authorization', `BEARER ${token}`)
       .then(res => {
-        const {name, link, description} = res.body
+        const { name, link, description } = res.body
         expect(name).toMatch(newPost.name)
         expect(link).toMatch(newPost.link)
         expect(description).toMatch(newPost.description)
@@ -55,7 +56,7 @@ test('POST /api/v1/posts fails with no auth token', () => {
     authorId: 2,
     name: 'new unauthenticated post',
     link: 'http://should.not.work',
-    description: 'should not work anyway',
+    description: 'should not work anyway'
   }
 
   return request(server)
@@ -68,6 +69,6 @@ test('POST /api/v1/posts fails with no auth token', () => {
 function getTestToken (srv) {
   return request(srv)
     .post('/api/v1/auth/register')
-    .send({username: 'test', password: 'test'})
+    .send({ username: 'test', password: 'test' })
     .then(res => res.body.token)
 }

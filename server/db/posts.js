@@ -29,6 +29,6 @@ function addPost (post, db = connection) {
       newPost.id = ids[0]
       newPost.authorId = newPost.author_id
       delete newPost.author_id
-      return {...newPost}
+      return { ...newPost }
     })
 }

@@ -21,7 +21,7 @@ afterAll(() => {
 })
 
 test('createUser() creates a user', () => {
-  const user = {username: 'newuser', password: 'password'}
+  const user = { username: 'newuser', password: 'password' }
   return createUser(user, testDb)
     .then(ids => {
       expect(ids[0]).toBe(3)

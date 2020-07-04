@@ -2,7 +2,7 @@ import userReducer from './user'
 import { SIGN_IN } from '../actions/auth'
 
 test('userReducer responds correctly to SIGN_IN', () => {
-  const currentState = {username: 'testuser'}
+  const currentState = { username: 'testuser' }
   const action = {
     type: SIGN_IN,
     user: { id: 3, username: 'testuser3' }
