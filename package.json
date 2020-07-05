@@ -5,26 +5,19 @@
   "author": "Enspiral Dev Academy (EDA)",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config client/webpack.config.js",
-    "client": "npm run build -- --watch",
-    "server": "nodemon server",
+    "build": "build-frontend",
+    "client": "watch-frontend-build",
+    "server": "start-backend-dev-server",
     "dev": "run-p client server",
-    "knex": "knex --knexfile server/db/knexfile.js",
-    "db:migrate": "npm run knex migrate:latest",
-    "db:seed": "npm run knex seed:run",
-    "test": "jest --verbose"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-proposal-object-rest-spread",
-      "@babel/plugin-transform-regenerator",
-      "@babel/plugin-transform-runtime"
-    ]
+    "db:seed": "seed-backend-db",
+    "db:migrate": "migrate-backend-db",
+    "db:rollback": "rollback-backend-db",
+    "test:backend": "test-backend",
+    "test:frontend": "test-frontend",
+    "test": "run-p test:frontend test:backend",
+    "watch:backend:tests": "watch-backend-tests",
+    "watch:frontend:tests": "watch-frontend-tests",
+    "test:watch": "run-p watch:frontend:tests watch:backend:tests"
   },
   "keywords": [
     "fullstack",
@@ -43,47 +36,10 @@
   },
   "homepage": "https://github.com/enspiral-dev-academy/best-practice#readme",
   "dependencies": {
-    "authenticare": "^0.4.7",
-    "express": "^4.17.1",
-    "http-errors": "^1.8.0",
-    "knex": "^0.21.1"
+    "eda-backend-deps": "^0.2.5",
+    "eda-frontend-deps": "^0.2.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.4",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.10.4",
-    "@babel/plugin-transform-regenerator": "^7.10.4",
-    "@babel/plugin-transform-runtime": "^7.10.4",
-    "@babel/polyfill": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
-    "@babel/preset-react": "^7.10.4",
-    "@babel/runtime": "^7.10.4",
-    "@testing-library/jest-dom": "^5.11.0",
-    "@testing-library/react": "^10.4.3",
-    "axios": "^0.19.2",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
-    "core-js": "^3.6.5",
-    "eslint": "^7.4.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.20.3",
-    "eslint-plugin-standard": "^4.0.1",
-    "jest": "^26.1.0",
-    "nodemon": "^2.0.4",
-    "npm-run-all": "^4.1.5",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
-    "react-router-dom": "^5.2.0",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "regenerator-runtime": "^0.13.5",
-    "sqlite3": "^5.0.0",
-    "supertest": "^4.0.2",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12"
+    "npm-run-all": "^4.1.5"
   }
 }
