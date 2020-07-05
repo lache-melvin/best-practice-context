@@ -22,8 +22,8 @@ function consume (url, config = {}) {
     request.data = config.data
   }
 
-  if (config.auth) {
-    request.headers.Authorization = config.auth
+  if (config.token) {
+    request.headers.Authorization = config.token
   }
 
   return axios(request)
