@@ -7,7 +7,7 @@ import {
 import mockPosts from '../testing/mockPosts'
 
 test('getPosts returns the correct body', async () => {
-  const consume = jest.fn(() => Promise.resolve({ body: mockPosts }))
+  const consume = jest.fn(() => Promise.resolve(mockPosts))
   const getPosts = makeGetPosts(consume)
 
   const posts = await getPosts()
@@ -16,7 +16,7 @@ test('getPosts returns the correct body', async () => {
 })
 
 test('getPostById returns the correct body', async () => {
-  const consume = jest.fn(() => Promise.resolve({ body: mockPosts[1] }))
+  const consume = jest.fn(() => Promise.resolve(mockPosts[1]))
   const getPostById = makeGetPostById(consume)
 
   const post = await getPostById(2)
@@ -31,7 +31,7 @@ test('addPost returns the post with its new id', async () => {
   function mockConsume (url, options) {
     expect(url).toBe('/posts')
     expect(options.method).toBe('post')
-    return Promise.resolve({ body: { id: 4, ...options.data } })
+    return Promise.resolve({ id: 4, ...options.data })
   }
 
   const consume = jest.fn(mockConsume)

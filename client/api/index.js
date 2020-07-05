@@ -27,7 +27,7 @@ function consume (url, config = {}) {
   }
 
   return axios(request)
-    .then(res => res)
+    .then(res => res.data)
     .catch(err => {
       throw err
     })

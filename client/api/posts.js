@@ -4,8 +4,8 @@
 export function makeGetPosts (consume) {
   return async function () {
     try {
-      const res = await consume('/posts')
-      return res.data
+      const posts = await consume('/posts')
+      return posts
     } catch (err) {
       console.error(err)
     }
@@ -15,8 +15,8 @@ export function makeGetPosts (consume) {
 export function makeGetPostById (consume) {
   return async function (id) {
     try {
-      const res = await consume(`/posts/${id}`)
-      return res.data
+      const post = await consume(`/posts/${id}`)
+      return post
     } catch (err) {
       console.error(err)
     }
@@ -34,8 +34,8 @@ export function makeAddPost (consume, getAuthHeader) {
     }
 
     try {
-      const res = await consume('/posts', config)
-      return res.data
+      const newPost = await consume('/posts', config)
+      return newPost
     } catch (err) {
       console.error(err)
     }
