@@ -1,6 +1,6 @@
-exports.seed = (knex) => {
+exports.up = queryInterface => {
   const empty = table =>
-    () => knex(table).del()
+    () => queryInterface.bulkDelete(table)
 
   return empty('posts')()
     .then(empty('users'))

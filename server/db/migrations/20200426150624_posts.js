@@ -1,15 +1,7 @@
-exports.up = (knex) => {
-  return knex.schema.createTable('posts', table => {
-    table.increments().primary()
-    table.string('name')
-    table.string('link')
-    table.string('description')
-    table.integer('author_id').references('users.id')
-    table.datetime('created').defaultTo(knex.fn.now())
-    table.datetime('updated').defaultTo(knex.fn.now())
-  })
+const { postSchema } = require('../models/post')
+
+exports.up = (queryInterface) => {
+  return queryInterface.createTable('posts', postSchema)
 }
 
-exports.down = (knex) => {
-  return knex.schema.dropTable('posts')
-}
+exports.down = queryInterface => queryInterface.dropTable('posts')

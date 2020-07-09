@@ -1,5 +1,5 @@
-exports.seed = (knex) => {
-  return knex('posts').insert([
+exports.up = (queryInterface) => {
+  queryInterface.bulkInsert('posts', [
     {
       id: 1,
       name: 'post 1',
@@ -21,3 +21,5 @@ exports.seed = (knex) => {
     }
   ])
 }
+
+exports.down = (queryInterface) => queryInterface.bulkDelete('posts')

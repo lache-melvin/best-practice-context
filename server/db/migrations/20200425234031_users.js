@@ -1,11 +1,7 @@
-exports.up = (knex) => {
-  return knex.schema.createTable('users', table => {
-    table.increments('id')
-    table.string('username')
-    table.binary('hash')
-  })
+const { userSchema } = require('../models/user')
+
+exports.up = (queryInterface) => {
+  return queryInterface.createTable('users', userSchema)
 }
 
-exports.down = (knex) => {
-  return knex.schema.dropTable('users')
-}
+exports.down = queryInterface => queryInterface.dropTable('users')

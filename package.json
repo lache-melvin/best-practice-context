@@ -41,9 +41,11 @@
   "homepage": "https://github.com/enspiral-dev-academy/best-practice#readme",
   "dependencies": {
     "eda-backend-deps": "^0.2.10",
-    "eda-frontend-deps": "^0.3.1"
+    "eda-frontend-deps": "^0.3.1",
+    "sequelize": "^6.3.0"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "sequelize-cli": "^6.2.0"
   }
 }
