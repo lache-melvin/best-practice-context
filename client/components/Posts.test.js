@@ -2,7 +2,6 @@ import React from 'react'
 import { screen } from '@testing-library/react'
 import { renderWithRedux } from '../testing/utils'
 import '@testing-library/jest-dom'
-import '@babel/polyfill'
 
 import Posts from './Posts'
 import { getPosts } from '../api'
