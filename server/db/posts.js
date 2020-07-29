@@ -1,6 +1,4 @@
-const Connection = require('./connection')
-
-const connection = Connection()
+const { Post } = require('./models')
 
 module.exports = {
   getPostById,
@@ -8,27 +6,25 @@ module.exports = {
   addPost
 }
 
-function getPosts (db = connection) {
-  return db('posts').select()
+function getPosts () {
+  return Post.findAll()
 }
 
-function getPostById (id, db = connection) {
-  return db('posts').where('id', id).first()
+function getPostById (id) {
+  return Post.findByPk(id)
+    .then(post => {
+      if (post) return post
+      throw new Error('Post id does not exist')
+    })
 }
 
-function addPost (post, db = connection) {
-  const newPost = {
-    name: post.name,
-    link: post.link,
-    author_id: post.authorId,
-    description: post.description
-  }
-  return db('posts')
-    .insert(newPost)
-    .then(ids => {
-      newPost.id = ids[0]
-      newPost.authorId = newPost.author_id
-      delete newPost.author_id
-      return { ...newPost }
+function addPost (post, authorId) {
+  const { name, link, description } = post
+  return Post.create({ name, link, description, authorId })
+    .then(post => post)
+    .catch(err => {
+      if (err.name === 'SequelizeForeignKeyConstraintError') {
+        throw new Error('Author id does not exist')
+      }
     })
 }

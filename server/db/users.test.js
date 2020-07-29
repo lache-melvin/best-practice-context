@@ -1,53 +1,102 @@
-const {
-  createUser,
-  userExists,
-  getUserByName
-} = require('./users')
+const { createUser, userExists, getUserByName } = require('./users')
 
-const Connection = require('./connection')
+const { User } = require('./models')
 
-const testDb = Connection()
+jest.mock('./models', () => ({
+  User: {
+    count: jest.fn(),
+    create: jest.fn(),
+    findOne: jest.fn()
+  }
+}))
 
-beforeAll(() => {
-  return testDb.migrate.latest()
+const mockUsers = [
+  { id: 1, username: 'jess' },
+  { id: 2, username: 'jules' }
+]
+
+describe('createUser()', () => {
+  it('creates a user', () => {
+    const user = { username: 'newuser', password: 'password' }
+
+    User.count.mockImplementation(() => Promise.resolve(0))
+    User.create.mockImplementation(u => ({
+      id: 3,
+      hash: 'test-hash',
+      username: u.username
+    }))
+
+    return createUser(user)
+      .then(user => {
+        expect(user.password).toBeUndefined()
+        expect(user.username).toBe('newuser')
+        expect(user.hash).toBe('test-hash')
+      })
+  })
+
+  it('throws an error if the user already exists', () => {
+    const user = { username: 'existinguser', password: 'password' }
+
+    User.count.mockImplementation(() => Promise.resolve(1))
+
+    return createUser(user)
+      .catch(err => {
+        expect(err.message).toMatch('User exists')
+      })
+  })
 })
 
-beforeEach(() => {
-  return testDb.seed.run()
+describe('userExists()', () => {
+  it('returns true for an existing user', () => {
+    User.count.mockImplementation(() => Promise.resolve(1))
+
+    return userExists('jess')
+      .then(exists => {
+        expect(exists).toBeTruthy()
+      })
+  })
+
+  it('returns false when a user does not exist', () => {
+    User.count.mockImplementation(() => Promise.resolve(0))
+
+    return userExists('sam')
+      .then(exists => {
+        expect(exists).toBeFalsy()
+      })
+  })
 })
 
-afterAll(() => {
-  return testDb.destroy()
-})
+describe('getUserByName()', () => {
+  it('returns the user with the username', () => {
+    expect.assertions(3)
+    const username = 'jules'
 
-test('createUser() creates a user', () => {
-  const user = { username: 'newuser', password: 'password' }
-  return createUser(user, testDb)
-    .then(ids => {
-      expect(ids[0]).toBe(3)
+    User.findOne.mockImplementation(options => {
+      const { username } = options.where
+      expect(username).toBe('jules')
+      return Promise.resolve(mockUsers.find(u => u.username === username))
     })
-})
 
-test('userExists() returns true for an existing user', () => {
-  const username = 'jess'
-  return userExists(username, testDb)
-    .then(exists => {
-      expect(exists).toBeTruthy()
-    })
-})
+    return getUserByName(username)
+      .then(user => {
+        expect(user.id).toBe(2)
+        expect(user.username).toBe(username)
+      })
+  })
 
-test('userExists() returns false when user does not exist', () => {
-  const username = 'unknown'
-  return userExists(username, testDb)
-    .then(exists => {
-      expect(exists).toBeFalsy()
-    })
-})
+  it('returns null when the username is not found', () => {
+    expect.assertions(2)
+    const username = 'bruno'
 
-test('getUserByName() returns the user with the username', () => {
-  const username = 'jules'
-  return getUserByName(username, testDb)
-    .then(user => {
-      expect(user.username).toBe(username)
+    User.findOne.mockImplementation(options => {
+      const { username } = options.where
+      expect(username).toBe('bruno')
+      return Promise.resolve(null)
     })
+
+    return getUserByName(username)
+      .then(user => {
+        expect(user).toBeNull()
+      })
+  })
 })

@@ -1,7 +1,5 @@
-const getConnection = require('./connection')
+const { User } = require('./models')
 const { generateHash } = require('authenticare/server')
-
-const connection = getConnection()
 
 module.exports = {
   createUser,
@@ -9,8 +7,8 @@ module.exports = {
   getUserByName
 }
 
-function createUser (user, db = connection) {
-  return userExists(user.username, db)
+function createUser (user) {
+  return userExists(user.username)
     .then(exists => {
       if (exists) {
         return Promise.reject(new Error('User exists'))
@@ -18,22 +16,15 @@ function createUser (user, db = connection) {
     })
     .then(() => generateHash(user.password))
     .then(passwordHash => {
-      return db('users').insert({ username: user.username, hash: passwordHash })
+      return User.create({ username: user.username, hash: passwordHash })
     })
 }
 
-function userExists (username, db = connection) {
-  return db('users')
-    .count('id as n')
-    .where('username', username)
-    .then(count => {
-      return count[0].n > 0
-    })
+function userExists (username) {
+  return User.count({ where: { username } })
+    .then(count => count > 0)
 }
 
-function getUserByName (username, db = connection) {
-  return db('users')
-    .select()
-    .where('username', username)
-    .first()
+function getUserByName (username) {
+  return User.findOne({ where: { username } })
 }

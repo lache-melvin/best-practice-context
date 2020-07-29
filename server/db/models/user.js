@@ -1,28 +1,20 @@
-const { DataTypes } = require('sequelize')
+const { Model } = require('sequelize')
 
-const userSchema = {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false
-
-  },
-  hash: {
-    type: DataTypes.STRING.BINARY,
-    allowNull: false
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    static associate (models) {
+      const { Post, User } = models
+      User.hasMany(Post, { foreignKey: 'authorId' })
+    }
   }
-}
 
-function makeUser (connection) {
-  connection.define('User', userSchema)
-}
+  User.init({
+    username: DataTypes.STRING,
+    hash: DataTypes.STRING.BINARY
+  }, {
+    sequelize,
+    modelName: 'User'
+  })
 
-module.exports = {
-  userSchema,
-  makeUser
+  return User
 }

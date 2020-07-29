@@ -1,41 +1,21 @@
-const Sequelize = require('sequelize')
+const { Model } = require('sequelize')
 
-const { makeUser } = require('../models/user')
-
-function makePostSchema (user) {
-  return {
-    id: {
-      type: Sequelize.DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
-    },
-    name: {
-      type: Sequelize.DataTypes.STRING,
-      allowNull: false
-    },
-    link: {
-      type: Sequelize.DataTypes.STRING,
-      allowNull: false
-    },
-    description: Sequelize.DataTypes.STRING(1024),
-    author_id: {
-      type: Sequelize.DataTypes.INTEGER,
-      references: {
-        model: user,
-        key: 'id'
-      }
+module.exports = (sequelize, DataTypes) => {
+  class Post extends Model {
+    static associate (models) {
+      const { Post, User } = models
+      Post.belongsTo(User, { as: 'author' })
     }
   }
-}
 
-function makePost (connection) {
-  const User = makeUser(connection)
-  const postSchema = makePostSchema(User)
-  connection.define('Post', postSchema)
-}
+  Post.init({
+    name: DataTypes.STRING,
+    link: DataTypes.STRING,
+    description: DataTypes.STRING(1024)
+  }, {
+    sequelize,
+    modelName: 'Post'
+  })
 
-module.exports = {
-  makePostSchema,
-  makePost
+  return Post
 }

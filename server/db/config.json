@@ -1,14 +1,14 @@
 {
   "development": {
     "dialect": "sqlite",
-    "storage": "./dev.sqlite3"
+    "storage": "server/db/dev.sqlite3"
   },
   "test": {
     "dialect": "sqlite",
     "storage": ":memory:"
   },
   "production": {
-    "dialect": "mysql",
+    "dialect": "postgres",
     "host": "127.0.0.1",
     "database": "database_production",
     "username": "root",
