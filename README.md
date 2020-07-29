@@ -1,3 +1,5 @@
+![Lint and Test](https://github.com/enspiral-dev-academy/best-practice/workflows/Lint%20and%20Test/badge.svg)
+
 # Best Practice
 
 > All of the best programming practice exercises
