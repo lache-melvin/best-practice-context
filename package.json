@@ -12,8 +12,8 @@
     "client": "watch-frontend-build",
     "server": "start-backend-dev-server",
     "dev": "run-p client server",
-    "db:seed": "sequelize-cli db:seed:all",
-    "db:migrate": "sequelize-cli db:migrate",
+    "db:seed": "seed-backend-db",
+    "db:migrate": "migrate-backend-db",
     "db:rollback": "rollback-backend-db",
     "test:backend": "test-backend",
     "test:frontend": "test-frontend",
@@ -40,12 +40,10 @@
   },
   "homepage": "https://github.com/enspiral-dev-academy/best-practice#readme",
   "dependencies": {
-    "eda-backend-deps": "^0.2.10",
-    "eda-frontend-deps": "^0.3.1",
-    "sequelize": "^6.3.0"
+    "eda-backend-deps": "^0.2.2",
+    "eda-frontend-deps": "^0.3.1"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
-    "sequelize-cli": "^6.2.0"
+    "npm-run-all": "^4.1.5"
   }
 }
