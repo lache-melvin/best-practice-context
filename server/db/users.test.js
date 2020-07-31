@@ -1,102 +1,96 @@
-const { createUser, userExists, getUserByName } = require('./users')
+const { createUser, userExists, getUserByName } = require("./users");
 
-const { User } = require('./models')
+const { User } = require("./models");
 
-jest.mock('./models', () => ({
+jest.mock("./models", () => ({
   User: {
     count: jest.fn(),
     create: jest.fn(),
-    findOne: jest.fn()
-  }
-}))
+    findOne: jest.fn(),
+  },
+}));
 
 const mockUsers = [
-  { id: 1, username: 'jess' },
-  { id: 2, username: 'jules' }
-]
+  { id: 1, username: "jess" },
+  { id: 2, username: "jules" },
+];
 
-describe('createUser()', () => {
-  it('creates a user', () => {
-    const user = { username: 'newuser', password: 'password' }
+describe("createUser()", () => {
+  it("creates a user", () => {
+    const user = { username: "newuser", password: "password" };
 
-    User.count.mockImplementation(() => Promise.resolve(0))
-    User.create.mockImplementation(u => ({
+    User.count.mockImplementation(() => Promise.resolve(0));
+    User.create.mockImplementation((u) => ({
       id: 3,
-      hash: 'test-hash',
-      username: u.username
-    }))
+      hash: "test-hash",
+      username: u.username,
+    }));
 
-    return createUser(user)
-      .then(user => {
-        expect(user.password).toBeUndefined()
-        expect(user.username).toBe('newuser')
-        expect(user.hash).toBe('test-hash')
-      })
-  })
+    return createUser(user).then((user) => {
+      expect(user.password).toBeUndefined();
+      expect(user.username).toBe("newuser");
+      expect(user.hash).toBe("test-hash");
+    });
+  });
 
-  it('throws an error if the user already exists', () => {
-    const user = { username: 'existinguser', password: 'password' }
+  it("throws an error if the user already exists", () => {
+    const user = { username: "existinguser", password: "password" };
 
-    User.count.mockImplementation(() => Promise.resolve(1))
+    User.count.mockImplementation(() => Promise.resolve(1));
 
-    return createUser(user)
-      .catch(err => {
-        expect(err.message).toMatch('User exists')
-      })
-  })
-})
+    return createUser(user).catch((err) => {
+      expect(err.message).toMatch("User exists");
+    });
+  });
+});
 
-describe('userExists()', () => {
-  it('returns true for an existing user', () => {
-    User.count.mockImplementation(() => Promise.resolve(1))
+describe("userExists()", () => {
+  it("returns true for an existing user", () => {
+    User.count.mockImplementation(() => Promise.resolve(1));
 
-    return userExists('jess')
-      .then(exists => {
-        expect(exists).toBeTruthy()
-      })
-  })
+    return userExists("jess").then((exists) => {
+      expect(exists).toBeTruthy();
+    });
+  });
 
-  it('returns false when a user does not exist', () => {
-    User.count.mockImplementation(() => Promise.resolve(0))
+  it("returns false when a user does not exist", () => {
+    User.count.mockImplementation(() => Promise.resolve(0));
 
-    return userExists('sam')
-      .then(exists => {
-        expect(exists).toBeFalsy()
-      })
-  })
-})
+    return userExists("sam").then((exists) => {
+      expect(exists).toBeFalsy();
+    });
+  });
+});
 
-describe('getUserByName()', () => {
-  it('returns the user with the username', () => {
-    expect.assertions(3)
-    const username = 'jules'
+describe("getUserByName()", () => {
+  it("returns the user with the username", () => {
+    expect.assertions(3);
+    const username = "jules";
 
-    User.findOne.mockImplementation(options => {
-      const { username } = options.where
-      expect(username).toBe('jules')
-      return Promise.resolve(mockUsers.find(u => u.username === username))
-    })
+    User.findOne.mockImplementation((options) => {
+      const { username } = options.where;
+      expect(username).toBe("jules");
+      return Promise.resolve(mockUsers.find((u) => u.username === username));
+    });
 
-    return getUserByName(username)
-      .then(user => {
-        expect(user.id).toBe(2)
-        expect(user.username).toBe(username)
-      })
-  })
+    return getUserByName(username).then((user) => {
+      expect(user.id).toBe(2);
+      expect(user.username).toBe(username);
+    });
+  });
 
-  it('returns null when the username is not found', () => {
-    expect.assertions(2)
-    const username = 'bruno'
+  it("returns null when the username is not found", () => {
+    expect.assertions(2);
+    const username = "bruno";
 
-    User.findOne.mockImplementation(options => {
-      const { username } = options.where
-      expect(username).toBe('bruno')
-      return Promise.resolve(null)
-    })
+    User.findOne.mockImplementation((options) => {
+      const { username } = options.where;
+      expect(username).toBe("bruno");
+      return Promise.resolve(null);
+    });
 
-    return getUserByName(username)
-      .then(user => {
-        expect(user).toBeNull()
-      })
-  })
-})
+    return getUserByName(username).then((user) => {
+      expect(user).toBeNull();
+    });
+  });
+});

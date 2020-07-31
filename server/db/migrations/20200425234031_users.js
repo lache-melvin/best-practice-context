@@ -1,29 +1,29 @@
 exports.up = async (queryInterface, Sequelize) => {
-  await queryInterface.createTable('Users', {
+  await queryInterface.createTable("Users", {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: false
+      allowNull: false,
     },
     username: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     hash: {
-      type: Sequelize.STRING.BINARY
+      type: Sequelize.STRING.BINARY,
     },
     createdAt: {
       type: Sequelize.DATE,
-      allowNull: false
+      allowNull: false,
     },
     updatedAt: {
       type: Sequelize.DATE,
-      allowNull: false
-    }
-  })
-}
+      allowNull: false,
+    },
+  });
+};
 
 exports.down = async (queryInterface, Sequelize) => {
-  await queryInterface.dropTable('Users')
-}
+  await queryInterface.dropTable("Users");
+};

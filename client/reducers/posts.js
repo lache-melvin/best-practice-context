@@ -1,12 +1,12 @@
-import { RECEIVE_POSTS } from '../actions/posts'
+import { RECEIVE_POSTS } from "../actions/posts";
 
-function postsReducer (state = [], action) {
+function postsReducer(state = [], action) {
   switch (action.type) {
     case RECEIVE_POSTS:
-      return action.posts || []
+      return action.posts || [];
     default:
-      return state
+      return state;
   }
 }
 
-export default postsReducer
+export default postsReducer;
