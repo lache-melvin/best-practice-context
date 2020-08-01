@@ -38,14 +38,15 @@
   "bugs": {
     "url": "https://github.com/enspiral-dev-academy/best-practice/issues"
   },
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "homepage": "https://github.com/enspiral-dev-academy/best-practice#readme",
   "dependencies": {
-    "eda-backend-deps": "^0.2.2",
-    "eda-frontend-deps": "^0.3.1"
+    "eda-backend-deps": "^0.3.0",
+    "eda-frontend-deps": "^0.4.0"
   },
   "devDependencies": {
-    "eslint-plugin-prettier": "^3.1.4",
-    "npm-run-all": "^4.1.5",
-    "prettier": "2.0.5"
+    "npm-run-all": "^4.1.5"
   }
 }
