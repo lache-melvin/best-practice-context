@@ -1,5 +1,6 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
+import { isAuthenticated } from "authenticare/client";
 
 import Nav from "./Nav";
 import Posts from "./Posts";
@@ -15,8 +16,26 @@ function App() {
       <h1>Best Practice</h1>
       <Route exact path="/" component={Posts} />
       <Route path="/add" component={AddPost} />
-      <Route path="/signin" component={SignIn} />
-      <Route path="/register" component={Register} />
+      <Route
+        path="/signin"
+        render={({ history }) => {
+          return isAuthenticated() ? (
+            <Redirect to="/" />
+          ) : (
+            <SignIn history={history} />
+          );
+        }}
+      />
+      <Route
+        path="/register"
+        render={({ history }) => {
+          return isAuthenticated() ? (
+            <Redirect to="/" />
+          ) : (
+            <Register history={history} />
+          );
+        }}
+      />
       <Route path="/post/:id" component={PostDetail} />
     </>
   );
