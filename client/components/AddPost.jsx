@@ -19,14 +19,15 @@ class AddPost extends React.Component {
     });
   };
 
-  handleAdd = (e) => {
-    this.props
+  handleAdd = () => {
+    return this.props
       .savePost({
         authorId: this.props.userId,
         ...this.state,
       })
       .then((saved) => {
         this.props.history.push(`/post/${saved.id}`);
+        return null;
       });
   };
 

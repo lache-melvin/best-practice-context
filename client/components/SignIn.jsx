@@ -22,17 +22,15 @@ class SignIn extends React.Component {
 
   handleClick = () => {
     const { username, password } = this.state;
-    signIn(
-      { username, password },
-      {
-        baseUrl: config.baseApiUrl,
+    return signIn({ username, password }, { baseUrl: config.baseApiUrl }).then(
+      (token) => {
+        if (isAuthenticated()) {
+          this.props.signedIn(token);
+          this.props.history.push("/");
+        }
+        return null;
       }
-    ).then((token) => {
-      if (isAuthenticated()) {
-        this.props.signedIn(token);
-        this.props.history.push("/");
-      }
-    });
+    );
   };
 
   render() {

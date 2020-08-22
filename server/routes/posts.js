@@ -26,7 +26,7 @@ router.get("/:id", (req, res) => {
   getPostById(Number(req.params.id))
     .then((post) => {
       if (!post) {
-        res.status(404).json({
+        return res.status(404).json({
           errors: [{ title: "Post id not found" }],
         });
       }

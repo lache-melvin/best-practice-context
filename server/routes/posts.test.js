@@ -76,7 +76,7 @@ describe("GET /api/v1/posts/2", () => {
         expect(name).toMatch("mocked post 2");
         expect(link).toMatch("https://mocked.link.com/2");
         expect(description).toMatch("mocked description 2");
-        return null;
+        return res;
       });
   });
 
@@ -89,7 +89,7 @@ describe("GET /api/v1/posts/2", () => {
       .then((res) => {
         const [error] = res.body.errors;
         expect(error.title).toMatch("Post id not found");
-        return null;
+        return res;
       });
   });
 });
