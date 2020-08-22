@@ -11,7 +11,8 @@ module.exports = router;
 router.get("/", (req, res) => {
   getPosts()
     .then((posts) => {
-      return res.json(posts);
+      res.json(posts);
+      return null;
     })
     .catch((err) => {
       // eslint-disable-next-line no-console
@@ -25,11 +26,12 @@ router.get("/:id", (req, res) => {
   getPostById(Number(req.params.id))
     .then((post) => {
       if (!post) {
-        return res.status(404).json({
+        res.status(404).json({
           errors: [{ title: "Post id not found" }],
         });
       }
-      return res.json(post);
+      res.json(post);
+      return null;
     })
     .catch((err) => {
       // eslint-disable-next-line no-console
@@ -50,7 +52,8 @@ router.post("/", getTokenDecoder(), (req, res) => {
 
   addPost(newPost, authorId)
     .then((post) => {
-      return res.json(post);
+      res.json(post);
+      return null;
     })
     .catch((err) => {
       // TODO: Add proper logging infrastructure

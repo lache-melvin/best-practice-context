@@ -46,7 +46,8 @@ test("fetchPosts() dispatches RECEIVE_POSTS action", () => {
   return action(mockDispatch).then(() => {
     expect(mockDispatch.mock.calls).toHaveLength(1);
     expect(mockDispatch.mock.calls[0][0].type).toBe(RECEIVE_POSTS);
-    return expect(mockDispatch.mock.calls[0][0].posts).toHaveLength(3);
+    expect(mockDispatch.mock.calls[0][0].posts).toHaveLength(3);
+    return null;
   });
 });
 
@@ -59,9 +60,8 @@ test("fetchPostById() dispatches RECEIVE_POST action", () => {
   return action(mockDispatch).then(() => {
     expect(mockDispatch.mock.calls).toHaveLength(1);
     expect(mockDispatch.mock.calls[0][0].type).toBe(RECEIVE_POST);
-    return expect(mockDispatch.mock.calls[0][0].post.name).toBe(
-      "mocked post 1"
-    );
+    expect(mockDispatch.mock.calls[0][0].post.name).toBe("mocked post 1");
+    return null;
   });
 });
 
@@ -75,6 +75,7 @@ test("savePost() dispatches RECEIVE_POST action", () => {
   return action(mockDispatch).then(() => {
     expect(mockDispatch.mock.calls).toHaveLength(1);
     expect(mockDispatch.mock.calls[0][0].type).toBe(RECEIVE_POST);
-    return expect(mockDispatch.mock.calls[0][0].post.name).toBe(post.name);
+    expect(mockDispatch.mock.calls[0][0].post.name).toBe(post.name);
+    return null;
   });
 });

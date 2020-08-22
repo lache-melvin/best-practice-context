@@ -22,16 +22,15 @@ class Register extends React.Component {
 
   handleClick = () => {
     const { username, password } = this.state;
-    register(
+    return register(
       { username, password },
-      {
-        baseUrl: config.baseApiUrl,
-      }
+      { baseUrl: config.baseApiUrl }
     ).then((token) => {
       if (isAuthenticated()) {
         this.props.signedIn(token);
-        props.history.push("/");
+        this.props.history.push("/");
       }
+      return null;
     });
   };
 
