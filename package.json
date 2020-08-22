@@ -42,8 +42,8 @@
   },
   "homepage": "https://github.com/enspiral-dev-academy/best-practice#readme",
   "dependencies": {
-    "eda-backend-deps": "^0.3.0",
-    "eda-frontend-deps": "^0.4.1"
+    "eda-backend-deps": "^0.3.5",
+    "eda-frontend-deps": "^0.4.5"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
