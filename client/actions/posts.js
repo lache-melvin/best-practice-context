@@ -22,6 +22,7 @@ export function fetchPosts() {
     return getPosts()
       .then((posts) => {
         dispatch(receivePosts(posts));
+        return posts;
       })
       .catch((err) => {
         console.error("fetchPosts action error:", err);
@@ -35,6 +36,7 @@ export function fetchPostById(id) {
     return getPostById(id)
       .then((post) => {
         dispatch(receivePost(post));
+        return post;
       })
       .catch((err) => {
         console.error("fetchPostById action error:", err);

@@ -29,7 +29,7 @@ describe("createUser()", () => {
     return createUser(user).then((user) => {
       expect(user.password).toBeUndefined();
       expect(user.username).toBe("newuser");
-      expect(user.hash).toBe("test-hash");
+      return expect(user.hash).toBe("test-hash");
     });
   });
 
@@ -49,7 +49,7 @@ describe("userExists()", () => {
     User.count.mockImplementation(() => Promise.resolve(1));
 
     return userExists("jess").then((exists) => {
-      expect(exists).toBeTruthy();
+      return expect(exists).toBeTruthy();
     });
   });
 
@@ -57,7 +57,7 @@ describe("userExists()", () => {
     User.count.mockImplementation(() => Promise.resolve(0));
 
     return userExists("sam").then((exists) => {
-      expect(exists).toBeFalsy();
+      return expect(exists).toBeFalsy();
     });
   });
 });
@@ -75,7 +75,7 @@ describe("getUserByName()", () => {
 
     return getUserByName(username).then((user) => {
       expect(user.id).toBe(2);
-      expect(user.username).toBe(username);
+      return expect(user.username).toBe(username);
     });
   });
 
@@ -90,7 +90,7 @@ describe("getUserByName()", () => {
     });
 
     return getUserByName(username).then((user) => {
-      expect(user).toBeNull();
+      return expect(user).toBeNull();
     });
   });
 });

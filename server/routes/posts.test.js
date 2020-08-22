@@ -1,3 +1,6 @@
+// disable false positive warning in eslint-plugin-security
+/* eslint-disable security/detect-non-literal-fs-filename */
+
 const path = require("path");
 const request = require("supertest");
 
@@ -55,6 +58,7 @@ describe("GET /api/v1/posts", () => {
         expect(res.body).toHaveLength(2);
         expect(res.body[0].name).toMatch("mocked post 1");
         expect(res.body[1].link).toMatch("https://mocked.link.com/2");
+        return res;
       });
   });
 });
@@ -72,6 +76,7 @@ describe("GET /api/v1/posts/2", () => {
         expect(name).toMatch("mocked post 2");
         expect(link).toMatch("https://mocked.link.com/2");
         expect(description).toMatch("mocked description 2");
+        return res;
       });
   });
 
@@ -84,6 +89,7 @@ describe("GET /api/v1/posts/2", () => {
       .then((res) => {
         const [error] = res.body.errors;
         expect(error.title).toMatch("Post id not found");
+        return res;
       });
   });
 });
@@ -111,18 +117,20 @@ describe("POST /api/v1/posts", () => {
       })
     );
 
-    return getTestToken(server).then((token) => {
-      return request(server)
-        .post("/api/v1/posts")
-        .send(newPost)
-        .set("Authorization", `BEARER ${token}`)
-        .then((res) => {
-          const { name, link, description } = res.body;
-          expect(name).toMatch(newPost.name);
-          expect(link).toMatch(newPost.link);
-          expect(description).toMatch(newPost.description);
-        });
-    });
+    return getTestToken(server)
+      .then((token) => {
+        return request(server)
+          .post("/api/v1/posts")
+          .send(newPost)
+          .set("Authorization", `BEARER ${token}`);
+      })
+      .then((res) => {
+        const { name, link, description } = res.body;
+        expect(name).toMatch(newPost.name);
+        expect(link).toMatch(newPost.link);
+        expect(description).toMatch(newPost.description);
+        return res;
+      });
   });
 
   it("returns a 400 if author id is not found", () => {
@@ -133,24 +141,28 @@ describe("POST /api/v1/posts", () => {
       description: "should not work anyway",
     };
 
+    // eslint-disable-next-line no-unused-vars
     postDb.addPost.mockImplementation((newPost, authorId) => {
       const error = new Error("Author id does not exist");
       return Promise.reject(error);
     });
 
-    return getTestToken(server).then((token) => {
-      return request(server)
-        .post("/api/v1/posts")
-        .send(newPost)
-        .set("Authorization", `BEARER ${token}`)
-        .expect(400) // bad request
-        .then((res) => {
-          expect(res.body.errors[0].title).toMatch("Author id does not exist");
-        });
-    });
+    return getTestToken(server)
+      .then((token) => {
+        return request(server)
+          .post("/api/v1/posts")
+          .send(newPost)
+          .set("Authorization", `BEARER ${token}`)
+          .expect(400); // bad request
+      })
+      .then((res) => {
+        expect(res.body.errors[0].title).toMatch("Author id does not exist");
+        return res;
+      });
   });
 
   it("returns a 401 if no auth token is sent", () => {
+    expect.assertions(0);
     const newPost = {
       authorId: 2,
       name: "new unauthenticated post",

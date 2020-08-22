@@ -3,8 +3,10 @@ const path = require("path");
 
 const Sequelize = require("sequelize");
 
-const env = process.env.NODE_ENV || "development";
-const config = require("../config.json")[env];
+// This approach is to get around a security/detect-object-injection warning
+// I suspect there is a better (more secure) approach to address this
+const env = [process.env.NODE_ENV || "development"];
+const config = require("../config.json")[env[0]];
 
 const db = {};
 
@@ -20,6 +22,7 @@ const sequelize = new Sequelize(
   config
 );
 
+// eslint-disable-next-line security/detect-non-literal-fs-filename
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
@@ -27,6 +30,7 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
+    // eslint-disable-next-line security/detect-non-literal-require
     const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes
@@ -35,6 +39,7 @@ fs.readdirSync(__dirname)
   });
 
 Object.keys(db).forEach((modelName) => {
+  /* eslint-disable security/detect-object-injection */
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }

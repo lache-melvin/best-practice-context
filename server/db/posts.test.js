@@ -1,3 +1,6 @@
+// disable false positive warning in eslint-plugin-security
+/* eslint-disable security/detect-non-literal-fs-filename */
+
 const { getPostById, getPosts, addPost } = require("./posts");
 
 const { Post } = require("./models");
@@ -38,7 +41,7 @@ describe("getPosts()", () => {
   it("returns posts", () => {
     Post.findAll.mockImplementation(() => Promise.resolve(mockPosts));
     return getPosts().then((posts) => {
-      expect(posts).toHaveLength(3);
+      return expect(posts).toHaveLength(3);
     });
   });
 });
@@ -52,7 +55,7 @@ describe("getPostById()", () => {
     });
 
     return getPostById(id).then((post) => {
-      expect(post.name).toBe("mocked post 2");
+      return expect(post.name).toBe("mocked post 2");
     });
   });
 
@@ -87,7 +90,7 @@ describe("addPost()", () => {
       expect(post.authorId).toBe(1);
       expect(post.name).toBe("added name");
       expect(post.link).toBe("http://added.link.com");
-      expect(post.description).toBe("added description");
+      return expect(post.description).toBe("added description");
     });
   });
 
@@ -101,7 +104,7 @@ describe("addPost()", () => {
       description: "added description",
     };
 
-    Post.create.mockImplementation((postToAdd) => {
+    Post.create.mockImplementation(() => {
       const errMsg = "Error: SQLITE_CONSTRAINT: FOREIGN KEY constraint failed";
       const error = new Error(errMsg);
       error.name = "SequelizeForeignKeyConstraintError";

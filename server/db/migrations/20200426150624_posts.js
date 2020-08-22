@@ -36,6 +36,6 @@ exports.up = async (queryInterface, Sequelize) => {
   });
 };
 
-exports.down = async (queryInterface, Sequelize) => {
+exports.down = async (queryInterface) => {
   await queryInterface.dropTable("Posts");
 };

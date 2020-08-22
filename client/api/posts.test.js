@@ -1,3 +1,6 @@
+// disable false positive warning in eslint-plugin-security
+/* eslint-disable security/detect-non-literal-fs-filename */
+
 import { makeAddPost, makeGetPosts, makeGetPostById } from "./posts";
 
 import mockPosts from "../testing/mockPosts";
