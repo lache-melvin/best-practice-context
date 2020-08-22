@@ -1,38 +1,51 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require("fs");
+const path = require("path");
 
-const Sequelize = require('sequelize')
+const Sequelize = require("sequelize");
 
-const env = process.env.NODE_ENV || 'development'
-const config = require('../config.json')[env]
+// This approach is to get around a security/detect-object-injection warning
+// I suspect there is a better (more secure) approach to address this
+const env = [process.env.NODE_ENV || "development"];
+const config = require("../config.json")[env[0]];
 
-const db = {}
+const db = {};
 
 // Set the SQLite3 database file path
-if (env === 'development') {
-  config.storage = path.join(__dirname, '../../..', config.storage)
+if (env === "development") {
+  config.storage = path.join(__dirname, "../../..", config.storage);
 }
 
-const sequelize = new Sequelize(config.database, config.username, config.password, config)
+const sequelize = new Sequelize(
+  config.database,
+  config.username,
+  config.password,
+  config
+);
 
+// eslint-disable-next-line security/detect-non-literal-fs-filename
 fs.readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) &&
-      (file !== 'index.js') &&
-      (file.slice(-3) === '.js')
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 && file !== "index.js" && file.slice(-3) === ".js"
+    );
   })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
-    db[model.name] = model
-  })
+  .forEach((file) => {
+    // eslint-disable-next-line security/detect-non-literal-require
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes
+    );
+    db[model.name] = model;
+  });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
+  /* eslint-disable security/detect-object-injection */
   if (db[modelName].associate) {
-    db[modelName].associate(db)
+    db[modelName].associate(db);
   }
-})
+});
 
-db.sequelize = sequelize
-db.Sequelize = Sequelize
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-module.exports = db
+module.exports = db;

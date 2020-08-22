@@ -1,21 +1,21 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { screen } from '@testing-library/react'
-import { renderWithRedux } from '../testing/utils'
+import React from "react";
+import "@testing-library/jest-dom";
+import { screen } from "@testing-library/react";
+import { renderWithRedux } from "../testing/utils";
 
-import PostDetail from './PostDetail'
-import mockPosts from '../testing/mockPosts'
+import PostDetail from "./PostDetail";
+import mockPosts from "../testing/mockPosts";
 
-test('<PostDetail> includes name in <li>', async () => {
+test("<PostDetail> includes name in <li>", async () => {
   const initialState = {
-    posts: mockPosts
-  }
-  const initialEntries = ['/post/2']
-  renderWithRedux(
-    <PostDetail match={{ params: { id: 2 } }}/>,
-    { initialState, initialEntries }
-  )
-  const post = await screen.findByText('mocked post 2')
-  expect(post).toBeInTheDocument()
-  expect(post).toMatchSnapshot()
-})
+    posts: mockPosts,
+  };
+  const initialEntries = ["/post/2"];
+  renderWithRedux(<PostDetail match={{ params: { id: 2 } }} />, {
+    initialState,
+    initialEntries,
+  });
+  const post = await screen.findByText("mocked post 2");
+  expect(post).toBeInTheDocument();
+  expect(post).toMatchSnapshot();
+});

@@ -1,68 +1,70 @@
-const express = require('express')
-const { getTokenDecoder } = require('authenticare/server')
+const express = require("express");
+const { getTokenDecoder } = require("authenticare/server");
 
-const { getPosts, getPostById, addPost } = require('../db/posts')
+const { getPosts, getPostById, addPost } = require("../db/posts");
 
-const router = express.Router()
+const router = express.Router();
 
-module.exports = router
+module.exports = router;
 
 // GET /api/v1/posts
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   getPosts()
-    .then(posts => {
-      res.json(posts)
+    .then((posts) => {
+      return res.json(posts);
     })
-    .catch(err => {
+    .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(err)
-      res.sendStatus(500)
-    })
-})
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
 
 // GET /api/v1/posts/3
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
   getPostById(Number(req.params.id))
-    .then(post => {
+    .then((post) => {
       if (!post) {
         return res.status(404).json({
-          errors: [{ title: 'Post id not found' }]
-        })
+          errors: [{ title: "Post id not found" }],
+        });
       }
-      res.json(post)
+      return res.json(post);
     })
-    .catch(err => {
+    .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(err)
-      res.sendStatus(500)
-    })
-})
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
 
 // POST /api/v1/posts
-router.post('/', getTokenDecoder(), (req, res) => {
-  const { name, link, description } = req.body
-  const newPost = { name, link, description }
+router.post("/", getTokenDecoder(), (req, res) => {
+  const { name, link, description } = req.body;
+  const newPost = { name, link, description };
 
   // TODO: This is a hack to create consistency between runtime
   // behaviour and the unit test runs. This needs investigation.
-  const { id, dataValues } = req.user
-  const authorId = id || dataValues.id
+  const { id, dataValues } = req.user;
+  const authorId = id || dataValues.id;
 
   addPost(newPost, authorId)
-    .then(post => {
-      res.json(post)
+    .then((post) => {
+      return res.json(post);
     })
-    .catch(err => {
+    .catch((err) => {
       // TODO: Add proper logging infrastructure
       // console.error(err) // to keep the test run clean
-      const unknownAuthorId = 'Author id does not exist'
+      const unknownAuthorId = "Author id does not exist";
       if (err.message === unknownAuthorId) {
         return res.status(400).json({
-          errors: [{
-            title: unknownAuthorId
-          }]
-        })
+          errors: [
+            {
+              title: unknownAuthorId,
+            },
+          ],
+        });
       }
-      res.sendStatus(500)
-    })
-})
+      res.sendStatus(500);
+    });
+});

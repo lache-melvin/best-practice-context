@@ -1,12 +1,12 @@
-import { SIGN_IN } from '../actions/auth'
+import { SIGN_IN } from "../actions/auth";
 
-function userReducer (state = {}, action) {
+function userReducer(state = {}, action) {
   switch (action.type) {
     case SIGN_IN:
-      return action.user
+      return action.user;
     default:
-      return state
+      return state;
   }
 }
 
-export default userReducer
+export default userReducer;

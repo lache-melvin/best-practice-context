@@ -1,61 +1,70 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { register, isAuthenticated } from 'authenticare/client'
+import React from "react";
+import { connect } from "react-redux";
+import { register, isAuthenticated } from "authenticare/client";
 
-import { signedIn } from '../actions/auth'
+import { signedIn } from "../actions/auth";
 
-import config from '../config'
+import config from "../config";
 
 class Register extends React.Component {
   state = {
-    username: '',
-    password: ''
-  }
+    username: "",
+    password: "",
+  };
 
-  handleChange = e => {
-    const {name, value} = e.target
+  handleChange = (e) => {
+    const { name, value } = e.target;
     this.setState({
       ...this.state,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   handleClick = () => {
-    const {username, password} = this.state
-    register({ username, password }, {
-      baseUrl: config.baseApiUrl
-    })
-      .then(token => {
-        if (isAuthenticated()) {
-          this.props.signedIn(token)
-          props.history.push('/')
-        }
-      })
-  }
+    const { username, password } = this.state;
+    register(
+      { username, password },
+      {
+        baseUrl: config.baseApiUrl,
+      }
+    ).then((token) => {
+      if (isAuthenticated()) {
+        this.props.signedIn(token);
+        props.history.push("/");
+      }
+    });
+  };
 
-  render () {
-    const {username, password} = this.state
+  render() {
+    const { username, password } = this.state;
     return (
       <>
         <h2>Register</h2>
         <div>
           <div>Username:</div>
-          <input name='username'
+          <input
+            name="username"
             value={username}
-            onChange={this.handleChange} />
+            onChange={this.handleChange}
+          />
 
           <div>Password:</div>
-          <input name='password' type='password'
+          <input
+            name="password"
+            type="password"
             value={password}
-            onChange={this.handleChange} />
+            onChange={this.handleChange}
+          />
 
-          <button type='button' onClick={this.handleClick}>Register</button>
+          <button type="button" onClick={this.handleClick}>
+            Register
+          </button>
         </div>
       </>
-    )
+    );
   }
 }
 
-const mapDispatchToProps = { signedIn }
+const mapDispatchToProps = { signedIn };
 
-export default connect(null, mapDispatchToProps)(Register)
+export default connect(null, mapDispatchToProps)(Register);

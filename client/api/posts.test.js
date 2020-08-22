@@ -1,55 +1,54 @@
-import {
-  makeAddPost,
-  makeGetPosts,
-  makeGetPostById
-} from './posts'
+// disable false positive warning in eslint-plugin-security
+/* eslint-disable security/detect-non-literal-fs-filename */
 
-import mockPosts from '../testing/mockPosts'
+import { makeAddPost, makeGetPosts, makeGetPostById } from "./posts";
 
-test('getPosts returns the correct body', async () => {
-  const consume = jest.fn(() => Promise.resolve(mockPosts))
-  const getPosts = makeGetPosts(consume)
+import mockPosts from "../testing/mockPosts";
 
-  const posts = await getPosts()
+test("getPosts returns the correct body", async () => {
+  const consume = jest.fn(() => Promise.resolve(mockPosts));
+  const getPosts = makeGetPosts(consume);
 
-  expect(posts).toHaveLength(3)
-})
+  const posts = await getPosts();
 
-test('getPostById returns the correct body', async () => {
-  const consume = jest.fn(() => Promise.resolve(mockPosts[1]))
-  const getPostById = makeGetPostById(consume)
+  expect(posts).toHaveLength(3);
+});
 
-  const post = await getPostById(2)
+test("getPostById returns the correct body", async () => {
+  const consume = jest.fn(() => Promise.resolve(mockPosts[1]));
+  const getPostById = makeGetPostById(consume);
 
-  expect(post.id).toBe(2)
-  expect(post.name).toBe('mocked post 2')
-  expect(post.link).toBe('https://mocked.link.com/2')
-  expect(post.description).toBe('mocked description 2')
-})
+  const post = await getPostById(2);
 
-test('addPost returns the post with its new id', async () => {
-  function mockConsume (url, options) {
-    expect(url).toBe('/posts')
-    expect(options.method).toBe('post')
-    return Promise.resolve({ id: 4, ...options.data })
+  expect(post.id).toBe(2);
+  expect(post.name).toBe("mocked post 2");
+  expect(post.link).toBe("https://mocked.link.com/2");
+  expect(post.description).toBe("mocked description 2");
+});
+
+test("addPost returns the post with its new id", async () => {
+  function mockConsume(url, options) {
+    expect(url).toBe("/posts");
+    expect(options.method).toBe("post");
+    return Promise.resolve({ id: 4, ...options.data });
   }
 
-  const consume = jest.fn(mockConsume)
-  const getAuthHeader = jest.fn(() => ({ Authorization: 'test_auth_token' }))
-  const addPost = makeAddPost(consume, getAuthHeader)
-  const now = new Date()
+  const consume = jest.fn(mockConsume);
+  const getAuthHeader = jest.fn(() => ({ Authorization: "test_auth_token" }));
+  const addPost = makeAddPost(consume, getAuthHeader);
+  const now = new Date();
   const post = {
-    name: 'mocked post 4',
-    link: 'https://mocked.link.com/4',
-    description: 'mocked description 4',
+    name: "mocked post 4",
+    link: "https://mocked.link.com/4",
+    description: "mocked description 4",
     created: now.setDate(now.getDate() - 2),
-    updated: now.setDate(now.getDate() - 2)
-  }
+    updated: now.setDate(now.getDate() - 2),
+  };
 
-  const addedPost = await addPost(post)
+  const addedPost = await addPost(post);
 
-  expect(addedPost.id).toBe(4)
-  expect(addedPost.name).toBe('mocked post 4')
-  expect(addedPost.link).toBe('https://mocked.link.com/4')
-  expect(getAuthHeader.mock.calls).toHaveLength(1)
-})
+  expect(addedPost.id).toBe(4);
+  expect(addedPost.name).toBe("mocked post 4");
+  expect(addedPost.link).toBe("https://mocked.link.com/4");
+  expect(getAuthHeader.mock.calls).toHaveLength(1);
+});
