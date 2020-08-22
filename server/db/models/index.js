@@ -6,7 +6,7 @@ const Sequelize = require("sequelize");
 // This approach is to get around a security/detect-object-injection warning
 // I suspect there is a better (more secure) approach to address this
 const env = [process.env.NODE_ENV || "development"];
-const config = require("../config.json")[env[0]];
+const config = require("../config.js")[env[0]];
 
 const db = {};
 
