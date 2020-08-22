@@ -5,7 +5,7 @@
   "author": "Enspiral Dev Academy (EDA)",
   "main": "index.js",
   "scripts": {
-    "lint:frontend": "eslint ./client",
+    "lint:frontend": "eslint --ext .js,.jsx ./client",
     "lint:backend": "eslint ./server",
     "lint": "run-s lint:frontend lint:backend",
     "build": "build-frontend",
@@ -17,10 +17,9 @@
     "db:rollback": "rollback-backend-db",
     "test:backend": "test-backend",
     "test:frontend": "test-frontend",
-    "test": "run-p test:frontend test:backend",
+    "test": "run-s test:frontend test:backend",
     "watch:backend:tests": "watch-backend-tests",
     "watch:frontend:tests": "watch-frontend-tests",
-    "test:watch": "run-p watch:frontend:tests watch:backend:tests",
     "precommit": "npm run lint"
   },
   "keywords": [
