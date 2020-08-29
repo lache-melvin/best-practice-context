@@ -29,7 +29,7 @@ export function makeAddEntry(consume, getAuthHeader) {
     const bearerToken = authHeader && authHeader.Authorization;
     const config = {
       data: entry,
-      method: "entry",
+      method: "post",
       token: bearerToken || "",
     };
 

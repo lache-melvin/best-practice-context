@@ -29,7 +29,7 @@ test("getEntryById returns the correct body", async () => {
 test("addEntry returns the entry with its new id", async () => {
   function mockConsume(url, options) {
     expect(url).toBe("/entries");
-    expect(options.method).toBe("entry");
+    expect(options.method).toBe("post");
     return Promise.resolve({ id: 4, ...options.data });
   }
 

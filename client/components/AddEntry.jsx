@@ -32,7 +32,7 @@ function AddEntry(props) {
   const { name, link, description } = formData;
   return (
     <div data-testid="addentry">
-      <h2>Add New Post</h2>
+      <h2>Add New Entry</h2>
       <IfAuthenticated>
         <div>
           <div>Name:</div>
