@@ -3,9 +3,9 @@ import { Route, Redirect } from "react-router-dom";
 import { isAuthenticated } from "authenticare/client";
 
 import Nav from "./Nav";
-import Posts from "./Posts";
-import AddPost from "./AddPost";
-import PostDetail from "./PostDetail";
+import Entries from "./Entries";
+import AddEntry from "./AddEntry";
+import EntryDetail from "./EntryDetail";
 import Register from "./Register";
 import SignIn from "./SignIn";
 
@@ -14,8 +14,8 @@ function App() {
     <>
       <Route path="/" component={Nav} />
       <h1>Best Practice</h1>
-      <Route exact path="/" component={Posts} />
-      <Route path="/add" component={AddPost} />
+      <Route exact path="/" component={Entries} />
+      <Route path="/add" component={AddEntry} />
       <Route
         path="/signin"
         render={({ history }) => {
@@ -36,7 +36,7 @@ function App() {
           );
         }}
       />
-      <Route path="/post/:id" component={PostDetail} />
+      <Route path="/entry/:id" component={EntryDetail} />
     </>
   );
 }

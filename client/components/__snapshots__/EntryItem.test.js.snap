@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EntryItem> includes name in <li> 1`] = `
+<a
+  href="/entry/1"
+>
+  mocked entry 1
+</a>
+`;

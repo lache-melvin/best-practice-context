@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<PostDetail> includes name in <li> 1`] = `
-<h2>
-  mocked post 2
-</h2>
-`;

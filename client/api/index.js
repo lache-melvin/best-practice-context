@@ -1,13 +1,13 @@
 import axios from "axios";
 import { getAuthorizationHeader } from "authenticare/client";
 
-import { makeGetPosts, makeGetPostById, makeAddPost } from "./posts";
+import { makeGetEntries, makeGetEntryById, makeAddEntry } from "./entries";
 
 const baseUrl = "/api/v1";
 
-export const getPosts = makeGetPosts(consume);
-export const getPostById = makeGetPostById(consume);
-export const addPost = makeAddPost(consume, getAuthorizationHeader);
+export const getEntries = makeGetEntries(consume);
+export const getEntryById = makeGetEntryById(consume);
+export const addEntry = makeAddEntry(consume, getAuthorizationHeader);
 
 function consume(url, config = {}) {
   const request = {
