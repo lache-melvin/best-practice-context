@@ -1,14 +1,14 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {
+  class Entry extends Model {
     static associate(models) {
-      const { Post, User } = models;
-      Post.belongsTo(User, { as: "author" });
+      const { Entry, User } = models;
+      Entry.belongsTo(User, { as: "author" });
     }
   }
 
-  Post.init(
+  Entry.init(
     {
       name: DataTypes.STRING,
       link: DataTypes.STRING,
@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Post",
+      modelName: "Entry",
     }
   );
 
-  return Post;
+  return Entry;
 };
