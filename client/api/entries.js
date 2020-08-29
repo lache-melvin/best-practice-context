@@ -1,41 +1,41 @@
 // TODO: Make error logging more robust
 // Perhaps by passing a logger into each of these functions
 
-export function makeGetPosts(consume) {
+export function makeGetEntries(consume) {
   return async function () {
     try {
-      const posts = await consume("/posts");
-      return posts;
+      const entries = await consume("/entries");
+      return entries;
     } catch (err) {
       console.error(err);
     }
   };
 }
 
-export function makeGetPostById(consume) {
+export function makeGetEntryById(consume) {
   return async function (id) {
     try {
-      const post = await consume(`/posts/${id}`);
-      return post;
+      const entry = await consume(`/entries/${id}`);
+      return entry;
     } catch (err) {
       console.error(err);
     }
   };
 }
 
-export function makeAddPost(consume, getAuthHeader) {
-  return async function (post) {
+export function makeAddEntry(consume, getAuthHeader) {
+  return async function (entry) {
     const authHeader = getAuthHeader();
     const bearerToken = authHeader && authHeader.Authorization;
     const config = {
-      data: post,
-      method: "post",
+      data: entry,
+      method: "entry",
       token: bearerToken || "",
     };
 
     try {
-      const newPost = await consume("/posts", config);
-      return newPost;
+      const newEntry = await consume("/entries", config);
+      return newEntry;
     } catch (err) {
       console.error(err);
     }

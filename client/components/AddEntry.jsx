@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { savePost } from "../actions/posts";
+import { saveEntry } from "../actions/entries";
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 
-function AddPost(props) {
+function AddEntry(props) {
   const [formData, setFormData] = useState({
     name: "",
     link: "",
@@ -19,19 +19,19 @@ function AddPost(props) {
 
   const handleAdd = () => {
     return props
-      .savePost({
+      .saveEntry({
         authorId: props.userId,
         ...formData,
       })
       .then((saved) => {
-        props.history.push(`/post/${saved.id}`);
+        props.history.push(`/entry/${saved.id}`);
         return null;
       });
   };
 
   const { name, link, description } = formData;
   return (
-    <div data-testid="addpost">
+    <div data-testid="addentry">
       <h2>Add New Post</h2>
       <IfAuthenticated>
         <div>
@@ -51,14 +51,14 @@ function AddPost(props) {
 
           <div>
             <button type="button" onClick={handleAdd}>
-              Add this post
+              Add this entry
             </button>
           </div>
         </div>
       </IfAuthenticated>
       <IfNotAuthenticated>
         <div>
-          You must <Link to="/signin">sign in</Link> to add new posts.
+          You must <Link to="/signin">sign in</Link> to add new entries.
         </div>
       </IfNotAuthenticated>
     </div>
@@ -69,6 +69,6 @@ function mapStateToProps(state) {
   return { userId: state.user.id };
 }
 
-const mapDispatchToProps = { savePost };
+const mapDispatchToProps = { saveEntry };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddPost);
+export default connect(mapStateToProps, mapDispatchToProps)(AddEntry);

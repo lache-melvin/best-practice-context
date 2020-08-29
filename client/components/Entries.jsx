@@ -2,29 +2,28 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import PostItem from "./PostItem";
-import { fetchPosts } from "../actions/posts";
+import EntryItem from "./EntryItem";
+import { fetchEntries } from "../actions/entries";
 import { IfAuthenticated } from "./Authenticated";
 
-function Posts(props) {
+function Entries(props) {
   // useEffect will perpetually fetch and rerender
   // unless it can monitor state here...
-  const [postData] = useState([]);
+  const [entryData] = useState([]);
   useEffect(() => {
-    props.fetchPosts();
-  }, [postData]);
+    props.fetchEntries();
+  }, [entryData]);
 
-  const { posts } = props;
-
+  const { entries } = props;
   return (
     <>
-      <h2>Posts</h2>
+      <h2>Entries</h2>
       <IfAuthenticated>
-        <Link to="/add">Add a post</Link>
+        <Link to="/add">Add a entry</Link>
       </IfAuthenticated>
       <ul>
-        {posts.map((post) => (
-          <PostItem key={post.id} post={post} />
+        {entries.map((entry) => (
+          <EntryItem key={entry.id} entry={entry} />
         ))}
       </ul>
     </>
@@ -33,12 +32,12 @@ function Posts(props) {
 
 function mapStateToProps(state) {
   return {
-    posts: state.posts,
+    entries: state.entries,
   };
 }
 
 const mapDispatchToProps = {
-  fetchPosts,
+  fetchEntries,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+export default connect(mapStateToProps, mapDispatchToProps)(Entries);
