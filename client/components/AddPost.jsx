@@ -1,72 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { savePost } from "../actions/posts";
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 
-class AddPost extends React.Component {
-  state = {
+function AddPost(props) {
+  const [formData, setFormData] = useState({
     name: "",
     link: "",
     description: "",
-  };
+  });
 
-  handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
-  handleAdd = () => {
-    return this.props
+  const handleAdd = () => {
+    return props
       .savePost({
-        authorId: this.props.userId,
-        ...this.state,
+        authorId: props.userId,
+        ...formData,
       })
       .then((saved) => {
-        this.props.history.push(`/post/${saved.id}`);
+        props.history.push(`/post/${saved.id}`);
         return null;
       });
   };
 
-  render() {
-    const { name, link, description } = this.state;
-    return (
-      <div data-testid="addpost">
-        <h2>Add New Post</h2>
-        <IfAuthenticated>
+  const { name, link, description } = formData;
+  return (
+    <div data-testid="addpost">
+      <h2>Add New Post</h2>
+      <IfAuthenticated>
+        <div>
+          <div>Name:</div>
+          <input name="name" value={name} onChange={handleChange} />
+
+          <div>Link:</div>
+          <input name="link" value={link} onChange={handleChange} />
+
+          <div>Description:</div>
+          <textarea
+            name="description"
+            value={description}
+            onChange={handleChange}
+            cols="26"
+          />
+
           <div>
-            <div>Name:</div>
-            <input name="name" value={name} onChange={this.handleChange} />
-
-            <div>Link:</div>
-            <input name="link" value={link} onChange={this.handleChange} />
-
-            <div>Description:</div>
-            <textarea
-              name="description"
-              value={description}
-              onChange={this.handleChange}
-              cols="26"
-            />
-
-            <div>
-              <button type="button" onClick={this.handleAdd}>
-                Add this post
-              </button>
-            </div>
+            <button type="button" onClick={handleAdd}>
+              Add this post
+            </button>
           </div>
-        </IfAuthenticated>
-        <IfNotAuthenticated>
-          <div>
-            You must <Link to="/signin">sign in</Link> to add new posts.
-          </div>
-        </IfNotAuthenticated>
-      </div>
-    );
-  }
+        </div>
+      </IfAuthenticated>
+      <IfNotAuthenticated>
+        <div>
+          You must <Link to="/signin">sign in</Link> to add new posts.
+        </div>
+      </IfNotAuthenticated>
+    </div>
+  );
 }
 
 function mapStateToProps(state) {

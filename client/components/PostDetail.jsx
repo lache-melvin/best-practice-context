@@ -1,26 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import { fetchPostById } from "../actions/posts";
 
-class PostDetail extends React.Component {
-  componentDidMount() {
-    const { post, match, fetchPostById } = this.props;
+function PostDetail(props) {
+  useEffect(() => {
+    const { post, match, fetchPostById } = props;
     if (!post && match && match.params) {
       fetchPostById(Number(match.params.id));
     }
-  }
+  });
 
-  render() {
-    const { post = {} } = this.props;
-    return (
-      <div data-testid="post">
-        <h2>{post.name}</h2>
-        <a href={post.link}>{post.link}</a>
-        <p>{post.description}</p>
-      </div>
-    );
-  }
+  const { post = {} } = props;
+  return (
+    <div data-testid="post">
+      <h2>{post.name}</h2>
+      <a href={post.link}>{post.link}</a>
+      <p>{post.description}</p>
+    </div>
+  );
 }
 
 function mapStateToProps(state, ownProps) {
