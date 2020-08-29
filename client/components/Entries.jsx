@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -7,12 +7,9 @@ import { fetchEntries } from "../actions/entries";
 import { IfAuthenticated } from "./Authenticated";
 
 function Entries(props) {
-  // useEffect will perpetually fetch and rerender
-  // unless it can monitor state here...
-  const [entryData] = useState([]);
   useEffect(() => {
     props.fetchEntries();
-  }, [entryData]);
+  }, []);
 
   const { entries } = props;
   return (
