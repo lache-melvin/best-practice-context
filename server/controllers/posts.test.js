@@ -78,7 +78,7 @@ xdescribe("GET /api/v1/posts/2", () => {
   });
 });
 
-xdescribe("POST /api/v1/posts", () => {
+xdescribe("ENTRY /api/v1/posts", () => {
   it("adds and returns a post", () => {
     const newPost = {
       name: "new test post",

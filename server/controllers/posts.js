@@ -40,7 +40,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// POST /api/v1/posts
+// ENTRY /api/v1/posts
 router.post("/", getTokenDecoder(), (req, res) => {
   const { name, link, description } = req.body;
   const newPost = { name, link, description };

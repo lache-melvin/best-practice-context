@@ -2,10 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { savePost } from "../actions/posts";
+import { saveEntry } from "../actions/entries";
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 
-class AddPost extends React.Component {
+class AddEntry extends React.Component {
   state = {
     name: "",
     link: "",
@@ -21,12 +21,12 @@ class AddPost extends React.Component {
 
   handleAdd = () => {
     return this.props
-      .savePost({
+      .saveEntry({
         authorId: this.props.userId,
         ...this.state,
       })
       .then((saved) => {
-        this.props.history.push(`/post/${saved.id}`);
+        this.props.history.push(`/entry/${saved.id}`);
         return null;
       });
   };
@@ -34,8 +34,8 @@ class AddPost extends React.Component {
   render() {
     const { name, link, description } = this.state;
     return (
-      <div data-testid="addpost">
-        <h2>Add New Post</h2>
+      <div data-testid="addentry">
+        <h2>Add New Entry</h2>
         <IfAuthenticated>
           <div>
             <div>Name:</div>
@@ -54,14 +54,14 @@ class AddPost extends React.Component {
 
             <div>
               <button type="button" onClick={this.handleAdd}>
-                Add this post
+                Add this entry
               </button>
             </div>
           </div>
         </IfAuthenticated>
         <IfNotAuthenticated>
           <div>
-            You must <Link to="/signin">sign in</Link> to add new posts.
+            You must <Link to="/signin">sign in</Link> to add new entries.
           </div>
         </IfNotAuthenticated>
       </div>
@@ -73,6 +73,6 @@ function mapStateToProps(state) {
   return { userId: state.user.id };
 }
 
-const mapDispatchToProps = { savePost };
+const mapDispatchToProps = { saveEntry };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddPost);
+export default connect(mapStateToProps, mapDispatchToProps)(AddEntry);

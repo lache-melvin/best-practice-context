@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<AddPost> includes name in <li> 1`] = `
+exports[`<AddEntry> includes name in <li> 1`] = `
 <div
-  data-testid="addpost"
+  data-testid="addentry"
 >
   <h2>
-    Add New Post
+    Add New Entry
   </h2>
   <div>
     You must 
@@ -14,7 +14,7 @@ exports[`<AddPost> includes name in <li> 1`] = `
     >
       sign in
     </a>
-     to add new posts.
+     to add new entries.
   </div>
 </div>
 `;

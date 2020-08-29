@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 
-import posts from "./posts";
-import post from "./post";
+import entries from "./entries";
+import entry from "./entry";
 import user from "./user";
 
 export default combineReducers({
-  posts,
-  post,
+  entries,
+  entry,
   user,
 });
