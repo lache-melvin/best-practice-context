@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import withUserContext from "./UserContextWrapper";
+import { withUserContext } from "../context";
 
 function Register({ registerUser }) {
   const [userData, setUserData] = useState({

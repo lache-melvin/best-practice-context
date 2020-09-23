@@ -1,34 +1,33 @@
 import React from "react";
 
-import { useUserContext } from ".";
-import { registerUser, signInUser } from "../coordinators";
+function makeUserContextWrapper(registerUser, signInUser, useUserContext) {
+  return function withUserContext(Component) {
+    return function UserContextWrapper(props) {
+      const { applyUser, user } = useUserContext();
 
-function withUserContext(Component) {
-  return function UserContextWrapper(props) {
-    const { applyUser, user } = useUserContext();
+      const register = (credentials) => {
+        registerUser(credentials, props.history, applyUser);
+      };
 
-    const register = (credentials) => {
-      registerUser(credentials, props.history, applyUser);
+      const signIn = (credentials) => {
+        signInUser(credentials, props.history, applyUser);
+      };
+
+      const setUser = (token) => {
+        applyUser(token);
+      };
+
+      return (
+        <Component
+          user={user}
+          registerUser={register}
+          signInUser={signIn}
+          setUser={setUser}
+          {...props}
+        />
+      );
     };
-
-    const signIn = (credentials) => {
-      signInUser(credentials, props.history, applyUser);
-    };
-
-    const setUser = (token) => {
-      applyUser(token);
-    };
-
-    return (
-      <Component
-        user={user}
-        registerUser={register}
-        signInUser={signIn}
-        setUser={setUser}
-        {...props}
-      />
-    );
   };
 }
 
-export default withUserContext;
+export default makeUserContextWrapper;

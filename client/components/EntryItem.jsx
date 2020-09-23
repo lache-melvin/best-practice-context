@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import withEntryContext from "./EntryContextWrapper";
+import { withEntryContext } from "../context";
 
 const EntryItem = ({ selectEntry, entryData }) => {
   return (

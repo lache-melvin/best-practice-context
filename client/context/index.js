@@ -1,12 +1,24 @@
 import React from "react";
 
-import { EntriesContextProvider } from "./EntriesContext";
-import { EntryContextProvider } from "./EntryContext";
-import { UserContextProvider } from "./UserContext";
+import {
+  retrieveEntries,
+  retrieveEntryById,
+  submitEntry,
+  registerUser,
+  signInUser,
+} from "../coordinators";
+
+import { EntriesContextProvider } from "./entriesContext";
+import { EntryContextProvider } from "./entryContext";
+import { UserContextProvider } from "./userContext";
 
 import useEntriesContext from "./useEntriesContext";
 import useEntryContext from "./useEntryContext";
 import useUserContext from "./useUserContext";
+
+import makeEntriesContextWrapper from "./entriesContextWrapper";
+import makeEntryContextWrapper from "./entryContextWrapper";
+import makeUserContextWrapper from "./userContextWrapper";
 
 export const ContextProvider = ({ children }) => {
   return (
@@ -18,4 +30,17 @@ export const ContextProvider = ({ children }) => {
   );
 };
 
-export { useUserContext, useEntryContext, useEntriesContext };
+export const withEntriesContext = makeEntriesContextWrapper(
+  retrieveEntries,
+  useEntriesContext
+);
+export const withEntryContext = makeEntryContextWrapper(
+  retrieveEntryById,
+  submitEntry,
+  useEntryContext
+);
+export const withUserContext = makeUserContextWrapper(
+  registerUser,
+  signInUser,
+  useUserContext
+);

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 
-import withEntriesContext from "./EntriesContextWrapper";
-import withEntryContext from "./EntryContextWrapper";
+import { withEntriesContext, withEntryContext } from "../context";
 
 function EntryDetail({ entries, entry, retrieveEntryById, match }) {
   const id = Number(match?.params?.id) || null;

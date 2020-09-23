@@ -1,20 +1,19 @@
 import React from "react";
 
-import { useEntriesContext } from ".";
-import { retrieveEntries } from "../coordinators";
+function makeEntriesContextWrapper(retrieveEntries, useEntriesContext) {
+  return function withEntriesContext(Component) {
+    return function EntriesContextWrapper(props) {
+      const { applyEntries, entries } = useEntriesContext();
 
-function withEntriesContext(Component) {
-  return function EntriesContextWrapper(props) {
-    const { applyEntries, entries } = useEntriesContext();
+      const retrieve = () => {
+        retrieveEntries(applyEntries);
+      };
 
-    const retrieve = () => {
-      retrieveEntries(applyEntries);
+      return (
+        <Component entries={entries} retrieveEntries={retrieve} {...props} />
+      );
     };
-
-    return (
-      <Component entries={entries} retrieveEntries={retrieve} {...props} />
-    );
   };
 }
 
-export default withEntriesContext;
+export default makeEntriesContextWrapper;

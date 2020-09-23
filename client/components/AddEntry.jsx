@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import withEntryContext from "./EntryContextWrapper";
-import withUserContext from "./UserContextWrapper";
+import { withEntryContext, withUserContext } from "../context";
 
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 

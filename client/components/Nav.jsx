@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getDecodedToken, logOff } from "authenticare/client";
 
-import withUserContext from "./UserContextWrapper";
+import { withUserContext } from "../context";
 
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 

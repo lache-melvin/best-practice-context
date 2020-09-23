@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import withEntriesContext from "./EntriesContextWrapper";
-
 import EntryItem from "./EntryItem";
 import { IfAuthenticated } from "./Authenticated";
 
-const Entries = ({ entries, retrieveEntries }) => {
+import { withEntriesContext } from "../context";
+
+export const Entries = ({ entries, retrieveEntries }) => {
   useEffect(retrieveEntries, []);
   return (
     <>
