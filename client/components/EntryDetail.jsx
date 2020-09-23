@@ -1,21 +1,17 @@
 import React, { useEffect } from "react";
 
-import { useEntriesContext, useEntryContext } from "../context";
+import withEntriesContext from "./EntriesContextWrapper";
+import withEntryContext from "./EntryContextWrapper";
 
-import { retrieveEntryById } from "../coordinators";
-
-function EntryDetail(props) {
-  const { entries } = useEntriesContext();
-  const { applyEntry, entry } = useEntryContext();
-
-  const id = Number(props.match?.params?.id) || null;
+function EntryDetail({ entries, entry, retrieveEntryById, match }) {
+  const id = Number(match?.params?.id) || null;
 
   const entryFromState =
     entry && entry.id === id ? entry : entries.find((entry) => entry.id === id);
 
   useEffect(() => {
     if (!entryFromState && id) {
-      retrieveEntryById(id, applyEntry);
+      retrieveEntryById(id);
     }
   }, []);
 
@@ -30,4 +26,4 @@ function EntryDetail(props) {
   );
 }
 
-export default EntryDetail;
+export default withEntriesContext(withEntryContext(EntryDetail));

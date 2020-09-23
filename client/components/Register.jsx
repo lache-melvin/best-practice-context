@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 
-import { useUserContext } from "../context";
+import withUserContext from "./UserContextWrapper";
 
-import { registerUser } from "../coordinators";
-
-function Register(props) {
-  const { applyUser } = useUserContext();
-
+function Register({ registerUser }) {
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -18,7 +14,7 @@ function Register(props) {
   };
 
   const handleClick = () => {
-    registerUser(userData, props.history, applyUser);
+    registerUser(userData);
   };
 
   const { username, password } = userData;
@@ -45,4 +41,4 @@ function Register(props) {
   );
 }
 
-export default Register;
+export default withUserContext(Register);

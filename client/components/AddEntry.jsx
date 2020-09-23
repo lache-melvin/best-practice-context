@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { submitEntry } from "../coordinators";
+import withEntryContext from "./EntryContextWrapper";
+import withUserContext from "./UserContextWrapper";
 
-import { useEntryContext, useUserContext } from "../context";
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 
-function AddEntry(props) {
-  const { applyEntry } = useEntryContext();
-  const { user } = useUserContext();
-
+function AddEntry({ user, submitEntry }) {
   const [formData, setFormData] = useState({
     name: "",
     link: "",
@@ -23,7 +20,7 @@ function AddEntry(props) {
 
   const handleAdd = () => {
     const authorId = user.id;
-    submitEntry(authorId, formData, props.history, applyEntry);
+    submitEntry(authorId, formData);
   };
 
   const { name, link, description } = formData;
@@ -62,4 +59,4 @@ function AddEntry(props) {
   );
 }
 
-export default AddEntry;
+export default withEntryContext(withUserContext(AddEntry));

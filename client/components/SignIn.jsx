@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 
-import { useUserContext } from "../context";
+import withUserContext from "./UserContextWrapper";
 
-import { signInUser } from "../coordinators";
-
-function SignIn(props) {
-  const { applyUser } = useUserContext();
-
+function SignIn({ signInUser }) {
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -18,7 +14,7 @@ function SignIn(props) {
   };
 
   const handleClick = () => {
-    signInUser(userData, props.history, applyUser);
+    signInUser(userData);
   };
 
   const { username, password } = userData;
@@ -45,5 +41,4 @@ function SignIn(props) {
   );
 }
 
-
-export default SignIn;
+export default withUserContext(SignIn);

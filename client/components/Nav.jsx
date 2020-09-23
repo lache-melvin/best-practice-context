@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getDecodedToken, logOff } from "authenticare/client";
 
-import { useUserContext } from "../context";
+import withUserContext from "./UserContextWrapper";
 
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 
@@ -14,11 +14,10 @@ const linkStyle = {
   marginRight: "30px",
 };
 
-function Nav() {
-  const { applyUser } = useUserContext();
+function Nav({ setUser }) {
   useEffect(() => {
     const token = getDecodedToken();
-    if (token) applyUser(token);
+    if (token) setUser(token);
   }, []);
 
   return (
@@ -45,4 +44,4 @@ function Nav() {
   );
 }
 
-export default Nav;
+export default withUserContext(Nav);

@@ -6,9 +6,8 @@ import withEntriesContext from "./EntriesContextWrapper";
 import EntryItem from "./EntryItem";
 import { IfAuthenticated } from "./Authenticated";
 
-const Entries = (props) => {
-  useEffect(props.retrieveEntries, []);
-
+const Entries = ({ entries, retrieveEntries }) => {
+  useEffect(retrieveEntries, []);
   return (
     <>
       <h2>Entries</h2>
@@ -16,8 +15,8 @@ const Entries = (props) => {
         <Link to="/add">Add a entry</Link>
       </IfAuthenticated>
       <ul>
-        {props.entries.map((entry) => (
-          <EntryItem key={entry.id} entry={entry} />
+        {entries.map((entry) => (
+          <EntryItem key={entry.id} entryData={entry} />
         ))}
       </ul>
     </>
