@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import EntryItem from "./EntryItem";
-import { fetchEntries } from "../actions/entries";
 import { IfAuthenticated } from "./Authenticated";
 
-function Entries(props) {
+const Entries = () => {
+  const { receiveEntries, entriesState } = useEntriesContext();
+
   useEffect(() => {
     props.fetchEntries();
   }, []);
@@ -25,16 +26,6 @@ function Entries(props) {
       </ul>
     </>
   );
-}
-
-function mapStateToProps(state) {
-  return {
-    entries: state.entries,
-  };
-}
-
-const mapDispatchToProps = {
-  fetchEntries,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Entries);
+export default Entries;

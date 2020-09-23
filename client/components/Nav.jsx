@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getDecodedToken, logOff } from "authenticare/client";
 
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
-import { signedIn } from "../actions/auth";
 
 const groupStyle = {
   float: "right",
@@ -44,6 +42,4 @@ function Nav(props) {
   );
 }
 
-const mapDispatchToProps = { signedIn };
-
-export default connect(null, mapDispatchToProps)(Nav);
+export default Nav;

@@ -21,15 +21,4 @@ function EntryDetail(props) {
   );
 }
 
-function mapStateToProps(state, ownProps) {
-  const id = Number(ownProps.match.params.id);
-  const fromState = state.entry && state.entry.id === id ? state.entry : null;
-  const fromList = state.entries.find((entry) => entry.id === id);
-  return {
-    entry: fromState || fromList,
-  };
-}
-
-const mapDispatchToProps = { fetchEntryById };
-
-export default connect(mapStateToProps, mapDispatchToProps)(EntryDetail);
+export default EntryDetail;

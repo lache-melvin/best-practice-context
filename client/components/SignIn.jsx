@@ -54,6 +54,5 @@ function SignIn(props) {
   );
 }
 
-const mapDispatchToProps = { signedIn };
 
-export default connect(null, mapDispatchToProps)(SignIn);
+export default SignIn;

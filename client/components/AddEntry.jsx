@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { saveEntry } from "../actions/entries";
@@ -65,10 +64,4 @@ function AddEntry(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return { userId: state.user.id };
-}
-
-const mapDispatchToProps = { saveEntry };
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddEntry);
+export default AddEntry;

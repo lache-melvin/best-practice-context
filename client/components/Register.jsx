@@ -55,6 +55,4 @@ function Register(props) {
   );
 }
 
-const mapDispatchToProps = { signedIn };
-
-export default connect(null, mapDispatchToProps)(Register);
+export default Register;
