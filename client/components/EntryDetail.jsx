@@ -8,22 +8,18 @@ function EntryDetail(props) {
   const { entries } = useEntriesContext();
   const { applyEntry, entry } = useEntryContext();
 
-  const getEntryFromContext = () => {
-    const id = Number(props.match?.params.id);
-    const fromState = entry && entry.id === id ? entry : null;
-    const fromList = entries.find((entry) => entry.id === id);
-    return fromState || fromList;
-  };
+  const id = Number(props.match?.params?.id) || null;
 
-  const displayEntry = getEntryFromContext() || {};
+  const entryFromState =
+    entry && entry.id === id ? entry : entries.find((entry) => entry.id === id);
 
   useEffect(() => {
-    const { match } = props;
-    if (!displayEntry.name && match && match.params) {
-      const id = Number(match.params.id);
+    if (!entryFromState && id) {
       retrieveEntryById(id, applyEntry);
     }
   }, []);
+
+  const displayEntry = entryFromState || {};
 
   return (
     <div data-testid="entry">
