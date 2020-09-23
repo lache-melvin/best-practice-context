@@ -3,15 +3,15 @@ import { useContext } from "react";
 import { EntryContext } from "./EntryContext";
 
 const useEntryContext = () => {
-  const [entryState, setEntryState] = useContext(EntryContext);
+  const [entry, setEntry] = useContext(EntryContext);
 
-  const receiveEntry = (entry) => {
-    setEntryState(entry || {});
+  const applyEntry = (entry) => {
+    setEntry(entry || {});
   };
 
   return {
-    receiveEntry,
-    entryState,
+    applyEntry,
+    entry,
   };
 };
 

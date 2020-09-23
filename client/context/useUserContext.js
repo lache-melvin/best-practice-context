@@ -3,17 +3,17 @@ import { useContext } from "react";
 import { UserContext } from "./UserContext";
 
 const useUserContext = () => {
-  const [userState, setUserState] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
-  const signedIn = (token) => {
+  const applyUser = (token) => {
     const { id, username } = token;
     const user = { id, username };
-    setUserState(user);
+    setUser(user);
   };
 
   return {
-    signedIn,
-    userState,
+    applyUser,
+    user,
   };
 };
 

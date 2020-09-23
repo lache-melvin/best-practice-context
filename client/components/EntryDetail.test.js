@@ -12,11 +12,11 @@ jest.mock("../context");
 
 test("<EntryDetail> includes name in <li>", async () => {
   useEntriesContext.mockReturnValue({
-    entriesState: mockEntries,
+    entries: mockEntries,
   });
   useEntryContext.mockReturnValue({
-    receiveEntry: jest.fn(),
-    entryState: mockEntries[1],
+    applyEntry: jest.fn(),
+    entry: mockEntries[1],
   });
   const initialEntries = ["/entry/2"];
   renderWithRouter(<EntryDetail match={{ params: { id: 2 } }} />, {

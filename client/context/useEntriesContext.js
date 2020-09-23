@@ -3,15 +3,15 @@ import { useContext } from "react";
 import { EntriesContext } from "./EntriesContext";
 
 const useEntriesContext = () => {
-  const [entriesState, setEntriesState] = useContext(EntriesContext);
+  const [entries, setEntries] = useContext(EntriesContext);
 
-  const receiveEntries = (entries) => {
-    setEntriesState(entries || []);
+  const applyEntries = (entries) => {
+    setEntries(entries || []);
   };
 
   return {
-    receiveEntries,
-    entriesState,
+    applyEntries,
+    entries,
   };
 };
 

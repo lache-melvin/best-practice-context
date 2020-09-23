@@ -1,8 +1,8 @@
 export function makeSubmitEntry(addEntry) {
-  return function (authorId, formData, history, receiveEntry) {
+  return function (authorId, formData, history, applyEntry) {
     return addEntry({ ...formData, authorId })
       .then((saved) => {
-        receiveEntry(saved);
+        applyEntry(saved);
         history.push(`/entry/${saved.id}`);
         return;
       })

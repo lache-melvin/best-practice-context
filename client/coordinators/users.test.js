@@ -1,4 +1,4 @@
-import { registerUser, signInUser } from "./users";
+import { makeRegisterUser, makeSignInUser } from "./users";
 
 describe("registerUser", () => {
   it("calls signedIn and redirects on register success", () => {

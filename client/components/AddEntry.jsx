@@ -7,8 +7,8 @@ import { useEntryContext, useUserContext } from "../context";
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 
 function AddEntry(props) {
-  const { receiveEntry } = useEntryContext();
-  const { userState } = useUserContext();
+  const { applyEntry } = useEntryContext();
+  const { user } = useUserContext();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,8 +22,8 @@ function AddEntry(props) {
   };
 
   const handleAdd = () => {
-    const authorId = userState.id
-    submitEntry(authorId, formData, props.history, receiveEntry)
+    const authorId = user.id;
+    submitEntry(authorId, formData, props.history, applyEntry);
   };
 
   const { name, link, description } = formData;

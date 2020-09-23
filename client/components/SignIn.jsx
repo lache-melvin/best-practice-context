@@ -5,7 +5,7 @@ import { useUserContext } from "../context";
 import { signInUser } from "../coordinators";
 
 function SignIn(props) {
-  const { signedIn } = useUserContext();
+  const { applyUser } = useUserContext();
 
   const [userData, setUserData] = useState({
     username: "",
@@ -18,7 +18,7 @@ function SignIn(props) {
   };
 
   const handleClick = () => {
-    signInUser(userData, props.history, signedIn);
+    signInUser(userData, props.history, applyUser);
   };
 
   const { username, password } = userData;

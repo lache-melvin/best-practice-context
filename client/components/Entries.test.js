@@ -16,11 +16,11 @@ jest.mock("../context");
 test("<Entries> shows entries from API", async () => {
   getEntries.mockReturnValue(Promise.resolve());
   useEntriesContext.mockReturnValue({
-    receiveEntries: jest.fn(),
-    entriesState: mockEntries,
+    applyEntries: jest.fn(),
+    entries: mockEntries,
   });
   useEntryContext.mockReturnValue({
-    receiveEntry: jest.fn(),
+    applyEntry: jest.fn(),
   });
 
   renderWithRouter(<Entries />);
@@ -32,6 +32,6 @@ test("<Entries> shows entries from API", async () => {
   expect(getEntries).toHaveBeenCalled();
   expect(useEntriesContext).toHaveBeenCalled();
   expect(useEntryContext).toHaveBeenCalled();
-  expect(useEntriesContext().receiveEntries).toHaveBeenCalled();
+  expect(useEntriesContext().applyEntries).toHaveBeenCalled();
   // expect(useEntryContext().receiveEntry).toHaveBeenCalled();
 });

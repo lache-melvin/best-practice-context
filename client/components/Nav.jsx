@@ -15,10 +15,10 @@ const linkStyle = {
 };
 
 function Nav() {
-  const { signedIn } = useUserContext();
+  const { applyUser } = useUserContext();
   useEffect(() => {
     const token = getDecodedToken();
-    if (token) signedIn(token);
+    if (token) applyUser(token);
   }, []);
 
   return (

@@ -5,25 +5,25 @@ import { useEntriesContext, useEntryContext } from "../context";
 import { getEntryById } from "../api";
 
 function EntryDetail(props) {
-  const { entriesState } = useEntriesContext();
-  const { receiveEntry, entryState } = useEntryContext();
+  const { entries } = useEntriesContext();
+  const { applyEntry, entry } = useEntryContext();
 
   const getEntryFromContext = () => {
     const id = Number(props.match?.params.id);
-    const fromState = entryState && entryState.id === id ? entryState : null;
-    const fromList = entriesState.find((entry) => entry.id === id);
+    const fromState = entry && entry.id === id ? entry : null;
+    const fromList = entries.find((entry) => entry.id === id);
     return fromState || fromList;
   };
 
-  const entry = getEntryFromContext() || {};
+  const displayEntry = getEntryFromContext() || {};
 
   useEffect(() => {
     const { match } = props;
-    if (!entry.name && match && match.params) {
+    if (!displayEntry.name && match && match.params) {
       const id = Number(match.params.id);
       getEntryById(id)
         .then((entry) => {
-          return receiveEntry(entry);
+          return applyEntry(entry);
         })
         .catch((err) => {
           console.error(err);
@@ -33,9 +33,9 @@ function EntryDetail(props) {
 
   return (
     <div data-testid="entry">
-      <h2>{entry.name}</h2>
-      <a href={entry.link}>{entry.link}</a>
-      <p>{entry.description}</p>
+      <h2>{displayEntry.name}</h2>
+      <a href={displayEntry.link}>{displayEntry.link}</a>
+      <p>{displayEntry.description}</p>
     </div>
   );
 }

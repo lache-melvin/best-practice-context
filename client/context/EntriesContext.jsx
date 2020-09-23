@@ -3,10 +3,10 @@ import React, { useState, createContext } from "react";
 export const EntriesContext = createContext([{}, () => {}]);
 
 export const EntriesContextProvider = ({ children }) => {
-  const [entriesState, setEntriesState] = useState([]);
+  const [entries, setEntries] = useState([]);
 
   return (
-    <EntriesContext.Provider value={[entriesState, setEntriesState]}>
+    <EntriesContext.Provider value={[entries, setEntries]}>
       {children}
     </EntriesContext.Provider>
   );

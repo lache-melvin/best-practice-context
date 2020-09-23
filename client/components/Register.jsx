@@ -5,7 +5,7 @@ import { useUserContext } from "../context";
 import { registerUser } from "../coordinators";
 
 function Register(props) {
-  const { signedIn } = useUserContext();
+  const { applyUser } = useUserContext();
 
   const [userData, setUserData] = useState({
     username: "",
@@ -18,7 +18,7 @@ function Register(props) {
   };
 
   const handleClick = () => {
-    registerUser(userData, props.history, signedIn);
+    registerUser(userData, props.history, applyUser);
   };
 
   const { username, password } = userData;
