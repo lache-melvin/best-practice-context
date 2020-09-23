@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useEntryContext } from "../context";
+import { useEntryContext } from ".";
 import { retrieveEntryById, submitEntry } from "../coordinators";
 
 function withEntryContext(Component) {

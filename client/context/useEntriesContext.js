@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { EntriesContext } from "./EntriesContext";
+import { EntriesContext } from "./entriesContext";
 
 const useEntriesContext = () => {
   const [entries, setEntries] = useContext(EntriesContext);

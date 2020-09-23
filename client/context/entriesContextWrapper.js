@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useEntriesContext } from "../context";
+import { useEntriesContext } from ".";
 import { retrieveEntries } from "../coordinators";
 
 function withEntriesContext(Component) {

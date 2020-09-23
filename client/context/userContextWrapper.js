@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useUserContext } from "../context";
+import { useUserContext } from ".";
 import { registerUser, signInUser } from "../coordinators";
 
 function withUserContext(Component) {
