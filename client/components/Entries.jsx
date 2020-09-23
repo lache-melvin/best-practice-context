@@ -1,18 +1,13 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { useEntriesContext } from "../context";
-import { retrieveEntries } from "../coordinators";
+import withEntriesContext from "./EntriesContextWrapper";
 
 import EntryItem from "./EntryItem";
 import { IfAuthenticated } from "./Authenticated";
 
-const Entries = () => {
-  const { applyEntries, entries } = useEntriesContext();
-
-  useEffect(() => {
-    retrieveEntries(applyEntries);
-  }, []);
+const Entries = (props) => {
+  useEffect(props.retrieveEntries, []);
 
   return (
     <>
@@ -21,7 +16,7 @@ const Entries = () => {
         <Link to="/add">Add a entry</Link>
       </IfAuthenticated>
       <ul>
-        {entries.map((entry) => (
+        {props.entries.map((entry) => (
           <EntryItem key={entry.id} entry={entry} />
         ))}
       </ul>
@@ -29,4 +24,4 @@ const Entries = () => {
   );
 };
 
-export default Entries;
+export default withEntriesContext(Entries);
