@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { register, isAuthenticated } from "authenticare/client";
 
-import { signedIn } from "../actions/auth";
+import { useUserContext } from "../context";
 
-import config from "../config";
+import { registerUser } from "../coordinators";
 
 function Register(props) {
+  const { signedIn } = useUserContext();
+
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -18,17 +18,7 @@ function Register(props) {
   };
 
   const handleClick = () => {
-    const { username, password } = userData;
-    return register(
-      { username, password },
-      { baseUrl: config.baseApiUrl }
-    ).then((token) => {
-      if (isAuthenticated()) {
-        props.signedIn(token);
-        props.history.push("/");
-      }
-      return null;
-    });
+    registerUser(userData, props.history, signedIn);
   };
 
   const { username, password } = userData;

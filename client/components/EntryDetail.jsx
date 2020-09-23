@@ -1,17 +1,36 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
 
-import { fetchEntryById } from "../actions/entries";
+import { useEntriesContext, useEntryContext } from "../context";
+
+import { getEntryById } from "../api";
 
 function EntryDetail(props) {
-  useEffect(() => {
-    const { entry, match, fetchEntryById } = props;
-    if (!entry && match && match.params) {
-      fetchEntryById(Number(match.params.id));
-    }
-  });
+  const { entriesState } = useEntriesContext();
+  const { receiveEntry, entryState } = useEntryContext();
 
-  const { entry = {} } = props;
+  const getEntryFromContext = () => {
+    const id = Number(props.match?.params.id);
+    const fromState = entryState && entryState.id === id ? entryState : null;
+    const fromList = entriesState.find((entry) => entry.id === id);
+    return fromState || fromList;
+  };
+
+  const entry = getEntryFromContext() || {};
+
+  useEffect(() => {
+    const { match } = props;
+    if (!entry.name && match && match.params) {
+      const id = Number(match.params.id);
+      getEntryById(id)
+        .then((entry) => {
+          return receiveEntry(entry);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, []);
+
   return (
     <div data-testid="entry">
       <h2>{entry.name}</h2>

@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getDecodedToken, logOff } from "authenticare/client";
 
+import { useUserContext } from "../context";
+
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 
 const groupStyle = {
@@ -12,11 +14,12 @@ const linkStyle = {
   marginRight: "30px",
 };
 
-function Nav(props) {
+function Nav() {
+  const { signedIn } = useUserContext();
   useEffect(() => {
     const token = getDecodedToken();
-    if (token) props.signedIn(token.dataValues);
-  });
+    if (token) signedIn(token);
+  }, []);
 
   return (
     <>

@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+
+import { useEntriesContext } from "../context";
+import { getEntries } from "../api";
 
 import EntryItem from "./EntryItem";
 import { IfAuthenticated } from "./Authenticated";
@@ -9,10 +11,15 @@ const Entries = () => {
   const { receiveEntries, entriesState } = useEntriesContext();
 
   useEffect(() => {
-    props.fetchEntries();
+    getEntries()
+      .then((entries) => {
+        return receiveEntries(entries);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
   }, []);
 
-  const { entries } = props;
   return (
     <>
       <h2>Entries</h2>
@@ -20,7 +27,7 @@ const Entries = () => {
         <Link to="/add">Add a entry</Link>
       </IfAuthenticated>
       <ul>
-        {entries.map((entry) => (
+        {entriesState.map((entry) => (
           <EntryItem key={entry.id} entry={entry} />
         ))}
       </ul>

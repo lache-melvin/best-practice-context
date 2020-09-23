@@ -2,16 +2,16 @@ import React from "react";
 import { render } from "react-dom";
 import { HashRouter as Router } from "react-router-dom";
 
-import reducers from "./reducers";
+import { ContextProvider } from "./context";
 import App from "./components/App";
 
 document.addEventListener("DOMContentLoaded", () => {
   render(
-    <Provider store={store}>
+    <ContextProvider>
       <Router>
         <App />
       </Router>
-    </Provider>,
+    </ContextProvider>,
     document.getElementById("app")
   );
 });

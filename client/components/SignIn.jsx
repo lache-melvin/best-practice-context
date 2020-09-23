@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { signIn, isAuthenticated } from "authenticare/client";
 
-import { signedIn } from "../actions/auth";
+import { useUserContext } from "../context";
 
-import config from "../config";
+import { signInUser } from "../coordinators";
 
 function SignIn(props) {
+  const { signedIn } = useUserContext();
+
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -18,16 +18,7 @@ function SignIn(props) {
   };
 
   const handleClick = () => {
-    const { username, password } = userData;
-    return signIn({ username, password }, { baseUrl: config.baseApiUrl }).then(
-      (token) => {
-        if (isAuthenticated()) {
-          props.signedIn(token);
-          props.history.push("/");
-        }
-        return null;
-      }
-    );
+    signInUser(userData, props.history, signedIn);
   };
 
   const { username, password } = userData;

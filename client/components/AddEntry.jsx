@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { saveEntry } from "../actions/entries";
+import { submitEntry } from "../coordinators/entries";
+
+import { useEntryContext, useUserContext } from "../context";
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
 
 function AddEntry(props) {
+  const { receiveEntry } = useEntryContext();
+  const { userState } = useUserContext();
+
   const [formData, setFormData] = useState({
     name: "",
     link: "",
@@ -17,15 +22,8 @@ function AddEntry(props) {
   };
 
   const handleAdd = () => {
-    return props
-      .saveEntry({
-        authorId: props.userId,
-        ...formData,
-      })
-      .then((saved) => {
-        props.history.push(`/entry/${saved.id}`);
-        return null;
-      });
+    const authorId = userState.id
+    submitEntry(authorId, formData, props.history, receiveEntry)
   };
 
   const { name, link, description } = formData;
