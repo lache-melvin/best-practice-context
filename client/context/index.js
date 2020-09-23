@@ -1,4 +1,5 @@
 import React from "react";
+import { getDecodedToken, logOff } from "authenticare/client";
 
 import {
   retrieveEntries,
@@ -36,6 +37,8 @@ export const withEntryContext = makeEntryContextWrapper(
   useEntryContext
 );
 export const withUserContext = makeUserContextWrapper(
+  getDecodedToken,
+  logOff,
   registerUser,
   signInUser,
   useUserContext

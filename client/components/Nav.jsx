@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getDecodedToken, logOff } from "authenticare/client";
 
 import { withAuthentication } from ".";
 import { withUserContext } from "../context";
@@ -13,10 +12,9 @@ const linkStyle = {
   marginRight: "30px",
 };
 
-function Nav({ authenticated, setUser }) {
+function Nav({ authenticated, setUserIfLoggedIn, logOff }) {
   useEffect(() => {
-    const token = getDecodedToken();
-    if (token) setUser(token);
+    setUserIfLoggedIn()
   }, []);
 
   return (
