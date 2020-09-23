@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { submitEntry } from "../coordinators/entries";
+import { submitEntry } from "../coordinators";
 
 import { useEntryContext, useUserContext } from "../context";
 import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
