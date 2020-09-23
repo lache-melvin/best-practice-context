@@ -4,11 +4,15 @@ import config from "../config";
 
 import { makeRegisterUser, makeSignInUser } from "./users";
 
-function configuredRegister(userData) {
+function configuredRegister(credentials) {
+  const { username, password } = credentials;
+  const userData = { username, password };
   return register(userData, { baseUrl: config.baseApiUrl });
 }
 
-function configuredSignIn(userData) {
+function configuredSignIn(credentials) {
+  const { username, password } = credentials;
+  const userData = { username, password };
   return signIn(userData, { baseUrl: config.baseApiUrl });
 }
 

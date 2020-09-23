@@ -1,7 +1,6 @@
 export function makeRegisterUser(configuredRegister, isAuthenticated) {
-  return function (userData, history, signedIn) {
-    const { username, password } = userData;
-    return configuredRegister({ username, password }).then((token) => {
+  return function (credentials, history, signedIn) {
+    return configuredRegister(credentials).then((token) => {
       if (isAuthenticated()) {
         signedIn(token);
         history.push("/");
@@ -12,9 +11,8 @@ export function makeRegisterUser(configuredRegister, isAuthenticated) {
 }
 
 export function makeSignInUser(configuredSignIn, isAuthenticated) {
-  return function (userData, history, signedIn) {
-    const { username, password } = userData;
-    return configuredSignIn({ username, password }).then((token) => {
+  return function (credentials, history, signedIn) {
+    return configuredSignIn(credentials).then((token) => {
       if (isAuthenticated()) {
         signedIn(token);
         history.push("/");
