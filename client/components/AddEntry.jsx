@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { withAuthentication } from ".";
 import { withEntryContext, withUserContext } from "../context";
 
-import { IfAuthenticated, IfNotAuthenticated } from "./Authenticated";
-
-function AddEntry({ user, submitEntry }) {
+function AddEntry({ authenticated, user, submitEntry }) {
   const [formData, setFormData] = useState({
     name: "",
     link: "",
@@ -26,7 +25,7 @@ function AddEntry({ user, submitEntry }) {
   return (
     <div data-testid="addentry">
       <h2>Add New Entry</h2>
-      <IfAuthenticated>
+      {authenticated() ? (
         <div>
           <div>Name:</div>
           <input name="name" value={name} onChange={handleChange} />
@@ -48,14 +47,13 @@ function AddEntry({ user, submitEntry }) {
             </button>
           </div>
         </div>
-      </IfAuthenticated>
-      <IfNotAuthenticated>
+      ) : (
         <div>
           You must <Link to="/signin">sign in</Link> to add new entries.
         </div>
-      </IfNotAuthenticated>
+      )}
     </div>
   );
 }
 
-export default withEntryContext(withUserContext(AddEntry));
+export default withAuthentication(withEntryContext(withUserContext(AddEntry)));

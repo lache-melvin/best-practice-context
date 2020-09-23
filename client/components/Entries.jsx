@@ -2,18 +2,16 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import EntryItem from "./EntryItem";
-import { IfAuthenticated } from "./Authenticated";
 
+import { withAuthentication } from ".";
 import { withEntriesContext } from "../context";
 
-export const Entries = ({ entries, retrieveEntries }) => {
+export const Entries = ({ authenticated, entries, retrieveEntries }) => {
   useEffect(retrieveEntries, []);
   return (
     <>
       <h2>Entries</h2>
-      <IfAuthenticated>
-        <Link to="/add">Add a entry</Link>
-      </IfAuthenticated>
+      {authenticated() && <Link to="/add">Add a entry</Link>}
       <ul>
         {entries.map((entry) => (
           <EntryItem key={entry.id} entryData={entry} />
@@ -23,4 +21,4 @@ export const Entries = ({ entries, retrieveEntries }) => {
   );
 };
 
-export default withEntriesContext(Entries);
+export default withAuthentication(withEntriesContext(Entries));
