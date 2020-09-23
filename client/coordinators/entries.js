@@ -1,3 +1,15 @@
+export function makeRetrieveEntries(getEntries) {
+  return function (applyEntries) {
+    return getEntries()
+      .then((entries) => {
+        return applyEntries(entries);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
 export function makeSubmitEntry(addEntry) {
   return function (authorId, formData, history, applyEntry) {
     return addEntry({ ...formData, authorId })

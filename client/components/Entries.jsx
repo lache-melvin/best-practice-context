@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { useEntriesContext } from "../context";
-import { getEntries } from "../api";
+import { retrieveEntries } from "../coordinators";
 
 import EntryItem from "./EntryItem";
 import { IfAuthenticated } from "./Authenticated";
@@ -11,13 +11,7 @@ const Entries = () => {
   const { applyEntries, entries } = useEntriesContext();
 
   useEffect(() => {
-    getEntries()
-      .then((entries) => {
-        return applyEntries(entries);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    retrieveEntries(applyEntries);
   }, []);
 
   return (

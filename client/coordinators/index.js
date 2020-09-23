@@ -2,10 +2,10 @@ import { register, signIn, isAuthenticated } from "authenticare/client";
 
 import config from "../config";
 
-import { addEntry } from "../api";
+import { getEntries, addEntry } from "../api";
 
 import { makeRegisterUser, makeSignInUser } from "./users";
-import { makeSubmitEntry } from "./entries";
+import { makeRetrieveEntries, makeSubmitEntry } from "./entries";
 
 function configuredRegister(credentials) {
   const { username, password } = credentials;
@@ -25,4 +25,5 @@ export const registerUser = makeRegisterUser(
 );
 export const signInUser = makeSignInUser(configuredSignIn, isAuthenticated);
 
+export const retrieveEntries = makeRetrieveEntries(getEntries);
 export const submitEntry = makeSubmitEntry(addEntry);
