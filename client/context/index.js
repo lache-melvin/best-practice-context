@@ -20,15 +20,11 @@ import makeEntriesContextWrapper from "./entriesContextWrapper";
 import makeEntryContextWrapper from "./entryContextWrapper";
 import makeUserContextWrapper from "./userContextWrapper";
 
-export const ContextProvider = ({ children }) => {
-  return (
-    <EntriesContextProvider>
-      <EntryContextProvider>
-        <UserContextProvider>{children}</UserContextProvider>
-      </EntryContextProvider>
-    </EntriesContextProvider>
-  );
-};
+export const ContextProvider = combineContextProviders([
+  EntriesContextProvider,
+  EntryContextProvider,
+  UserContextProvider,
+]);
 
 export const withEntriesContext = makeEntriesContextWrapper(
   retrieveEntries,
@@ -44,3 +40,20 @@ export const withUserContext = makeUserContextWrapper(
   signInUser,
   useUserContext
 );
+
+function combineContextProviders(providers) {
+  const UI = ({ children }) => {
+    return children;
+  };
+  if (!providers.length) return UI;
+  return providers.reduce((Content, Provider) => {
+    const Context = ({ children }) => {
+      return (
+        <Provider>
+          <Content>{children}</Content>
+        </Provider>
+      );
+    };
+    return Context;
+  }, UI);
+}
