@@ -10,6 +10,17 @@ export function makeRetrieveEntries(getEntries) {
   };
 }
 
+export function makeRetrieveEntryById(getEntryById) {
+  return function (id, applyEntry) {
+    return getEntryById(id)
+      .then((entry) => {
+        return applyEntry(entry);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
 export function makeSubmitEntry(addEntry) {
   return function (authorId, formData, history, applyEntry) {
     return addEntry({ ...formData, authorId })

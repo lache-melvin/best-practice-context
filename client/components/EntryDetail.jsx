@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { useEntriesContext, useEntryContext } from "../context";
 
-import { getEntryById } from "../api";
+import { retrieveEntryById } from "../coordinators";
 
 function EntryDetail(props) {
   const { entries } = useEntriesContext();
@@ -21,13 +21,7 @@ function EntryDetail(props) {
     const { match } = props;
     if (!displayEntry.name && match && match.params) {
       const id = Number(match.params.id);
-      getEntryById(id)
-        .then((entry) => {
-          return applyEntry(entry);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      retrieveEntryById(id, applyEntry);
     }
   }, []);
 
