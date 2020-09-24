@@ -1,25 +1,47 @@
 import React from "react";
 
+import useUserContext from "./useUserContext";
+
 function makeUserContextWrapper(
+  configuredRegister,
+  configuredSignIn,
   getDecodedToken,
-  logOff,
-  registerUser,
-  signInUser,
-  useUserContext
+  isAuthenticated,
+  logOff
 ) {
   return function withUserContext(Component) {
     return function UserContextWrapper(props) {
       const { applyUser, user } = useUserContext();
 
-      const register = (credentials) => {
-        registerUser(credentials, props.history, applyUser);
+      const registerUser = (credentials) => {
+        configuredRegister(credentials)
+          .then((token) => {
+            if (isAuthenticated()) {
+              applyUser(token);
+              props.history.push("/");
+            }
+            return;
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       };
 
-      const signIn = (credentials) => {
-        signInUser(credentials, props.history, applyUser);
+      const signInUser = (credentials) => {
+        configuredSignIn(credentials)
+          .then((token) => {
+            if (isAuthenticated()) {
+              applyUser(token);
+              props.history.push("/");
+            }
+            return;
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       };
 
-      const ifLoggedIn = () => {
+      const setUserIfLoggedIn = () => {
         const token = getDecodedToken();
         token && applyUser(token);
       };
@@ -32,10 +54,10 @@ function makeUserContextWrapper(
       return (
         <Component
           user={user}
-          registerUser={register}
-          signInUser={signIn}
-          setUserIfLoggedIn={ifLoggedIn}
-          logOff={logOut}
+          registerUser={registerUser}
+          signInUser={signInUser}
+          setUserIfLoggedIn={setUserIfLoggedIn}
+          logOut={logOut}
           {...props}
         />
       );

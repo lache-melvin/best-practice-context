@@ -5,9 +5,8 @@ export function makeRegisterUser(configuredRegister, isAuthenticated) {
         if (isAuthenticated()) {
           applyUser(token);
           history.push("/");
-          return;
         }
-        throw new Error("authentication failure");
+        return;
       })
       .catch((err) => {
         console.error(err);
@@ -22,9 +21,8 @@ export function makeSignInUser(configuredSignIn, isAuthenticated) {
         if (isAuthenticated()) {
           applyUser(token);
           history.push("/");
-          return;
         }
-        throw new Error("authentication failure");
+        return;
       })
       .catch((err) => {
         console.error(err);

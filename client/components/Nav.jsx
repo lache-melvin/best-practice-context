@@ -12,7 +12,7 @@ const linkStyle = {
   marginRight: "30px",
 };
 
-function Nav({ authenticated, setUserIfLoggedIn, logOff }) {
+function Nav({ authenticated, setUserIfLoggedIn, logOut }) {
   useEffect(() => {
     setUserIfLoggedIn()
   }, []);
@@ -24,7 +24,7 @@ function Nav({ authenticated, setUserIfLoggedIn, logOff }) {
           Home
         </Link>
         {authenticated() ? (
-          <Link to="#" data-testid="logoff" style={linkStyle} onClick={logOff}>
+          <Link to="#" data-testid="logoff" style={linkStyle} onClick={logOut}>
             Log off
           </Link>
         ) : (

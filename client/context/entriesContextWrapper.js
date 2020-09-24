@@ -1,16 +1,28 @@
 import React from "react";
 
-function makeEntriesContextWrapper(retrieveEntries, useEntriesContext) {
+import useEntriesContext from "./useEntriesContext";
+
+function makeEntriesContextWrapper(getEntries) {
   return function withEntriesContext(Component) {
     return function EntriesContextWrapper(props) {
       const { applyEntries, entries } = useEntriesContext();
 
-      const retrieve = () => {
-        retrieveEntries(applyEntries);
+      const retrieveEntries = () => {
+        getEntries()
+          .then((entries) => {
+            return applyEntries(entries);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       };
 
       return (
-        <Component entries={entries} retrieveEntries={retrieve} {...props} />
+        <Component
+          entries={entries}
+          retrieveEntries={retrieveEntries}
+          {...props}
+        />
       );
     };
   };

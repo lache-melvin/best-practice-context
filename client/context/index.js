@@ -1,48 +1,51 @@
 import React from "react";
-import { getDecodedToken, logOff } from "authenticare/client";
-
 import {
-  retrieveEntries,
-  retrieveEntryById,
-  submitEntry,
-  registerUser,
-  signInUser,
-} from "../coordinators";
+  register,
+  signIn,
+  getDecodedToken,
+  isAuthenticated,
+  logOff,
+} from "authenticare/client";
+
+import config from "../config";
+
+import { getEntries, getEntryById, addEntry } from "../api";
 
 import { EntriesContextProvider } from "./entriesContext";
 import { EntryContextProvider } from "./entryContext";
 import { UserContextProvider } from "./userContext";
 
-import useEntriesContext from "./useEntriesContext";
-import useEntryContext from "./useEntryContext";
-import useUserContext from "./useUserContext";
-
 import makeEntriesContextWrapper from "./entriesContextWrapper";
 import makeEntryContextWrapper from "./entryContextWrapper";
 import makeUserContextWrapper from "./userContextWrapper";
+
+function configuredRegister(credentials) {
+  const { username, password } = credentials;
+  const userData = { username, password };
+  return register(userData, { baseUrl: config.baseApiUrl });
+}
+
+function configuredSignIn(credentials) {
+  const { username, password } = credentials;
+  const userData = { username, password };
+  return signIn(userData, { baseUrl: config.baseApiUrl });
+}
+
+export const withEntriesContext = makeEntriesContextWrapper(getEntries);
+export const withEntryContext = makeEntryContextWrapper(getEntryById, addEntry);
+export const withUserContext = makeUserContextWrapper(
+  configuredRegister,
+  configuredSignIn,
+  getDecodedToken,
+  isAuthenticated,
+  logOff
+);
 
 export const ContextProvider = combineContextProviders([
   EntriesContextProvider,
   EntryContextProvider,
   UserContextProvider,
 ]);
-
-export const withEntriesContext = makeEntriesContextWrapper(
-  retrieveEntries,
-  useEntriesContext
-);
-export const withEntryContext = makeEntryContextWrapper(
-  retrieveEntryById,
-  submitEntry,
-  useEntryContext
-);
-export const withUserContext = makeUserContextWrapper(
-  getDecodedToken,
-  logOff,
-  registerUser,
-  signInUser,
-  useUserContext
-);
 
 function combineContextProviders(providers) {
   const UI = ({ children }) => {
