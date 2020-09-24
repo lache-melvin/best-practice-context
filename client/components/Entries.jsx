@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import EntryItem from "./EntryItem";
 
-import { withAuthentication } from ".";
+import { withAuthentication } from "./index";
 import { withEntriesContext } from "../context";
 
 export const Entries = ({ authenticated, entries, retrieveEntries }) => {

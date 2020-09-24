@@ -10,11 +10,6 @@ const config = require("../config.js")[env[0]];
 
 const db = {};
 
-// Set the SQLite3 database file path
-if (env === "development") {
-  config.storage = path.join(__dirname, "../../..", config.storage);
-}
-
 const sequelize = new Sequelize(
   config.database,
   config.username,

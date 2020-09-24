@@ -14,9 +14,8 @@ const linkStyle = {
 
 function Nav({ authenticated, setUserIfLoggedIn, logOut }) {
   useEffect(() => {
-    setUserIfLoggedIn()
+    setUserIfLoggedIn();
   }, []);
-
   return (
     <>
       <div style={groupStyle}>
