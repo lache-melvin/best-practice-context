@@ -1,26 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import { fetchEntryById } from "../actions/entries";
 
-class EntryDetail extends React.Component {
-  componentDidMount() {
-    const { entry, match, fetchEntryById } = this.props;
+function EntryDetail(props) {
+  useEffect(() => {
+    const { entry, match, fetchEntryById } = props;
     if (!entry && match && match.params) {
       fetchEntryById(Number(match.params.id));
     }
-  }
+  });
 
-  render() {
-    const { entry = {} } = this.props;
-    return (
-      <div data-testid="entry">
-        <h2>{entry.name}</h2>
-        <a href={entry.link}>{entry.link}</a>
-        <p>{entry.description}</p>
-      </div>
-    );
-  }
+  const { entry = {} } = props;
+  return (
+    <div data-testid="entry">
+      <h2>{entry.name}</h2>
+      <a href={entry.link}>{entry.link}</a>
+      <p>{entry.description}</p>
+    </div>
+  );
 }
 
 function mapStateToProps(state, ownProps) {

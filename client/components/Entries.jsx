@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -6,27 +6,25 @@ import EntryItem from "./EntryItem";
 import { fetchEntries } from "../actions/entries";
 import { IfAuthenticated } from "./Authenticated";
 
-class Entries extends React.Component {
-  componentDidMount() {
-    this.props.fetchEntries();
-  }
+function Entries(props) {
+  useEffect(() => {
+    props.fetchEntries();
+  }, []);
 
-  render() {
-    const { entries } = this.props;
-    return (
-      <>
-        <h2>Entries</h2>
-        <IfAuthenticated>
-          <Link to="/add">Add a entry</Link>
-        </IfAuthenticated>
-        <ul>
-          {entries.map((entry) => (
-            <EntryItem key={entry.id} entry={entry} />
-          ))}
-        </ul>
-      </>
-    );
-  }
+  const { entries } = props;
+  return (
+    <>
+      <h2>Entries</h2>
+      <IfAuthenticated>
+        <Link to="/add">Add a entry</Link>
+      </IfAuthenticated>
+      <ul>
+        {entries.map((entry) => (
+          <EntryItem key={entry.id} entry={entry} />
+        ))}
+      </ul>
+    </>
+  );
 }
 
 function mapStateToProps(state) {
