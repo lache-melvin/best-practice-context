@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { withAuthentication } from ".";
+import { withAuthentication } from "./index";
 import { withEntryContext, withUserContext } from "../context";
 
 function AddEntry({ authenticated, user, submitEntry }) {
