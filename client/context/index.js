@@ -48,10 +48,7 @@ export const ContextProvider = combineContextProviders([
 ]);
 
 function combineContextProviders(providers) {
-  const UI = ({ children }) => {
-    return children;
-  };
-  if (!providers.length) return UI;
+  const UI = ({ children }) => children;
   return providers.reduce((Content, Provider) => {
     const Context = ({ children }) => {
       return (
