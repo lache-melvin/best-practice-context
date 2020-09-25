@@ -2,7 +2,13 @@ import React, { useState } from "react";
 
 import { withUserContext } from "../context";
 
-function Register({ registerUser }) {
+const formStyle = {
+  display: "flex",
+  flexDirection: "column",
+  maxWidth: "250px",
+};
+
+export function Register({ registerUser }) {
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -21,13 +27,19 @@ function Register({ registerUser }) {
   return (
     <>
       <h2>Register</h2>
-      <div>
-        <div>Username:</div>
-        <input name="username" value={username} onChange={handleChange} />
+      <div style={formStyle}>
+        <label htmlFor="username">Username</label>
+        <input
+          name="username"
+          id="username"
+          value={username}
+          onChange={handleChange}
+        />
 
-        <div>Password:</div>
+        <label htmlFor="password">Password</label>
         <input
           name="password"
+          id="password"
           type="password"
           value={password}
           onChange={handleChange}

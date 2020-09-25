@@ -4,7 +4,13 @@ import { Link } from "react-router-dom";
 import { withAuthentication } from "./index";
 import { withEntryContext, withUserContext } from "../context";
 
-function AddEntry({ authenticated, user, submitEntry }) {
+const formStyle = {
+  display: "flex",
+  flexDirection: "column",
+  maxWidth: "250px",
+};
+
+export function AddEntry({ authenticated, user, submitEntry }) {
   const [formData, setFormData] = useState({
     name: "",
     link: "",
@@ -26,15 +32,16 @@ function AddEntry({ authenticated, user, submitEntry }) {
     <div data-testid="addentry">
       <h2>Add New Entry</h2>
       {authenticated() ? (
-        <div>
-          <div>Name:</div>
-          <input name="name" value={name} onChange={handleChange} />
+        <div style={formStyle}>
+          <label htmlFor="name">Name</label>
+          <input id="name" name="name" value={name} onChange={handleChange} />
 
-          <div>Link:</div>
-          <input name="link" value={link} onChange={handleChange} />
+          <label htmlFor="link">Link</label>
+          <input id="link" name="link" value={link} onChange={handleChange} />
 
-          <div>Description:</div>
+          <label htmlFor="description">Description</label>
           <textarea
+            id="description"
             name="description"
             value={description}
             onChange={handleChange}
