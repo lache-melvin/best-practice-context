@@ -4,9 +4,7 @@ import {
   getDecodedToken,
   isAuthenticated,
   logOff,
-} from "authenticare/client";
-
-import config from "../config";
+} from "../auth";
 
 import { getEntries, getEntryById, addEntry } from "../api";
 
@@ -19,8 +17,8 @@ export const authentication = makeAuthenticationWrapper(isAuthenticated);
 export const entriesContext = makeEntriesContextWrapper(getEntries);
 export const entryContext = makeEntryContextWrapper(getEntryById, addEntry);
 export const userContext = makeUserContextWrapper(
-  configuredRegister,
-  configuredSignIn,
+  register,
+  signIn,
   getDecodedToken,
   isAuthenticated,
   logOff
@@ -44,15 +42,3 @@ export function wrappedWith(wrappers, Component) {
 //     return wrap(wrappers, Comp);
 //   };
 // }
-
-function configuredRegister(credentials) {
-  const { username, password } = credentials;
-  const userData = { username, password };
-  return register(userData, { baseUrl: config.baseApiUrl });
-}
-
-function configuredSignIn(credentials) {
-  const { username, password } = credentials;
-  const userData = { username, password };
-  return signIn(userData, { baseUrl: config.baseApiUrl });
-}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAuthorizationHeader } from "authenticare/client";
+import { getAuthorizationHeader } from "../auth";
 
 import { makeGetEntries, makeGetEntryById, makeAddEntry } from "./entries";
 
