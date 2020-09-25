@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { withAuthentication } from "./index";
+import { withAuthentication } from "../wrappers";
 import { withEntryContext, withUserContext } from "../context";
 
 const formStyle = {

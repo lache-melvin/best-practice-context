@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import WrappedEntryItem from "./EntryItem";
 
-import { withAuthentication } from "./index";
+import { withAuthentication } from "../wrappers";
 import { withEntriesContext } from "../context";
 
 export function Entries({ authenticated, entries, retrieveEntries }) {

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { withAuthentication } from "./index";
+import { withAuthentication } from "../wrappers";
 import { withUserContext } from "../context";
 
 const groupStyle = {
