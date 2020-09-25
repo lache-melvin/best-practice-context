@@ -17,7 +17,9 @@ function makeUserContextWrapper(
         configuredRegister(credentials)
           .then((token) => {
             if (isAuthenticated()) {
-              setUser(token);
+              const { id, username } = token.dataValues;
+              const userData = { id, username };
+              setUser(userData);
               props.history.push("/");
             }
             return;
@@ -31,7 +33,9 @@ function makeUserContextWrapper(
         configuredSignIn(credentials)
           .then((token) => {
             if (isAuthenticated()) {
-              setUser(token);
+              const { id, username } = token.dataValues;
+              const userData = { id, username };
+              setUser(userData);
               props.history.push("/");
             }
             return;
@@ -43,12 +47,16 @@ function makeUserContextWrapper(
 
       const setUserIfLoggedIn = () => {
         const token = getDecodedToken();
-        token && setUser(token);
+        if (token) {
+          const { id, username } = token.dataValues;
+          const userData = { id, username };
+          setUser(userData);
+        }
       };
 
       const logOut = () => {
         logOff();
-        setUser({ dataValues: { id: null, username: null } });
+        setUser({ id: null, username: null });
       };
 
       return (
