@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isAuthenticated } from "../auth";
+
+import { wrappedWith, authentication } from "../wrappers";
 
 import WrappedNav from "./Nav";
 import WrappedEntries from "./Entries";
@@ -9,7 +10,7 @@ import WrappedEntryDetail from "./EntryDetail";
 import WrappedRegister from "./Register";
 import WrappedSignIn from "./SignIn";
 
-function App() {
+function App({ authenticated }) {
   return (
     <>
       <Route path="/" component={WrappedNav} />
@@ -19,7 +20,7 @@ function App() {
       <Route
         path="/signin"
         render={({ history }) => {
-          return isAuthenticated() ? (
+          return authenticated() ? (
             <Redirect to="/" />
           ) : (
             <WrappedSignIn history={history} />
@@ -29,7 +30,7 @@ function App() {
       <Route
         path="/register"
         render={({ history }) => {
-          return isAuthenticated() ? (
+          return authenticated() ? (
             <Redirect to="/" />
           ) : (
             <WrappedRegister history={history} />
@@ -41,4 +42,4 @@ function App() {
   );
 }
 
-export default App;
+export default wrappedWith([authentication], App);
