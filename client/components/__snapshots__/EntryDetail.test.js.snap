@@ -1,7 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<EntryDetail> includes name in <li> 1`] = `
-<h2>
-  mocked entry 2
-</h2>
+exports[`renders empty tags if entry id doesn't match params id 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="entry"
+  >
+    <h2 />
+    <a />
+    <p />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders empty tags if entry not available from either context 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="entry"
+  >
+    <h2 />
+    <a />
+    <p />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders empty tags if entry undefined and no entries found with matching id 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="entry"
+  >
+    <h2 />
+    <a />
+    <p />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders empty tags when entry undefined and entries empty 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="entry"
+  >
+    <h2 />
+    <a />
+    <p />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders entry from entries state when found with matching id 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="entry"
+  >
+    <h2>
+      mocked entry 1
+    </h2>
+    <a
+      href="https://mocked.link.com/1"
+    >
+      https://mocked.link.com/1
+    </a>
+    <p>
+      mocked description 1
+    </p>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders entry when entry with matching id is provided 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="entry"
+  >
+    <h2>
+      mocked entry 1
+    </h2>
+    <a
+      href="https://mocked.link.com/1"
+    >
+      https://mocked.link.com/1
+    </a>
+    <p>
+      mocked description 1
+    </p>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders entry with entry state over entries state 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="entry"
+  >
+    <h2>
+      test entry
+    </h2>
+    <a
+      href="https://testlink.com"
+    >
+      https://testlink.com
+    </a>
+    <p>
+      test description
+    </p>
+  </div>
+</DocumentFragment>
 `;

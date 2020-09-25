@@ -1,0 +1,15 @@
+import React from "react";
+import "@testing-library/jest-dom";
+import { screen, fireEvent } from "@testing-library/react";
+import { renderWithRouter } from "../testing/utils";
+
+import { Register } from "./Register";
+
+test("calls registerUser on register button click", async () => {
+  const registerUser = jest.fn()
+  renderWithRouter(<Register registerUser={registerUser} />);
+  const registerButton = await screen.getByRole("button", { name: "Register" });
+  fireEvent.click(registerButton);
+
+  expect(registerUser).toHaveBeenCalled();
+});

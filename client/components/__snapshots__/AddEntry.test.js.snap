@@ -1,20 +1,75 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<AddEntry> includes name in <li> 1`] = `
-<div
-  data-testid="addentry"
->
-  <h2>
-    Add New Entry
-  </h2>
-  <div>
-    You must 
-    <a
-      href="/signin"
+exports[`renders correctly when authenticated 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="addentry"
+  >
+    <h2>
+      Add New Entry
+    </h2>
+    <div
+      style="display: flex; flex-direction: column; max-width: 250px;"
     >
-      sign in
-    </a>
-     to add new entries.
+      <label
+        for="name"
+      >
+        Name
+      </label>
+      <input
+        id="name"
+        name="name"
+        value=""
+      />
+      <label
+        for="link"
+      >
+        Link
+      </label>
+      <input
+        id="link"
+        name="link"
+        value=""
+      />
+      <label
+        for="description"
+      >
+        Description
+      </label>
+      <textarea
+        cols="26"
+        id="description"
+        name="description"
+      />
+      <div>
+        <button
+          type="button"
+        >
+          Add this entry
+        </button>
+      </div>
+    </div>
   </div>
-</div>
+</DocumentFragment>
+`;
+
+exports[`renders correctly when not authenticated 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="addentry"
+  >
+    <h2>
+      Add New Entry
+    </h2>
+    <div>
+      You must 
+      <a
+        href="/signin"
+      >
+        sign in
+      </a>
+       to add new entries.
+    </div>
+  </div>
+</DocumentFragment>
 `;

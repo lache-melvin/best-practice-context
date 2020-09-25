@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders entries page correctly when authenticated 1`] = `
+<DocumentFragment>
+  <h2>
+    Entries
+  </h2>
+  <a
+    href="/add"
+  >
+    Add an entry
+  </a>
+  <ul>
+    <li
+      data-testid="entry"
+    >
+      <a
+        href="/entry/1"
+      >
+        mocked entry 1
+      </a>
+    </li>
+    <li
+      data-testid="entry"
+    >
+      <a
+        href="/entry/2"
+      >
+        mocked entry 2
+      </a>
+    </li>
+    <li
+      data-testid="entry"
+    >
+      <a
+        href="/entry/3"
+      >
+        mocked entry 3
+      </a>
+    </li>
+  </ul>
+</DocumentFragment>
+`;
+
+exports[`renders entries page correctly when not authenticated 1`] = `
+<DocumentFragment>
+  <h2>
+    Entries
+  </h2>
+  <ul>
+    <li
+      data-testid="entry"
+    >
+      <a
+        href="/entry/1"
+      >
+        mocked entry 1
+      </a>
+    </li>
+    <li
+      data-testid="entry"
+    >
+      <a
+        href="/entry/2"
+      >
+        mocked entry 2
+      </a>
+    </li>
+    <li
+      data-testid="entry"
+    >
+      <a
+        href="/entry/3"
+      >
+        mocked entry 3
+      </a>
+    </li>
+  </ul>
+</DocumentFragment>
+`;

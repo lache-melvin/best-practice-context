@@ -3,49 +3,53 @@ import "@testing-library/jest-dom";
 import { screen, fireEvent } from "@testing-library/react";
 import { renderWithRouter } from "../testing/utils";
 
-import AddEntry from "./AddEntry";
+import { AddEntry } from "./AddEntry";
 
-import { addEntry } from "../api";
-import { useEntryContext, useUserContext } from "../context";
-
-jest.mock("../api", () => {
-  return {
-    addEntry: jest.fn(),
-  };
+test("renders correctly when authenticated", () => {
+  const { asFragment } = renderWithRouter(
+    <AddEntry authenticated={() => true} />
+  );
+  expect(asFragment()).toMatchSnapshot();
 });
 
-jest.mock("../context", () => {
-  return {
-    useEntryContext: jest.fn(() => {
-      return {
-        receiveEntry: jest.fn(),
-      };
-    }),
-    useUserContext: jest.fn(() => {
-      return {
-        userState: { id: 1 },
-      };
-    }),
-  };
+test("renders correctly when not authenticated", () => {
+  const { asFragment } = renderWithRouter(
+    <AddEntry authenticated={() => false} />
+  );
+  expect(asFragment()).toMatchSnapshot();
 });
 
-test("<AddEntry> includes name in <li>", async () => {
-  renderWithRouter(<AddEntry />);
-  const entry = await screen.findByTestId("addentry");
-  expect(entry).toBeInTheDocument();
-  expect(entry).toMatchSnapshot();
+test("submitEntry is called on add entry button click", async () => {
+  const submitEntry = jest.fn();
+  renderWithRouter(
+    <AddEntry
+      user={{ id: 1 }}
+      submitEntry={submitEntry}
+      authenticated={() => true}
+    />
+  );
+
+  const addButton = await screen.getByRole("button", {
+    name: "Add this entry",
+  });
+  fireEvent.click(addButton);
+
+  expect(submitEntry).toHaveBeenCalled();
 });
 
-test("<AddEntry> renders with context correctly", async () => {
-  renderWithRouter(<AddEntry />);
-  expect(useEntryContext).toHaveBeenCalled();
-  expect(useUserContext).toHaveBeenCalled();
-});
+test("input values update on change", async () => {
+  renderWithRouter(<AddEntry authenticated={() => true} />);
 
-// test("button exists", async () => {
-//   renderWithRouter(<AddEntry />);
-//   const addButton = await screen.getByRole("button", {
-//     name: "Add this entry",
-//   });
-//   expect(addButton).toBeInTheDocument();
-// });
+  const nameInput = await screen.getByRole("textbox", { name: "Name" });
+  const linkInput = await screen.getByRole("textbox", { name: "Link" });
+  const descriptionInput = await screen.getByRole("textbox", {
+    name: "Description",
+  });
+  fireEvent.change(nameInput, { target: { value: "test name" } });
+  fireEvent.change(linkInput, { target: { value: "test link" } });
+  fireEvent.change(descriptionInput, { target: { value: "test description" } });
+
+  expect(nameInput.value).toBe("test name");
+  expect(linkInput.value).toBe("test link");
+  expect(descriptionInput.value).toBe("test description");
+});

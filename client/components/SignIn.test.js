@@ -2,15 +2,15 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { Register } from "./Register";
+import { SignIn } from "./SignIn";
 
 test("renders register form correctly", () => {
-  const { asFragment } = render(<Register />);
+  const { asFragment } = render(<SignIn />);
   expect(asFragment()).toMatchSnapshot();
 });
 
 test("form field values update correctly on input", async () => {
-  render(<Register />);
+  render(<SignIn />);
 
   const usernameInput = await screen.getByRole("textbox", {
     name: "Username",
@@ -23,12 +23,12 @@ test("form field values update correctly on input", async () => {
   expect(passwordInput.value).toBe("test password");
 });
 
-test("calls registerUser on register button click", async () => {
-  const registerUser = jest.fn();
-  render(<Register registerUser={registerUser} />);
+test("calls signInUser on sign in button click", async () => {
+  const signInUser = jest.fn();
+  render(<SignIn signInUser={signInUser} />);
 
-  const registerButton = await screen.getByRole("button", { name: "Register" });
-  fireEvent.click(registerButton);
+  const signInButton = await screen.getByRole("button", { name: "Sign in" });
+  fireEvent.click(signInButton);
 
-  expect(registerUser).toHaveBeenCalled();
+  expect(signInUser).toHaveBeenCalled();
 });

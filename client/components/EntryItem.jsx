@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { withEntryContext } from "../context";
 
-const EntryItem = ({ selectEntry, entryData }) => {
+export function EntryItem({ selectEntry, entryData }) {
   return (
     <li data-testid="entry">
       <Link

@@ -12,7 +12,7 @@ const linkStyle = {
   marginRight: "30px",
 };
 
-function Nav({ authenticated, setUserIfLoggedIn, logOut }) {
+export function Nav({ authenticated, setUserIfLoggedIn, logOut }) {
   useEffect(() => {
     setUserIfLoggedIn();
   }, []);

@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 
 import { withEntriesContext, withEntryContext } from "../context";
 
-function EntryDetail({ entries, entry, retrieveEntryById, match }) {
+export function EntryDetail({ entries, entry, retrieveEntryById, match }) {
   const id = Number(match?.params?.id) || null;
 
   const entryFromState =
-    entry && entry.id === id ? entry : entries.find((entry) => entry.id === id);
+    entry?.id === id ? entry : entries.find((entry) => entry.id === id);
 
   useEffect(() => {
     if (!entryFromState && id) {

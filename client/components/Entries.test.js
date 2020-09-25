@@ -1,37 +1,42 @@
 import React from "react";
-import { screen } from "@testing-library/react";
 import { renderWithRouter } from "../testing/utils";
 import "@testing-library/jest-dom";
 
-import Entries from "./Entries";
-import { getEntries } from "../api";
-import { useEntriesContext, useEntryContext } from "../context";
+import { Entries } from "./Entries";
 
 import mockEntries from "../testing/mockEntries";
 
-jest.mock("../api");
+test("renders entries page correctly when authenticated", () => {
+  const { asFragment } = renderWithRouter(
+    <Entries
+      authenticated={() => true}
+      entries={mockEntries}
+      retrieveEntries={() => {}}
+    />
+  );
+  expect(asFragment()).toMatchSnapshot();
+});
 
-jest.mock("../context");
+test("renders entries page correctly when not authenticated", () => {
+  const { asFragment } = renderWithRouter(
+    <Entries
+      authenticated={() => false}
+      retrieveEntries={() => {}}
+      entries={mockEntries}
+    />
+  );
+  expect(asFragment()).toMatchSnapshot();
+});
 
-test("<Entries> shows entries from API", async () => {
-  getEntries.mockReturnValue(Promise.resolve());
-  useEntriesContext.mockReturnValue({
-    applyEntries: jest.fn(),
-    entries: mockEntries,
-  });
-  useEntryContext.mockReturnValue({
-    applyEntry: jest.fn(),
-  });
+test("useEffect calls retrieveEntries on mount", () => {
+  const retrieveEntries = jest.fn();
+  renderWithRouter(
+    <Entries
+      authenticated={() => false}
+      entries={mockEntries}
+      retrieveEntries={retrieveEntries}
+    />
+  );
 
-  renderWithRouter(<Entries />);
-  const entries = await screen.findAllByTestId("entry");
-  expect(entries).toHaveLength(3);
-  expect(entries[1]).not.toHaveTextContent("1");
-  expect(entries[1]).toHaveTextContent("2");
-  expect(entries[1]).not.toHaveTextContent("3");
-  expect(getEntries).toHaveBeenCalled();
-  expect(useEntriesContext).toHaveBeenCalled();
-  expect(useEntryContext).toHaveBeenCalled();
-  expect(useEntriesContext().applyEntries).toHaveBeenCalled();
-  // expect(useEntryContext().receiveEntry).toHaveBeenCalled();
+  expect(retrieveEntries).toHaveBeenCalled();
 });

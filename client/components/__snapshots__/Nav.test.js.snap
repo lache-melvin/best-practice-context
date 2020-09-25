@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly if authenticated 1`] = `
+<DocumentFragment>
+  <div
+    style="float: right;"
+  >
+    <a
+      href="/"
+      style="margin-right: 30px;"
+    >
+      Home
+    </a>
+    <a
+      data-testid="logoff"
+      href="/"
+      style="margin-right: 30px;"
+    >
+      Log off
+    </a>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders correctly if not authenticated 1`] = `
+<DocumentFragment>
+  <div
+    style="float: right;"
+  >
+    <a
+      href="/"
+      style="margin-right: 30px;"
+    >
+      Home
+    </a>
+    <a
+      data-testid="register"
+      href="/register"
+      style="margin-right: 30px;"
+    >
+      Register
+    </a>
+    <a
+      data-testid="signin"
+      href="/signin"
+      style="margin-right: 30px;"
+    >
+      Sign in
+    </a>
+  </div>
+</DocumentFragment>
+`;

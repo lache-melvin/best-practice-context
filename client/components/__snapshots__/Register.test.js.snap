@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders register form correctly 1`] = `
+<DocumentFragment>
+  <h2>
+    Register
+  </h2>
+  <div
+    style="display: flex; flex-direction: column; max-width: 250px;"
+  >
+    <label
+      for="username"
+    >
+      Username
+    </label>
+    <input
+      id="username"
+      name="username"
+      value=""
+    />
+    <label
+      for="password"
+    >
+      Password
+    </label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      value=""
+    />
+    <button
+      type="button"
+    >
+      Register
+    </button>
+  </div>
+</DocumentFragment>
+`;
