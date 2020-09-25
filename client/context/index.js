@@ -4,13 +4,11 @@ import { EntriesContextProvider } from "./entriesContext";
 import { EntryContextProvider } from "./entryContext";
 import { UserContextProvider } from "./userContext";
 
-import entriesContextHook from "./useEntriesContext";
-import entryContextHook from "./useEntryContext";
-import userContextHook from "./useUserContext";
+import useEntriesContext from "./useEntriesContext";
+import useEntryContext from "./useEntryContext";
+import useUserContext from "./useUserContext";
 
-export const useEntriesContext = entriesContextHook;
-export const useEntryContext = entryContextHook;
-export const useUserContext = userContextHook;
+export { useEntriesContext, useEntryContext, useUserContext };
 
 export const ContextProvider = combineContextProviders([
   EntriesContextProvider,
