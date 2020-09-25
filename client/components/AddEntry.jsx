@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { withAuthentication } from "../wrappers";
-import { withEntryContext, withUserContext } from "../context";
+import { wrappedWith, authentication, entryContext, userContext } from "../wrappers";
 
 const formStyle = {
   display: "flex",
@@ -63,4 +62,4 @@ export function AddEntry({ authenticated, user, submitEntry }) {
   );
 }
 
-export default withAuthentication(withEntryContext(withUserContext(AddEntry)));
+export default wrappedWith([authentication, entryContext, userContext], AddEntry);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { withUserContext } from "../context";
+import { wrappedWith, userContext } from "../wrappers";
 
 const formStyle = {
   display: "flex",
@@ -53,4 +53,4 @@ export function SignIn({ signInUser }) {
   );
 }
 
-export default withUserContext(SignIn);
+export default wrappedWith([userContext], SignIn);

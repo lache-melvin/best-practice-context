@@ -1,6 +1,6 @@
 import React from "react";
 
-import useEntriesContext from "./useEntriesContext";
+import { useEntriesContext } from "../context";
 
 function makeEntriesContextWrapper(getEntries) {
   return function withEntriesContext(Component) {

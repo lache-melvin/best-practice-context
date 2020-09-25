@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { withAuthentication } from "../wrappers";
-import { withUserContext } from "../context";
+import { wrappedWith, authentication, userContext } from "../wrappers";
 
 const groupStyle = {
   float: "right",
@@ -41,4 +40,4 @@ export function Nav({ authenticated, setUserIfLoggedIn, logOut }) {
   );
 }
 
-export default withAuthentication(withUserContext(Nav));
+export default wrappedWith([authentication, userContext], Nav);

@@ -1,6 +1,6 @@
 import React from "react";
 
-import useUserContext from "./useUserContext";
+import { useUserContext } from "../context";
 
 function makeUserContextWrapper(
   configuredRegister,

@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 
 import WrappedEntryItem from "./EntryItem";
 
-import { withAuthentication } from "../wrappers";
-import { withEntriesContext } from "../context";
+import { wrappedWith, authentication, entriesContext } from "../wrappers";
 
 export function Entries({ authenticated, entries, retrieveEntries }) {
   useEffect(retrieveEntries, []);
@@ -21,4 +20,4 @@ export function Entries({ authenticated, entries, retrieveEntries }) {
   );
 }
 
-export default withAuthentication(withEntriesContext(Entries));
+export default wrappedWith([authentication, entriesContext], Entries);

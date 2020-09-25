@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { withEntriesContext, withEntryContext } from "../context";
+import { wrappedWith, entriesContext, entryContext } from "../wrappers";
 
 export function EntryDetail({ entries, entry, retrieveEntryById, match }) {
   const id = Number(match?.params?.id) || null;
@@ -25,4 +25,4 @@ export function EntryDetail({ entries, entry, retrieveEntryById, match }) {
   );
 }
 
-export default withEntriesContext(withEntryContext(EntryDetail));
+export default wrappedWith([entriesContext, entryContext], EntryDetail);

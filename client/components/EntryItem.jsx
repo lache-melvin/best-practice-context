@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { withEntryContext } from "../context";
+import { wrappedWith, entryContext } from "../wrappers";
 
 export function EntryItem({ selectEntry, entryData }) {
   return (
@@ -16,4 +16,4 @@ export function EntryItem({ selectEntry, entryData }) {
   );
 }
 
-export default withEntryContext(EntryItem);
+export default wrappedWith([entryContext], EntryItem);
