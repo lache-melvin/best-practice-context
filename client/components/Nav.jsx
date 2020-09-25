@@ -40,4 +40,4 @@ export function Nav({ authenticated, setUserIfLoggedIn, logOut }) {
   );
 }
 
-export default wrappedWith([authentication, userContext], Nav);
+export default wrappedWith(authentication, userContext)(Nav);

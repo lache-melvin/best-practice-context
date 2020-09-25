@@ -20,4 +20,4 @@ export function Entries({ authenticated, entries, retrieveEntries }) {
   );
 }
 
-export default wrappedWith([authentication, entriesContext], Entries);
+export default wrappedWith(authentication, entriesContext)(Entries);

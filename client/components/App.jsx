@@ -42,4 +42,4 @@ function App({ authenticated }) {
   );
 }
 
-export default wrappedWith([authentication], App);
+export default wrappedWith(authentication)(App);

@@ -16,4 +16,4 @@ export function EntryItem({ selectEntry, entryData }) {
   );
 }
 
-export default wrappedWith([entryContext], EntryItem);
+export default wrappedWith(entryContext)(EntryItem);

@@ -25,4 +25,4 @@ export function EntryDetail({ entries, entry, retrieveEntryById, match }) {
   );
 }
 
-export default wrappedWith([entriesContext, entryContext], EntryDetail);
+export default wrappedWith(entriesContext, entryContext)(EntryDetail);

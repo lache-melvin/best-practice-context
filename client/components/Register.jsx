@@ -53,4 +53,4 @@ export function Register({ registerUser }) {
   );
 }
 
-export default wrappedWith([userContext], Register);
+export default wrappedWith(userContext)(Register);

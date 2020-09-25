@@ -53,4 +53,4 @@ export function SignIn({ signInUser }) {
   );
 }
 
-export default wrappedWith([userContext], SignIn);
+export default wrappedWith(userContext)(SignIn);

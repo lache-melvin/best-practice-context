@@ -24,21 +24,21 @@ export const userContext = makeUserContextWrapper(
   logOff
 );
 
-// FOR: wrappedWith([authentication, userContext], SignIn)
-export function wrappedWith(wrappers, Component) {
+// FOR: wrappedWith(authentication, userContext)(SignIn)
+export function wrappedWith(...wrappers) {
   const remaining = ([, ...rest]) => rest;
-  if (!wrappers.length) return Component;
-  return wrappers[0](wrappedWith(remaining(wrappers), Component));
+  const wrap = (wrappers, content) => {
+    if (!wrappers.length) return content;
+    return wrappers[0](wrap(remaining(wrappers), content));
+  };
+  return function (component) {
+    return wrap(wrappers, component);
+  };
 }
 
-// FOR: wrappedWith(authentication, userContext)(SignIn)
-// export function wrappedWith(...wrappers) {
+// FOR: wrappedWith([authentication, userContext], SignIn)
+// export function wrappedWith(wrappers, Component) {
 //   const remaining = ([, ...rest]) => rest;
-//   const wrap = (wrappers, Component) => {
-//     if (!wrappers.length) return Component;
-//     return wrappers[0](wrap(remaining(wrappers), Component));
-//   };
-//   return function (Comp) {
-//     return wrap(wrappers, Comp);
-//   };
+//   if (!wrappers.length) return Component;
+//   return wrappers[0](wrappedWith(remaining(wrappers), Component));
 // }
