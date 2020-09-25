@@ -26,14 +26,24 @@ export const userContext = makeUserContextWrapper(
   logOff
 );
 
+// FOR: wrappedWith([authentication, userContext], SignIn)
 export function wrappedWith(wrappers, Component) {
+  const remaining = ([, ...rest]) => rest;
   if (!wrappers.length) return Component;
-  const rest = (wraps) => {
-    wraps.shift();
-    return wraps;
-  };
-  return wrappers[0](wrappedWith(rest(wrappers), Component));
+  return wrappers[0](wrappedWith(remaining(wrappers), Component));
 }
+
+// FOR: wrappedWith(authentication, userContext)(SignIn)
+// export function wrappedWith(...wrappers) {
+//   const remaining = ([, ...rest]) => rest;
+//   const wrap = (wrappers, Component) => {
+//     if (!wrappers.length) return Component;
+//     return wrappers[0](wrap(remaining(wrappers), Component));
+//   };
+//   return function (Comp) {
+//     return wrap(wrappers, Comp);
+//   };
+// }
 
 function configuredRegister(credentials) {
   const { username, password } = credentials;
