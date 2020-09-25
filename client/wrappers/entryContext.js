@@ -5,7 +5,7 @@ import { useEntryContext } from "../context";
 function makeEntryContextWrapper(getEntryById, addEntry) {
   return function withEntryContext(Component) {
     return function EntryContextWrapper(props) {
-      const { applyEntry, entry } = useEntryContext();
+      const [entry, applyEntry] = useEntryContext();
 
       const retrieveEntryById = (id) => {
         getEntryById(id)

@@ -11,7 +11,7 @@ function makeUserContextWrapper(
 ) {
   return function withUserContext(Component) {
     return function UserContextWrapper(props) {
-      const { applyUser, user } = useUserContext();
+      const [user, applyUser] = useUserContext();
 
       const registerUser = (credentials) => {
         configuredRegister(credentials)

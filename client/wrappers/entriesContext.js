@@ -5,7 +5,7 @@ import { useEntriesContext } from "../context";
 function makeEntriesContextWrapper(getEntries) {
   return function withEntriesContext(Component) {
     return function EntriesContextWrapper(props) {
-      const { applyEntries, entries } = useEntriesContext();
+      const [entries, applyEntries] = useEntriesContext();
 
       const retrieveEntries = () => {
         getEntries()
