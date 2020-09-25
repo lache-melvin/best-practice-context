@@ -1,10 +1,10 @@
 import { contextCreate, combineProviders } from "./context-utils";
 
-const [EntriesContextProvider, useEntriesContext] = contextCreate([]);
-const [EntryContextProvider, useEntryContext] = contextCreate({});
-const [UserContextProvider, useUserContext] = contextCreate({});
+const [EntriesContext, EntriesContextProvider] = contextCreate([], "Entries");
+const [EntryContext, EntryContextProvider] = contextCreate({}, "Entry");
+const [UserContext, UserContextProvider] = contextCreate({}, "User");
 
-export { useEntriesContext, useEntryContext, useUserContext };
+export { EntriesContext, EntryContext, UserContext };
 
 export const ContextProvider = combineProviders(
   EntriesContextProvider,

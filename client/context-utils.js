@@ -1,21 +1,15 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext } from "react";
 
-export function contextCreate(defaultValue) {
+export function contextCreate(defaultValue, name) {
   const Context = createContext([defaultValue, () => defaultValue]);
-  const provider = ({ children }) => {
+  const Provider = ({ children }) => {
     const [value, setValue] = useState(defaultValue);
     return (
       <Context.Provider value={[value, setValue]}>{children}</Context.Provider>
     );
   };
-  const hook = () => {
-    const [value, setValue] = useContext(Context);
-    const applyValue = (value) => {
-      setValue(value !== undefined ? value : defaultValue);
-    };
-    return [value, applyValue];
-  };
-  return [provider, hook];
+  Provider.displayName = name ? `${name}Provider` : "ContextProvider";
+  return [Context, Provider];
 }
 
 export function combineProviders(...providers) {

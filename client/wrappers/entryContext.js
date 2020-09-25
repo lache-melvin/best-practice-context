@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { useEntryContext } from "../context";
+import { EntryContext } from "../context";
 
 function makeEntryContextWrapper(getEntryById, addEntry) {
   return function withEntryContext(Component) {
     return function EntryContextWrapper(props) {
-      const [entry, applyEntry] = useEntryContext();
+      const [entry, setEntry] = useContext(EntryContext);
 
       const retrieveEntryById = (id) => {
         getEntryById(id)
           .then((entry) => {
-            return applyEntry(entry);
+            return setEntry(entry);
           })
           .catch((err) => {
             console.error(err);
@@ -20,7 +20,7 @@ function makeEntryContextWrapper(getEntryById, addEntry) {
       const submitEntry = (authorId, formData) => {
         addEntry({ ...formData, authorId })
           .then((saved) => {
-            applyEntry(saved);
+            setEntry(saved);
             props.history.push(`/entry/${saved.id}`);
             return;
           })
@@ -30,7 +30,7 @@ function makeEntryContextWrapper(getEntryById, addEntry) {
       };
 
       const selectEntry = (entry) => {
-        applyEntry(entry);
+        setEntry(entry);
       };
 
       return (

@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { useEntriesContext } from "../context";
+import { EntriesContext } from "../context";
 
 function makeEntriesContextWrapper(getEntries) {
   return function withEntriesContext(Component) {
     return function EntriesContextWrapper(props) {
-      const [entries, applyEntries] = useEntriesContext();
+      const [entries, setEntries] = useContext(EntriesContext);
 
       const retrieveEntries = () => {
         getEntries()
           .then((entries) => {
-            return applyEntries(entries);
+            return setEntries(entries);
           })
           .catch((err) => {
             console.error(err);

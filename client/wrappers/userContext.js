@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { useUserContext } from "../context";
+import { UserContext } from "../context";
 
 function makeUserContextWrapper(
   configuredRegister,
@@ -11,13 +11,13 @@ function makeUserContextWrapper(
 ) {
   return function withUserContext(Component) {
     return function UserContextWrapper(props) {
-      const [user, applyUser] = useUserContext();
+      const [user, setUser] = useContext(UserContext);
 
       const registerUser = (credentials) => {
         configuredRegister(credentials)
           .then((token) => {
             if (isAuthenticated()) {
-              applyUser(token);
+              setUser(token);
               props.history.push("/");
             }
             return;
@@ -31,7 +31,7 @@ function makeUserContextWrapper(
         configuredSignIn(credentials)
           .then((token) => {
             if (isAuthenticated()) {
-              applyUser(token);
+              setUser(token);
               props.history.push("/");
             }
             return;
@@ -43,12 +43,12 @@ function makeUserContextWrapper(
 
       const setUserIfLoggedIn = () => {
         const token = getDecodedToken();
-        token && applyUser(token);
+        token && setUser(token);
       };
 
       const logOut = () => {
         logOff();
-        applyUser({ dataValues: { id: null, username: null } });
+        setUser({ dataValues: { id: null, username: null } });
       };
 
       return (
