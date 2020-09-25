@@ -10,22 +10,20 @@ import useUserContext from "./useUserContext";
 
 export { useEntriesContext, useEntryContext, useUserContext };
 
-export const ContextProvider = combineContextProviders([
+export const ContextProvider = combineContextProviders(
   EntriesContextProvider,
   EntryContextProvider,
-  UserContextProvider,
-]);
+  UserContextProvider
+);
 
-function combineContextProviders(providers) {
-  const UI = ({ children }) => children;
-  return providers.reduce((Content, Provider) => {
-    const Context = ({ children }) => {
-      return (
-        <Provider>
-          <Content>{children}</Content>
-        </Provider>
-      );
-    };
-    return Context;
-  }, UI);
+export function combineContextProviders(...providers) {
+  const remaining = ([, ...rest]) => rest;
+  const provide = (providers, UI) => {
+    if (!providers.length) return UI;
+    const Provider = providers[0];
+    return <Provider>{provide(remaining(providers), UI)}</Provider>;
+  };
+  return function CombinedContextProvider({ children }) {
+    return provide(providers, children);
+  };
 }
