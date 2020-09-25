@@ -14,6 +14,6 @@ export function EntryItem({ selectEntry, entryData }) {
       </Link>
     </li>
   );
-};
+}
 
 export default withEntryContext(EntryItem);

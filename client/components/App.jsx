@@ -2,27 +2,27 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { isAuthenticated } from "authenticare/client";
 
-import Nav from "./Nav";
-import Entries from "./Entries";
-import AddEntry from "./AddEntry";
-import EntryDetail from "./EntryDetail";
-import Register from "./Register";
-import SignIn from "./SignIn";
+import WrappedNav from "./Nav";
+import WrappedEntries from "./Entries";
+import WrappedAddEntry from "./AddEntry";
+import WrappedEntryDetail from "./EntryDetail";
+import WrappedRegister from "./Register";
+import WrappedSignIn from "./SignIn";
 
 function App() {
   return (
     <>
-      <Route path="/" component={Nav} />
+      <Route path="/" component={WrappedNav} />
       <h1>Best Practice</h1>
-      <Route exact path="/" component={Entries} />
-      <Route path="/add" component={AddEntry} />
+      <Route exact path="/" component={WrappedEntries} />
+      <Route path="/add" component={WrappedAddEntry} />
       <Route
         path="/signin"
         render={({ history }) => {
           return isAuthenticated() ? (
             <Redirect to="/" />
           ) : (
-            <SignIn history={history} />
+            <WrappedSignIn history={history} />
           );
         }}
       />
@@ -32,11 +32,11 @@ function App() {
           return isAuthenticated() ? (
             <Redirect to="/" />
           ) : (
-            <Register history={history} />
+            <WrappedRegister history={history} />
           );
         }}
       />
-      <Route path="/entry/:id" component={EntryDetail} />
+      <Route path="/entry/:id" component={WrappedEntryDetail} />
     </>
   );
 }
