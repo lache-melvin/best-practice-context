@@ -6,7 +6,9 @@ import WrappedEntryItem from "./EntryItem";
 import { wrappedWith, authentication, entriesContext } from "../wrappers";
 
 export function Entries({ authenticated, entries, retrieveEntries }) {
-  useEffect(retrieveEntries, []);
+  useEffect(() => {
+    retrieveEntries();
+  }, []);
   return (
     <>
       <h2>Entries</h2>
