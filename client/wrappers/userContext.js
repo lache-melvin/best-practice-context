@@ -7,14 +7,15 @@ function makeUserContextWrapper(
   configuredSignIn,
   getDecodedToken,
   isAuthenticated,
-  logOff
+  logOff,
+  logger = console
 ) {
   return function withUserContext(Component) {
     return function UserContextWrapper(props) {
       const [user, setUser] = useContext(UserContext);
 
       const registerUser = (credentials) => {
-        configuredRegister(credentials)
+        return configuredRegister(credentials)
           .then((token) => {
             if (isAuthenticated()) {
               const { id, username } = token.dataValues;
@@ -25,12 +26,12 @@ function makeUserContextWrapper(
             return;
           })
           .catch((err) => {
-            console.error(err);
+            logger.error(err);
           });
       };
 
       const signInUser = (credentials) => {
-        configuredSignIn(credentials)
+        return configuredSignIn(credentials)
           .then((token) => {
             if (isAuthenticated()) {
               const { id, username } = token.dataValues;
@@ -41,7 +42,7 @@ function makeUserContextWrapper(
             return;
           })
           .catch((err) => {
-            console.error(err);
+            logger.error(err);
           });
       };
 
