@@ -1,86 +1,105 @@
+// NOTE: You'll need to add the following lines to the "jest" config in the
+// eda-frontend-deps package.json:
+// "setupFiles": [
+//   "./testing/enzyme-setup.js"
+// ]
+
 import React from "react";
-import { render } from "@testing-library/react";
+import { mount } from "enzyme";
 
 import makeEntriesContextWrapper from "./entriesContext";
 import { EntriesContext } from "../context";
 
 import mockEntries from "../testing/mockEntries";
+const TestComponent = () => <></>;
 
 test("puts own props on child props", () => {
-  expect.assertions(1);
-  const testComponent = ({ testProp }) => {
-    expect(testProp).toBe("test prop");
-    return <></>;
+  const contextProvider = ({ children }) => {
+    return (
+      <EntriesContext.Provider value={[[], () => []]}>
+        {children}
+      </EntriesContext.Provider>
+    );
   };
   const EntriesContextWrappedComponent = makeEntriesContextWrapper()(
-    testComponent
+    TestComponent
   );
-  render(
-    <EntriesContext.Provider value={[[], () => []]}>
-      <EntriesContextWrappedComponent testProp="test prop" />
-    </EntriesContext.Provider>
-  );
+  const component = mount(
+    <EntriesContextWrappedComponent testProp="test prop" />,
+    {
+      wrappingComponent: contextProvider,
+    }
+  ).children();
+  expect(component.props().testProp).toBe("test prop");
 });
 
 test("puts entries context value on child props", () => {
-  expect.assertions(1);
-  const testComponent = ({ entries }) => {
-    expect(entries).toHaveLength(3);
-    return <></>;
+  const contextProvider = ({ children }) => {
+    return (
+      <EntriesContext.Provider value={[mockEntries, () => []]}>
+        {children}
+      </EntriesContext.Provider>
+    );
   };
   const EntriesContextWrappedComponent = makeEntriesContextWrapper()(
-    testComponent
+    TestComponent
   );
-  render(
-    <EntriesContext.Provider value={[mockEntries, () => []]}>
-      <EntriesContextWrappedComponent />
-    </EntriesContext.Provider>
-  );
+  const component = mount(<EntriesContextWrappedComponent />, {
+    wrappingComponent: contextProvider,
+  }).children();
+  expect(component.props().entries).toHaveLength(3);
 });
 
 test("calls setEntries on retrieveEntries success", () => {
-  expect.assertions(2);
   const getEntries = jest.fn(() => Promise.resolve(mockEntries));
   const mockSetEntriesContext = jest.fn();
-  const testComponent = ({ retrieveEntries }) => {
-    retrieveEntries().then(expectations).catch(null);
-    return <></>;
+  const contextProvider = ({ children }) => {
+    return (
+      <EntriesContext.Provider value={[[], mockSetEntriesContext]}>
+        {children}
+      </EntriesContext.Provider>
+    );
   };
   const EntriesContextWrappedComponent = makeEntriesContextWrapper(getEntries)(
-    testComponent
+    TestComponent
   );
-  render(
-    <EntriesContext.Provider value={[[], mockSetEntriesContext]}>
-      <EntriesContextWrappedComponent />
-    </EntriesContext.Provider>
-  );
-  function expectations() {
-    expect(getEntries).toHaveBeenCalled();
-    expect(mockSetEntriesContext).toHaveBeenCalledWith(mockEntries);
-  }
+  const component = mount(<EntriesContextWrappedComponent />, {
+    wrappingComponent: contextProvider,
+  }).children();
+  return component
+    .props()
+    .retrieveEntries()
+    .then(() => {
+      expect(getEntries).toHaveBeenCalled();
+      expect(mockSetEntriesContext).toHaveBeenCalledWith(mockEntries);
+      return null;
+    });
 });
 
 test("logs error on retrieveEntries rejection", () => {
-  expect.assertions(2);
   const getEntries = jest.fn(() => Promise.reject("mock getEntries rejection"));
   const logger = { error: jest.fn() };
-
-  const testComponent = ({ retrieveEntries }) => {
-    retrieveEntries().then(expectations).catch(null);
-    return <></>;
+  const contextProvider = ({ children }) => {
+    return (
+      <EntriesContext.Provider value={[[], () => []]}>
+        {children}
+      </EntriesContext.Provider>
+    );
   };
   const EntriesContextWrappedComponent = makeEntriesContextWrapper(
     getEntries,
     logger
-  )(testComponent);
-  render(
-    <EntriesContext.Provider value={[[], () => []]}>
-      <EntriesContextWrappedComponent />
-    </EntriesContext.Provider>
-  );
-
-  function expectations() {
-    expect(getEntries).toHaveBeenCalled();
-    expect(logger.error).toHaveBeenCalledWith("mock getEntries rejection");
-  }
+  )(TestComponent);
+  const component = mount(<EntriesContextWrappedComponent />, {
+    wrappingComponent: contextProvider,
+  }).children();
+  expect.assertions(2);
+  return component
+    .props()
+    .retrieveEntries()
+    .then(() => {
+      expect(getEntries).toHaveBeenCalled();
+      expect(logger.error).toHaveBeenCalledWith("mock getEntries rejection");
+      return null;
+    });
 });
