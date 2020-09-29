@@ -1,19 +1,29 @@
 import React from "react";
+import enzyme, { mount } from "enzyme";
+
+import Adapter from "enzyme-adapter-react-16";
+enzyme.configure({
+  adapter: new Adapter(),
+});
 
 import makeAuthenticationWrapper from "./authentication";
 
-test("authentication wrapper puts correct values on props", () => {
+const TestComponent = () => <></>;
+
+test("puts own props on child props", () => {
+  const AuthWrappedComponent = makeAuthenticationWrapper()(TestComponent);
+  const component = mount(
+    <AuthWrappedComponent testProp="test prop" />
+  ).children();
+  expect(component.props().testProp).toBe("test prop");
+});
+
+test("puts authenticated function on props correctly", () => {
   const isAuthenticated = jest.fn();
-  const testComponent = () => <></>;
-  const testProps = { prop1: "test prop 1", prop2: "test prop 2" };
-
   const AuthWrappedComponent = makeAuthenticationWrapper(isAuthenticated)(
-    testComponent
-  )(testProps);
-  const componentProps = AuthWrappedComponent.props;
-  componentProps.authenticated();
-
-  expect(componentProps.prop1).toBe("test prop 1");
-  expect(componentProps.prop2).toBe("test prop 2");
+    TestComponent
+  );
+  const component = mount(<AuthWrappedComponent />).children();
+  component.props().authenticated();
   expect(isAuthenticated).toHaveBeenCalled();
 });
