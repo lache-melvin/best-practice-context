@@ -92,7 +92,6 @@ test("logs error on retrieveEntries rejection", () => {
   const component = mount(<EntriesContextWrappedComponent />, {
     wrappingComponent: contextProvider,
   }).children();
-  expect.assertions(2);
   return component
     .props()
     .retrieveEntries()
