@@ -1,10 +1,5 @@
 import React from "react";
-import enzyme, { mount } from "enzyme";
-
-import Adapter from "enzyme-adapter-react-16";
-enzyme.configure({
-  adapter: new Adapter(),
-});
+import { render } from "@testing-library/react";
 
 import makeEntryContextWrapper from "./entryContext";
 import { EntryContext } from "../context";
@@ -18,192 +13,163 @@ const mockEntry = {
   updated: 1601195097784,
 };
 
-const TestComponent = () => <></>;
-
 describe("Wrapper sets up props", () => {
   it("puts own props on child props", () => {
-    const contextProvider = ({ children }) => {
-      return (
-        <EntryContext.Provider value={[{}, () => {}]}>
-          {children}
-        </EntryContext.Provider>
-      );
+    expect.assertions(1);
+    const TestComponent = ({ testProp }) => {
+      expect(testProp).toBe("test prop");
+      return <></>;
     };
-    const EntryContextWrappedComponent = makeEntryContextWrapper()(
-      TestComponent
+    const WrappedWithEntry = makeEntryContextWrapper()(TestComponent);
+    render(
+      <EntryContext.Provider value={[{}, () => {}]}>
+        <WrappedWithEntry testProp="test prop" />
+      </EntryContext.Provider>
     );
-    const component = mount(
-      <EntryContextWrappedComponent testProp="test prop" />,
-      {
-        wrappingComponent: contextProvider,
-      }
-    ).children();
-    expect(component.props().testProp).toBe("test prop");
   });
 
   it("puts entry context value on child props", () => {
-    const contextProvider = ({ children }) => {
-      return (
-        <EntryContext.Provider value={[mockEntry, () => {}]}>
-          {children}
-        </EntryContext.Provider>
-      );
+    expect.assertions(1);
+    const TestComponent = ({ entry }) => {
+      expect(entry.name).toBe("mocked entry 1");
+      return <></>;
     };
-    const EntryContextWrappedComponent = makeEntryContextWrapper()(
-      TestComponent
+    const WrappedWithEntry = makeEntryContextWrapper()(TestComponent);
+    render(
+      <EntryContext.Provider value={[mockEntry, () => {}]}>
+        <WrappedWithEntry />
+      </EntryContext.Provider>
     );
-    const component = mount(<EntryContextWrappedComponent />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    expect(component.props().entry.name).toBe("mocked entry 1");
   });
 });
 
 describe("getEntryById", () => {
   it("calls setEntry on retrieveEntryById success", () => {
+    expect.assertions(2);
     const getEntryById = jest.fn(() => Promise.resolve(mockEntry));
-    const mockSetEntryContext = jest.fn();
-    const contextProvider = ({ children }) => {
-      return (
-        <EntryContext.Provider value={[{}, mockSetEntryContext]}>
-          {children}
-        </EntryContext.Provider>
-      );
+    const setEntry = jest.fn();
+    const TestComponent = ({ retrieveEntryById }) => {
+      retrieveEntryById(1).then(assert).catch(null);
+      return <></>;
     };
-    const EntryContextWrappedComponent = makeEntryContextWrapper(getEntryById)(
+    const WrappedWithEntry = makeEntryContextWrapper(getEntryById)(
       TestComponent
     );
-    const component = mount(<EntryContextWrappedComponent />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    return component
-      .props()
-      .retrieveEntryById(1)
-      .then(() => {
-        expect(getEntryById).toHaveBeenCalledWith(1);
-        expect(mockSetEntryContext).toHaveBeenCalledWith(mockEntry);
-        return null;
-      });
+    render(
+      <EntryContext.Provider value={[{}, setEntry]}>
+        <WrappedWithEntry />
+      </EntryContext.Provider>
+    );
+    function assert() {
+      expect(getEntryById).toHaveBeenCalledWith(1);
+      expect(setEntry).toHaveBeenCalledWith(mockEntry);
+    }
   });
 
   it("logs error on retrieveEntryById rejection", () => {
+    expect.assertions(2);
     const getEntryById = jest.fn(() =>
       Promise.reject("mock getEntryById rejection")
     );
     const logger = { error: jest.fn() };
-    const contextProvider = ({ children }) => {
-      return (
-        <EntryContext.Provider value={[{}, () => {}]}>
-          {children}
-        </EntryContext.Provider>
-      );
+    const TestComponent = ({ retrieveEntryById }) => {
+      retrieveEntryById(99).then(assert).catch(null);
+      return <></>;
     };
-    const EntryContextWrappedComponent = makeEntryContextWrapper(
+    const WrappedWithEntry = makeEntryContextWrapper(
       getEntryById,
       null,
       logger
     )(TestComponent);
-    const component = mount(<EntryContextWrappedComponent />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    return component
-      .props()
-      .retrieveEntryById(99)
-      .then(() => {
-        expect(getEntryById).toHaveBeenCalledWith(99);
-        expect(logger.error).toHaveBeenCalledWith(
-          "mock getEntryById rejection"
-        );
-        return null;
-      });
+    render(
+      <EntryContext.Provider value={[{}, () => {}]}>
+        <WrappedWithEntry />
+      </EntryContext.Provider>
+    );
+    function assert() {
+      expect(getEntryById).toHaveBeenCalledWith(99);
+      expect(logger.error).toHaveBeenCalledWith("mock getEntryById rejection");
+    }
   });
 });
 
-describe("addEntry", () => {
+describe("submitEntry", () => {
   it("calls setEntry and redirects on addEntry success", () => {
+    expect.assertions(3);
     const formData = {
       name: "mocked entry 1",
       link: "https://mocked.link.com/1",
       description: "mocked description 1",
     };
     const addEntry = jest.fn(() => Promise.resolve(mockEntry));
-    const mockSetEntryContext = jest.fn();
-    const contextProvider = ({ children }) => {
-      return (
-        <EntryContext.Provider value={[{}, mockSetEntryContext]}>
-          {children}
-        </EntryContext.Provider>
-      );
+    const setEntry = jest.fn();
+    let history = [];
+    const TestComponent = ({ submitEntry }) => {
+      submitEntry(1, formData).then(assert).catch(null);
+      return <></>;
     };
-    const EntryContextWrappedComponent = makeEntryContextWrapper(
+    const WrappedWithEntry = makeEntryContextWrapper(
       null,
       addEntry
     )(TestComponent);
-    const component = mount(<EntryContextWrappedComponent history={[]} />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    return component
-      .props()
-      .submitEntry(1, formData)
-      .then(() => {
-        expect(addEntry).toHaveBeenCalled();
-        expect(mockSetEntryContext).toHaveBeenCalledWith(mockEntry);
-        expect(component.props().history[0]).toBe("/entry/1");
-        return null;
-      });
+    render(
+      <EntryContext.Provider value={[{}, setEntry]}>
+        <WrappedWithEntry history={history} />
+      </EntryContext.Provider>
+    );
+    function assert() {
+      expect(addEntry).toHaveBeenCalled();
+      expect(setEntry).toHaveBeenCalledWith(mockEntry);
+      expect(history[0]).toBe("/entry/1");
+    }
   });
 
   it("logs error on addEntry rejection", () => {
+    expect.assertions(3);
     const formData = {
-      name: "mocked entry 99",
-      link: "https://mocked.link.com/99",
-      description: "mocked description 99",
+      name: "mocked entry 999",
+      link: "https://mocked.link.com/999",
+      description: "mocked description 999",
     };
     const addEntry = jest.fn(() => Promise.reject("mock addEntry rejection"));
     const logger = { error: jest.fn() };
-    const contextProvider = ({ children }) => {
-      return (
-        <EntryContext.Provider value={[{}, () => {}]}>
-          {children}
-        </EntryContext.Provider>
-      );
+    let history = [];
+    const TestComponent = ({ submitEntry }) => {
+      submitEntry(99, formData).then(assert).catch(null);
+      return <></>;
     };
-    const EntryContextWrappedComponent = makeEntryContextWrapper(
+    const WrappedWithEntry = makeEntryContextWrapper(
       null,
       addEntry,
       logger
     )(TestComponent);
-    const component = mount(<EntryContextWrappedComponent />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    return component
-      .props()
-      .submitEntry(99, formData)
-      .then(() => {
-        expect(addEntry).toHaveBeenCalled();
-        expect(logger.error).toHaveBeenCalledWith("mock addEntry rejection");
-        return null;
-      });
+    render(
+      <EntryContext.Provider value={[{}, () => {}]}>
+        <WrappedWithEntry history={history} />
+      </EntryContext.Provider>
+    );
+    function assert() {
+      expect(addEntry).toHaveBeenCalled();
+      expect(logger.error).toHaveBeenCalledWith("mock addEntry rejection");
+      expect(history).toHaveLength(0);
+    }
   });
 });
 
 describe("selectEntry", () => {
   it("calls setEntry on selectEntry", () => {
-    const mockSetEntryContext = jest.fn();
-    const contextProvider = ({ children }) => {
-      return (
-        <EntryContext.Provider value={[{}, mockSetEntryContext]}>
-          {children}
-        </EntryContext.Provider>
-      );
+    expect.assertions(1);
+    const setEntry = jest.fn();
+    const TestComponent = ({ selectEntry }) => {
+      selectEntry(mockEntry);
+      expect(setEntry).toHaveBeenCalledWith(mockEntry);
+      return <></>;
     };
-    const EntryContextWrappedComponent = makeEntryContextWrapper()(
-      TestComponent
+    const WrappedWithEntry = makeEntryContextWrapper()(TestComponent);
+    render(
+      <EntryContext.Provider value={[{}, setEntry]}>
+        <WrappedWithEntry />
+      </EntryContext.Provider>
     );
-    const component = mount(<EntryContextWrappedComponent />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    component.props().selectEntry(mockEntry);
-    expect(mockSetEntryContext).toHaveBeenCalledWith(mockEntry);
   });
 });

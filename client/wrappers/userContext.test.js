@@ -1,10 +1,5 @@
 import React from "react";
-import enzyme, { mount } from "enzyme";
-
-import Adapter from "enzyme-adapter-react-16";
-enzyme.configure({
-  adapter: new Adapter(),
-});
+import { render } from "@testing-library/react";
 
 import makeUserContextWrapper from "./userContext";
 import { UserContext } from "../context";
@@ -21,121 +16,112 @@ const mockToken = {
   },
 };
 
-const TestComponent = () => <></>;
-
 describe("Wrapper sets up props", () => {
   it("puts own props on child props", () => {
-    const contextProvider = ({ children }) => {
-      return (
-        <UserContext.Provider value={[{}, () => {}]}>
-          {children}
-        </UserContext.Provider>
-      );
+    expect.assertions(1);
+    const TestComponent = ({ testProp }) => {
+      expect(testProp).toBe("test prop");
+      return <></>;
     };
-    const UserContextWrappedComponent = makeUserContextWrapper()(TestComponent);
-    const component = mount(
-      <UserContextWrappedComponent testProp="test prop" />,
-      {
-        wrappingComponent: contextProvider,
-      }
-    ).children();
-    expect(component.props().testProp).toBe("test prop");
+    const WrappedWithUser = makeUserContextWrapper()(TestComponent);
+    render(
+      <UserContext.Provider value={[{}, () => {}]}>
+        <WrappedWithUser testProp="test prop" />
+      </UserContext.Provider>
+    );
   });
 
   it("puts user context value on child props", () => {
-    const contextProvider = ({ children }) => {
-      return (
-        <UserContext.Provider value={[mockUser, () => {}]}>
-          {children}
-        </UserContext.Provider>
-      );
+    expect.assertions(1);
+    const TestComponent = ({ user }) => {
+      expect(user.username).toBe("mockedUser1");
+      return <></>;
     };
-    const UserContextWrappedComponent = makeUserContextWrapper()(TestComponent);
-    const component = mount(<UserContextWrappedComponent />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    expect(component.props().user.username).toBe("mockedUser1");
+    const WrappedWithUser = makeUserContextWrapper()(TestComponent);
+    render(
+      <UserContext.Provider value={[mockUser, () => {}]}>
+        <WrappedWithUser />
+      </UserContext.Provider>
+    );
   });
 });
 
 describe("registerUser", () => {
   it("calls setUser and redirects on configuredRegister success when authenticated", () => {
+    expect.assertions(4);
     const configuredRegister = jest.fn(() => Promise.resolve(mockToken));
     const isAuthenticated = jest.fn(() => true);
-    const mockSetUserContext = jest.fn();
-    const contextProvider = ({ children }) => {
-      return (
-        <UserContext.Provider value={[{}, mockSetUserContext]}>
-          {children}
-        </UserContext.Provider>
-      );
+    const setUser = jest.fn();
+    let history = [];
+    const TestComponent = ({ registerUser }) => {
+      registerUser({ username: "mockedUser1", password: "dontlook" })
+        .then(assert)
+        .catch(null);
+      return <></>;
     };
-    const UserContextWrappedComponent = makeUserContextWrapper(
+    const WrappedWithUser = makeUserContextWrapper(
       configuredRegister,
       null,
       null,
       isAuthenticated
     )(TestComponent);
-    const component = mount(<UserContextWrappedComponent history={[]} />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    return component
-      .props()
-      .registerUser({ username: "mockedUser1", password: "dontlook" })
-      .then(() => {
-        expect(configuredRegister).toHaveBeenCalled();
-        expect(isAuthenticated).toHaveBeenCalled();
-        expect(mockSetUserContext).toHaveBeenCalledWith(mockUser);
-        expect(component.props().history[0]).toBe("/");
-        return null;
-      });
+    render(
+      <UserContext.Provider value={[{}, setUser]}>
+        <WrappedWithUser history={history} />
+      </UserContext.Provider>
+    );
+    function assert() {
+      expect(configuredRegister).toHaveBeenCalled();
+      expect(isAuthenticated).toHaveBeenCalled();
+      expect(setUser).toHaveBeenCalledWith(mockUser);
+      expect(history[0]).toBe("/");
+    }
   });
 
   it("does nothing on configuredRegister success when not authenticated", () => {
+    expect.assertions(4);
     const configuredRegister = jest.fn(() => Promise.resolve(mockToken));
     const isAuthenticated = jest.fn(() => false);
-    const mockSetUserContext = jest.fn();
-    const contextProvider = ({ children }) => {
-      return (
-        <UserContext.Provider value={[{}, mockSetUserContext]}>
-          {children}
-        </UserContext.Provider>
-      );
+    const setUser = jest.fn();
+    let history = [];
+    const TestComponent = ({ registerUser }) => {
+      registerUser({ username: "mockedUser99", password: "dontlook" })
+        .then(assert)
+        .catch(null);
+      return <></>;
     };
-    const UserContextWrappedComponent = makeUserContextWrapper(
+    const WrappedWithUser = makeUserContextWrapper(
       configuredRegister,
       null,
       null,
       isAuthenticated
     )(TestComponent);
-    const component = mount(<UserContextWrappedComponent history={[]} />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    return component
-      .props()
-      .registerUser({ username: "mockedUser99", password: "dontlook" })
-      .then(() => {
-        expect(configuredRegister).toHaveBeenCalled();
-        expect(isAuthenticated).toHaveBeenCalled();
-        expect(component.props().history).toHaveLength(0);
-        expect(mockSetUserContext).not.toHaveBeenCalled();
-        return null;
-      });
+    render(
+      <UserContext.Provider value={[{}, setUser]}>
+        <WrappedWithUser history={history} />
+      </UserContext.Provider>
+    );
+    function assert() {
+      expect(configuredRegister).toHaveBeenCalled();
+      expect(isAuthenticated).toHaveBeenCalled();
+      expect(setUser).not.toHaveBeenCalled();
+      expect(history).toHaveLength(0);
+    }
   });
 
   it("logs error on configuredRegister rejection", () => {
+    expect.assertions(2);
     const configuredRegister = jest.fn(() =>
       Promise.reject("mock configuredRegister rejection")
     );
     const logger = { error: jest.fn() };
-    const contextProvider = ({ children }) => {
-      return (
-        <UserContext.Provider value={[{}, () => {}]}>
-          {children}
-        </UserContext.Provider>
-      );
+    const TestComponent = ({ registerUser }) => {
+      registerUser({ username: "baduser", password: "thiswillfail" })
+        .then(assert)
+        .catch(null);
+      return <></>;
     };
-    const UserContextWrappedComponent = makeUserContextWrapper(
+    const WrappedWithUser = makeUserContextWrapper(
       configuredRegister,
       null,
       null,
@@ -143,18 +129,16 @@ describe("registerUser", () => {
       null,
       logger
     )(TestComponent);
-    const component = mount(<UserContextWrappedComponent />, {
-      wrappingComponent: contextProvider,
-    }).children();
-    return component
-      .props()
-      .registerUser({ username: "baduser", password: "thiswillfail" })
-      .then(() => {
-        expect(configuredRegister).toHaveBeenCalled();
-        expect(logger.error).toHaveBeenCalledWith(
-          "mock configuredRegister rejection"
-        );
-        return null;
-      });
+    render(
+      <UserContext.Provider value={[{}, () => {}]}>
+        <WrappedWithUser />
+      </UserContext.Provider>
+    );
+    function assert() {
+      expect(configuredRegister).toHaveBeenCalled();
+      expect(logger.error).toHaveBeenCalledWith(
+        "mock configuredRegister rejection"
+      );
+    }
   });
 });
