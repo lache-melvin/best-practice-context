@@ -12,6 +12,7 @@ import makeAuthenticationWrapper from "./authentication";
 import makeEntriesContextWrapper from "./entriesContext";
 import makeEntryContextWrapper from "./entryContext";
 import makeUserContextWrapper from "./userContext";
+import pendingContextWrapper from "./pendingContext";
 
 export const authentication = makeAuthenticationWrapper(isAuthenticated);
 export const entriesContext = makeEntriesContextWrapper(getEntries);
@@ -23,6 +24,7 @@ export const userContext = makeUserContextWrapper(
   isAuthenticated,
   logOff
 );
+export const pendingContext = pendingContextWrapper;
 
 export function wrappedWith(...wrappers) {
   const remaining = ([, ...rest]) => rest;
