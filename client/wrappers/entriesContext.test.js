@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 
 import makeEntriesContextWrapper from "./entriesContext";
-import { EntriesContext } from "../context";
+import { EntriesContext, PendingContext } from "../context";
 
 import mockEntries from "../testing/mockEntries";
 
@@ -15,9 +15,11 @@ describe("Wrapper sets up props", () => {
     };
     const WrappedWithEntries = makeEntriesContextWrapper()(TestComponent);
     render(
-      <EntriesContext.Provider value={[[], () => []]}>
-        <WrappedWithEntries testProp="test prop" />
-      </EntriesContext.Provider>
+      <PendingContext.Provider value={[false, () => false]}>
+        <EntriesContext.Provider value={[[], () => []]}>
+          <WrappedWithEntries testProp="test prop" />
+        </EntriesContext.Provider>
+      </PendingContext.Provider>
     );
   });
 
@@ -29,17 +31,20 @@ describe("Wrapper sets up props", () => {
     };
     const WrappedWithEntries = makeEntriesContextWrapper()(TestComponent);
     render(
-      <EntriesContext.Provider value={[mockEntries, () => []]}>
-        <WrappedWithEntries />
-      </EntriesContext.Provider>
+      <PendingContext.Provider value={[false, () => false]}>
+        <EntriesContext.Provider value={[mockEntries, () => []]}>
+          <WrappedWithEntries />
+        </EntriesContext.Provider>
+      </PendingContext.Provider>
     );
   });
 });
 
 describe("retrieveEntries", () => {
   it("calls setEntries on retrieveEntries success", () => {
-    expect.assertions(2);
+    expect.assertions(3);
     const getEntries = jest.fn(() => Promise.resolve(mockEntries));
+    const setPending = jest.fn();
     const setEntries = jest.fn();
     const TestComponent = ({ retrieveEntries }) => {
       retrieveEntries().then(expectations).catch(null);
@@ -49,18 +54,22 @@ describe("retrieveEntries", () => {
       TestComponent
     );
     render(
-      <EntriesContext.Provider value={[[], setEntries]}>
-        <WrappedWithEntries />
-      </EntriesContext.Provider>
+      <PendingContext.Provider value={[false, setPending]}>
+        <EntriesContext.Provider value={[[], setEntries]}>
+          <WrappedWithEntries />
+        </EntriesContext.Provider>
+      </PendingContext.Provider>
     );
     function expectations() {
+      expect(setPending).toHaveBeenCalledTimes(2);
       expect(getEntries).toHaveBeenCalled();
       expect(setEntries).toHaveBeenCalledWith(mockEntries);
     }
   });
 
   it("logs error on retrieveEntries rejection", () => {
-    expect.assertions(2);
+    expect.assertions(3);
+    const setPending = jest.fn();
     const getEntries = jest.fn(() =>
       Promise.reject("mock getEntries rejection")
     );
@@ -75,12 +84,15 @@ describe("retrieveEntries", () => {
       logger
     )(TestComponent);
     render(
-      <EntriesContext.Provider value={[[], () => []]}>
-        <EntriesContextWrappedComponent />
-      </EntriesContext.Provider>
+      <PendingContext.Provider value={[false, setPending]}>
+        <EntriesContext.Provider value={[[], () => []]}>
+          <EntriesContextWrappedComponent />
+        </EntriesContext.Provider>
+      </PendingContext.Provider>
     );
 
     function expectations() {
+      expect(setPending).toHaveBeenCalledTimes(2);
       expect(getEntries).toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith("mock getEntries rejection");
     }
