@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders loading indicator gif if pending is true 1`] = `
+<DocumentFragment>
+  <img
+    src="/animated-circle.gif"
+    style="width: 40px; height: 40px;"
+  />
+</DocumentFragment>
+`;
+
+exports[`renders null if pending is false 1`] = `<DocumentFragment />`;
