@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import WrappedEntryItem from "./EntryItem";
+import WrappedWaitIndicator from "./WaitIndicator"
 
 import { wrappedWith, authentication, entriesContext } from "../wrappers";
 
@@ -13,6 +14,7 @@ export function Entries({ authenticated, entries, retrieveEntries }) {
     <>
       <h2>Entries</h2>
       {authenticated() && <Link to="/add">Add an entry</Link>}
+      <WrappedWaitIndicator />
       <ul>
         {entries.map((entry) => (
           <WrappedEntryItem key={entry.id} entryData={entry} />
